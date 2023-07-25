@@ -1,0 +1,9 @@
+{
+  "name": "Actual version",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "Description of your extension",
+  "devtools_page": "src/sidebarPanel/sidebarPanelIndex.html",
+  "permissions": ["devtools", "sidePanel"],
+  "minimum_chrome_version": "69"
+}
