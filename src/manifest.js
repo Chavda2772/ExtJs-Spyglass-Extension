@@ -7,6 +7,8 @@ export default defineManifest({
   description:
     'Chrome extension to inspect elements on a page; similar to Chrome DevTools',
   devtools_page: 'src/sidebarPanel/index.html',
+  permissions: ['tabs', 'scripting', 'activeTab', 'devtools'],
+  minimum_chrome_version: '69',
   icons: {
     16: 'img/logo-16.png',
     32: 'img/logo-32.png',
@@ -42,6 +44,4 @@ export default defineManifest({
       matches: ['http://*/*', 'https://*/*'],
     },
   ],
-  permissions: ['tabs', 'scripting', 'activeTab', 'devtools'],
-  minimum_chrome_version: '69',
 });
