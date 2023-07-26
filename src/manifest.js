@@ -18,20 +18,20 @@ export default defineManifest({
   action: {
     default_title: 'Chrome Element Inspector',
     default_icon: 'img/logo-32.png',
-    default_popup: '/src/popup/index.html',
+    default_popup: 'src/popup/index.html',
   },
   background: {
-    service_worker: '/src/background/index.js',
+    service_worker: 'src/background/index.js',
     type: 'module',
   },
   content_scripts: [
     {
       matches: ['http://*/*', 'https://*/*'],
-      js: ['/src/content/index.js'],
+      js: ['src/content/index.js'],
     },
   ],
   sandbox: {
-    pages: ['/src/sidebarPanel/app.html'],
+    pages: ['src/sidebarPanel/app.html'],
   },
   web_accessible_resources: [
     {
