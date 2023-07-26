@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite';
-import { viteStaticCopy } from 'vite-plugin-static-copy';
 import { crx } from '@crxjs/vite-plugin';
 import manifest from './src/manifest.js';
 import path from 'path';
