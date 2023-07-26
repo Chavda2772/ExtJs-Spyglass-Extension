@@ -6,7 +6,7 @@ export default defineManifest({
   manifest_version: 3,
   description:
     'Chrome extension to inspect elements on a page; similar to Chrome DevTools',
-  devtools_page: 'src/sidebarPanel/sidebarPanelIndex.html',
+  devtools_page: 'src/sidebarPanel/index.html',
   icons: {
     16: 'img/logo-16.png',
     32: 'img/logo-32.png',
@@ -16,18 +16,21 @@ export default defineManifest({
   action: {
     default_title: 'Chrome Element Inspector',
     default_icon: 'img/logo-32.png',
-    default_popup: 'src/popup/popupIndex.html',
+    default_popup: '/src/popup/index.html',
   },
   background: {
-    service_worker: 'src/background/backgroundIndex.js',
-    // type: 'module',
+    service_worker: '/src/background/index.js',
+    type: 'module',
   },
   content_scripts: [
     {
       matches: ['http://*/*', 'https://*/*'],
-      js: ['src/content/index.js'],
+      js: ['/src/content/index.js'],
     },
   ],
+  sandbox: {
+    pages: ['/src/sidebarPanel/app.html'],
+  },
   web_accessible_resources: [
     {
       resources: [
@@ -35,9 +38,6 @@ export default defineManifest({
         'img/logo-32.png',
         'img/logo-48.png',
         'img/logo-128.png',
-        'templates/template.html',
-        'src/popup/popupIndex.html',
-        'src/sidebarPanel/sidebarPanelIndex.html',
       ],
       matches: ['http://*/*', 'https://*/*'],
     },

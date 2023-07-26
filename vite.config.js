@@ -8,14 +8,14 @@ export default defineConfig(({ mode }) => {
     build: {
       emptyOutDir: true,
       outDir: 'build',
-      minify: false,
-      minifySyntax: false,
+      // minify: false,
+      // minifySyntax: false,
     },
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, './src'),
-      },
-    },
+    // resolve: {
+    //   alias: {
+    //     '@': path.resolve(__dirname, './src'),
+    //   },
+    // },
     plugins: [crx({ manifest })],
   };
 });
