@@ -2,10 +2,10 @@ import { defineManifest } from '@crxjs/vite-plugin';
 
 export default defineManifest({
   name: 'ExtJS Component Inspector',
-  description:
-    'Chrome extension to inspect elements on a page; similar to Chrome DevTools',
   version: '1.0.0',
   manifest_version: 3,
+  description:
+    'Chrome extension to inspect elements on a page; similar to Chrome DevTools',
   devtools_page: 'src/sidebarPanel/sidebarPanelIndex.html',
   icons: {
     16: 'img/logo-16.png',
@@ -43,5 +43,5 @@ export default defineManifest({
     },
   ],
   permissions: ['tabs', 'scripting', 'activeTab', 'devtools'],
-  minimum_chrome_version: '102',
+  minimum_chrome_version: '69',
 });

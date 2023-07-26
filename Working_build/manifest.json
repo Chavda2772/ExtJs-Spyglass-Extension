@@ -1,8 +1,8 @@
 {
-  "name": "Actual version",
-  "version": "1.0",
+  "name": "ExtJS Component Inspector",
+  "version": "1.0.0",
   "manifest_version": 3,
-  "description": "Description of your extension",
+  "description": "Chrome extension to inspect elements on a page; similar to Chrome DevTools",
   "devtools_page": "src/sidebarPanel/sidebarPanelIndex.html",
   "permissions": ["devtools", "sidePanel"],
   "minimum_chrome_version": "69"
