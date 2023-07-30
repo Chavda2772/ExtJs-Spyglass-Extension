@@ -7,3 +7,10 @@ console.log('background service worker Loaded!');
 //     sendResponse({ title: document.title });
 //   });
 // });
+
+// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+//   console.log('background message recived !!');
+//   chrome.runtime.sendMessage('message', function (message) {
+//     sendResponse({ title: message });
+//   });
+// });
