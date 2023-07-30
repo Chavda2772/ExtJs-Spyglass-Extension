@@ -19,6 +19,6 @@ export default defineConfig(({ mode }) => {
     //     '@': path.resolve(__dirname, './src'),
     //   },
     // },
-    // plugins: [crx({ manifest })],
+    plugins: [crx({ manifest })],
   };
 });

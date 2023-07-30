@@ -9,7 +9,7 @@ Ext.define('CL.view.Main', {
       items: [
         {
           xtype: 'button',
-          text: 'CheckOut',
+          text: 'Send Message',
           handler: function (event) {
             window.parent.postMessage('message', '*');
           },
