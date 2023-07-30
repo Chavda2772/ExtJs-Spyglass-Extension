@@ -1,6 +1,6 @@
 // Create the sidebar panel
 chrome.devtools.panels.elements.createSidebarPane(
-  'vite public',
+  'ExtJS Components',
   function (sidebar) {
     // Handle the initialization of the sidebar panel
     sidebar.setPage('sidebarPanel/app.html');
