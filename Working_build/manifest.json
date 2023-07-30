@@ -1,5 +1,5 @@
 {
-  "name": "ExtJS Component Inspector",
+  "name": "ExtJS Component testing",
   "version": "1.0.0",
   "manifest_version": 3,
   "description": "Chrome extension to inspect elements on a page; similar to Chrome DevTools",

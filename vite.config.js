@@ -1,13 +1,16 @@
 import { defineConfig } from 'vite';
 import { crx } from '@crxjs/vite-plugin';
 import manifest from './src/manifest.js';
-import path from 'path';
+// import path from 'path';
 
 export default defineConfig(({ mode }) => {
   return {
     build: {
       emptyOutDir: true,
       outDir: 'build',
+      rollupOptions: {
+        input: ['public/index.html'],
+      },
       // minify: false,
       // minifySyntax: false,
     },
@@ -16,6 +19,6 @@ export default defineConfig(({ mode }) => {
     //     '@': path.resolve(__dirname, './src'),
     //   },
     // },
-    plugins: [crx({ manifest })],
+    // plugins: [crx({ manifest })],
   };
 });
