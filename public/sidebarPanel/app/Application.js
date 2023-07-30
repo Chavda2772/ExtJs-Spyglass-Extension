@@ -1,4 +1,5 @@
-import './view/Main';
+import './view/Main.js';
+
 Ext.application({
   name: 'CL',
 
