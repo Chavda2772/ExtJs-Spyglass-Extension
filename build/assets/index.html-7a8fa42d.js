@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-3cfb730f.js";chrome.devtools.panels.elements.createSidebarPane("ExtJS Components",function(e){e.setPage("sidebarPanel/sidepanel.html"),e.setHeight("300px"),e.onShown.addListener(function(n){}),e.onHidden.addListener(function(){})});

@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
       outDir: 'build',
       rollupOptions: {
-        input: ['public/index.html'],
+        input: ['public/popup/index.html'],
       },
       // minify: false,
       // minifySyntax: false,
