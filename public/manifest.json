@@ -5,7 +5,14 @@
   "description": "Chrome extension to inspect elements on a page; similar to Chrome DevTools",
   "devtools_page": "sidebarPanel/index.html",
   "host_permissions": ["scripting"],
-  "permissions": ["tabs", "scripting", "activeTab", "devtools", "offscreen"],
+  "permissions": [
+    "tabs",
+    "scripting",
+    "activeTab",
+    "devtools",
+    "offscreen",
+    "<all_urls>"
+  ],
   "minimum_chrome_version": "69",
   "icons": {
     "16": "assets/img/logo-16.png",

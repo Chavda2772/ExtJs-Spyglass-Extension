@@ -1,9 +1,13 @@
 console.log('Content Scripts Loaded!');
 var port = chrome.runtime.connect();
-var isExtJs = window.Ext?.versions?.ext?.version;
+var count = 1;
 
 //receiving a message
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === 'checkForExtJS') {
+    checkForExtJS();
+    return;
+  }
   if (message.msgType) {
     // const cmpId = setSelectedElement($0);
     sendResponse({ msgType: 'getCmpId', isExtJs: isExtJs });
@@ -11,10 +15,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   console.log('content script message recived !!');
   console.log('recived :-' + message + ',response = ' + document.title);
-  sendResponse({ title: document.title });
+  count = count + 1;
+  sendResponse({ title: document.title + ' ' + count });
 });
 
-function setSelectedElement(el, callback, aa, dd) {
-  console.log('setSelectedElement', el.id);
-  return el.id;
+function checkForExtJS() {
+  // Check if the 'Ext' object exists in the global scope
+  if (window.Ext && typeof window.Ext.versions === 'object') {
+    // Ext JS is loaded, send a message to DevTools panel
+    // chrome.runtime.sendMessage({ extVersion: window.Ext.versions.ext.version });
+    return window.Ext.versions.ext.version;
+  } else {
+    return 'Not loaded';
+  }
 }

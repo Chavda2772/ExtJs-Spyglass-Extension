@@ -1,4 +1,5 @@
 export default [
+  'public/manifest.json',
   'public/background/index.js',
   'public/content/index.js',
   'public/popup/index.html',
