@@ -32,35 +32,5 @@ chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
         }
       }
     );
-
-    // chrome.scripting.executeScript({
-    //   target: { tabId: chrome.devtools.inspectedWindow.tabId },
-    //   func: () => {
-    //     // Send a message to content script to check for Ext JS
-    //     chrome.runtime.sendMessage({ action: 'checkForExtJS' }).then((res) => {
-    //       console.log('Res', res);
-    //     });
-    //   },
-    // });
-    // code to send message
-    // chrome.tabs.sendMessage(
-    //   tabs[0].id,
-    //   { msgType: Enums.msgType.getCmpId },
-    //   (response) => {
-    //     debugger;
-    //     extFrameWindow.contentWindow.postMessage(response.title, '*');
-    //   }
-    // );
   });
-
-  // chrome.devtools.inspectedWindow.eval(
-  //   'setSelectedElement($0)',
-  //   {
-  //     useContentScriptContext: true,
-  //   },
-  //   function (result, exceptionInfo) {
-  //     const data = { msgType: Enums.msgType.getCmpId, compId: result };
-  //     extFrameWindow.contentWindow.postMessage(data, '*');
-  //   }
-  // );
 });

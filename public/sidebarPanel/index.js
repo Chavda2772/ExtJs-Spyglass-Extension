@@ -1,6 +1,6 @@
 // Create the sidebar panel
 chrome.devtools.panels.elements.createSidebarPane(
-  'ExtJS Components',
+  'ExtJS Spyglass',
   function (sidebar) {
     // Handle the initialization of the sidebar panel
     sidebar.setPage('sidebarPanel/sidepanel.html');
