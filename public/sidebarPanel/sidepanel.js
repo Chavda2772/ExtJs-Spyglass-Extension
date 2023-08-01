@@ -1,4 +1,5 @@
 import Enums from '../config/Enums.js';
+import { ComponentLocator } from './app/common/ComponentLocator.js';
 
 const extFrameWindow = document.getElementById('extjsFrameWindow');
 
@@ -23,7 +24,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.devtools.inspectedWindow.eval(
-      'Ext.versions.ext',
+      'new (' + ComponentLocator.toString() + ')($0)',
       (result, isException) => {
         if (isException) {
           console.error('Error executing code:', result);
