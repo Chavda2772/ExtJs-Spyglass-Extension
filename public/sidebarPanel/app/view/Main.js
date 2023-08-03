@@ -71,6 +71,10 @@ Ext.define('CL.view.Main', {
           cls: 'custom-list',
           listeners: {
             selectionchange: function (dataview, selected, eOpts) {
+              if (!selected[0]) {
+                Ext.toast('No record selected');
+                return true;
+              }
               dataview.view.up('viewport').getViewModel().set({
                 jsonData: selected[0].data.componentConfiguration,
               });
@@ -102,6 +106,7 @@ Ext.define('CL.view.Main', {
           // if Error Message
           if (event.data.isError) {
             Ext.toast(event.data.value);
+            return;
           }
           viewport
             .down('#dvComponentList')
