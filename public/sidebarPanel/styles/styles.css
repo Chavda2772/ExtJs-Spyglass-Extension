@@ -43,3 +43,15 @@ pre {
   line-height: 120px;
   margin: 0px 12px 24px 12px;
 }
+
+.list-item {
+  display: flow;
+  justify-content: start;
+  align-items: center;
+  font-weight: 200;
+  background-color: aliceblue;
+  margin: 6px;
+  border-radius: 7px;
+  padding-left: 9px;
+  cursor: pointer;
+}

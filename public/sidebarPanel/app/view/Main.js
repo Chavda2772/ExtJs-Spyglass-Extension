@@ -3,17 +3,6 @@ Ext.define('Image', {
   fields: ['month'],
 });
 
-const jsonData = {
-  name: 'John',
-  age: 28,
-  email: 'john@example.com',
-  address: {
-    street: '123 Main St',
-    city: 'New York',
-    zip: '10001',
-  },
-};
-
 Ext.define('CL.view.Main', {
   extend: 'Ext.container.Viewport',
 
@@ -21,73 +10,86 @@ Ext.define('CL.view.Main', {
   defaults: {
     split: true,
   },
+  viewModel: {
+    data: {
+      jsonData: JSON.stringify([
+        {
+          id: 1,
+          first_name: 'Claudio',
+          last_name: 'Bernardini',
+          email: 'cbernardini0@taobao.com',
+          gender: 'Male',
+          ip_address: '229.59.223.255',
+          child: {
+            id: 3,
+            first_name: 'Guenna',
+            last_name: 'Haslock(e)',
+            email: 'ghaslocke2@plala.or.jp',
+            gender: 'Non-binary',
+            ip_address: '168.104.112.162',
+          },
+        },
+        {
+          id: 2,
+          first_name: 'Clem',
+          last_name: 'Christophe',
+          email: 'cchristophe1@barnesandnoble.com',
+          gender: 'Female',
+          ip_address: '71.116.221.191',
+        },
+      ]),
+    },
+  },
   items: [
     {
       title: 'hierarchy',
       region: 'center',
       collapsible: false,
       scrollable: true,
-      items: Ext.create('Ext.view.View', {
-        store: {
-          id: 'imagesStore',
-          model: 'Image',
-          data: [
-            {
-              month: 'Jan',
+      items: [
+        {
+          xtype: 'dataview',
+          itemId: 'dvComponentList',
+          store: {
+            fields: ['name', 'email'],
+            data: [
+              {
+                name: 'button',
+                className: 'Ext.button',
+              },
+            ],
+          },
+          tpl:
+            '<tpl for=".">' +
+            '<div class="list-item">' +
+            '<h4>{name}</h4>' +
+            '<p>{className}</p>' +
+            '</div>' +
+            '</tpl>',
+          itemSelector: 'div.list-item',
+          emptyText: 'No items to display',
+          cls: 'custom-list',
+          listeners: {
+            selectionchange: function (dataview, selected, eOpts) {
+              dataview.view.up('viewport').getViewModel().set({
+                jsonData: selected[0].data.componentConfiguration,
+              });
             },
-            {
-              month: 'Feb',
-            },
-            {
-              month: 'Mar',
-            },
-            {
-              month: 'Apr',
-            },
-            {
-              month: 'May',
-            },
-            {
-              month: 'Jun',
-            },
-            {
-              month: 'Jul',
-            },
-            {
-              month: 'Aug',
-            },
-            {
-              month: 'Sep',
-            },
-            {
-              month: 'Oct',
-            },
-            {
-              month: 'Nov',
-            },
-            {
-              month: 'Dec',
-            },
-          ],
+          },
         },
-        tpl: new Ext.XTemplate(
-          '<tpl for=".">',
-          '<div style="margin-bottom: 10px;" class="thumb-wrap"><div>{month}</div></div>',
-          '</tpl>'
-        ),
-        itemSelector: 'div.thumb-wrap',
-        emptyText: 'No images available',
-        renderTo: Ext.getBody(),
-      }),
+      ],
     },
     {
       title: 'Details',
       region: 'east',
       collapsible: true,
       width: '50%',
+      flex: 1,
       items: {
         xtype: 'panel',
-        html: `<pre>${JSON.stringify(jsonData, null, 2)}</pre>`,
+        bind: {
+          html: '<pre>{jsonData}</pre>',
+        },
       },
     },
   ],
@@ -97,7 +99,14 @@ Ext.define('CL.view.Main', {
       window.addEventListener(
         'message',
         (event) => {
-          viewport.down('#lblSample').setText(event.data);
+          // if Error Message
+          if (event.data.isError) {
+            Ext.toast(event.data.value);
+          }
+          viewport
+            .down('#dvComponentList')
+            .getStore()
+            .setData(event.data.componentDetails);
         },
         false
       );

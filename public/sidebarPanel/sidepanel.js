@@ -1,12 +1,9 @@
-import Enums from '../config/Enums.js';
 import { ComponentLocator } from './app/common/ComponentLocator.js';
 
 const extFrameWindow = document.getElementById('extjsFrameWindow');
 
-// Event Listener for iframe events
-window.addEventListener('message', function (e) {
-  // Get the sent data
-  const data = e.data;
+// Global window event listner for Ext js application sended
+window.addEventListener('message', function ({ data }) {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id, data, (response) => {
       extFrameWindow.contentWindow.postMessage(response.title, '*');
@@ -14,22 +11,25 @@ window.addEventListener('message', function (e) {
   });
 });
 
+// Listen for sended chrome message
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.extVersion) {
-    // Ext JS is loaded on the page
-    console.log(`Ext JS Version: ${message.extVersion}`);
-  }
+  // Listning ...
 });
 
+// Handle selection element change on elements tool
 chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.devtools.inspectedWindow.eval(
       'new (' + ComponentLocator.toString() + ')($0)',
       (result, isException) => {
         if (isException) {
-          console.error('Error executing code:', result);
+          // sended Error Message to Sandbox
+          extFrameWindow.contentWindow.postMessage(
+            { isError: true, ...isException },
+            '*'
+          );
         } else {
-          console.log('Code executed successfully:', result);
+          extFrameWindow.contentWindow.postMessage(result, '*');
         }
       }
     );
