@@ -1,26 +1,30 @@
 import { defineConfig } from 'vite';
+import { crx } from '@crxjs/vite-plugin';
+import manifest from './src/manifest.js';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
-import path from 'path';
-import watchFiles from './watchFile';
 
 export default defineConfig(({ mode }) => {
   return {
     build: {
       emptyOutDir: true,
-      rollupOptions: {
-        input: watchFiles,
-      },
       outDir: 'build',
+      minify: false,
+      minifySyntax: false,
     },
     plugins: [
-      viteStaticCopy({
-        targets: [
-          {
-            src: path.resolve(__dirname, './src') + '/ [!.]*', // exclude dotfiles
-            dest: './', // copy to the root of the output directory
-          },
-        ],
-      }),
+      crx({ manifest }),
+      // viteStaticCopy({
+      //   targets: [
+      //     {
+      //       src: './src/sidebarPanel/sidebarPanel.html',
+      //       dest: 'src/sidebarPanel',
+      //     },
+      //     {
+      //       src: './src/sidebarPanel/sidebarPanel.js',
+      //       dest: 'src/sidebarPanel',
+      //     },
+      //   ],
+      // }),
     ],
   };
 });

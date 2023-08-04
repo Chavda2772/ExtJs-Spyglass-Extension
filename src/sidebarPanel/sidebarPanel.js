@@ -1,6 +1,6 @@
 import { ComponentLocator } from './app/common/ComponentLocator.js';
 
-const extFrameWindow = document.getElementById('extjsFrameWindow');
+var extFrameWindow = document.getElementById('extjsFrameWindow');
 
 // Global window event listner for Ext js application sended
 window.addEventListener('message', function ({ data }) {
@@ -22,6 +22,7 @@ chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
     chrome.devtools.inspectedWindow.eval(
       'new (' + ComponentLocator.toString() + ')($0)',
       (result, isException) => {
+        debugger;
         if (isException) {
           // sended Error Message to Sandbox
           extFrameWindow.contentWindow.postMessage(

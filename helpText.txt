@@ -1,1 +1,0 @@
-"dev": "vite --config vite.config.development.js",

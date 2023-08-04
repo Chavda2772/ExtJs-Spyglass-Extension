@@ -1,4 +1,4 @@
-console.log('background service worker Loaded!');
+console.log('background Scripts Loaded!');
 
 // chrome.runtime.onInstalled.addListener(() => {
 //   chrome.runtime.OnMessage.addListener((message, sender, sendResponse) => {

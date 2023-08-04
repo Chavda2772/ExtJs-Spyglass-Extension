@@ -1,53 +1,45 @@
 import { defineManifest } from '@crxjs/vite-plugin';
 
 export default defineManifest({
-  name: 'ExtJS Spyglass',
+  name: 'ExtJS Component Inspector',
   version: '1.0.0',
   manifest_version: 3,
   description:
-    'Empower Sencha Ext JS developers with the ExtJS Spyglass Chrome extension. Easily inspect and debug Ext JS applications, navigate component hierarchies, modify properties in real-time, and gain deep insights into application behavior.',
-  devtools_page: 'sidebarPanel/index.html',
-  host_permissions: ['scripting'],
-  permissions: [
-    'tabs',
-    'scripting',
-    'activeTab',
-    'devtools',
-    'offscreen',
-    '<all_urls>',
-  ],
+    'Chrome extension to inspect elements on a page; similar to Chrome DevTools',
+  devtools_page: 'src/sidebarPanel/index.html',
+  permissions: ['tabs', 'scripting', 'activeTab', 'devtools'],
   minimum_chrome_version: '69',
   icons: {
-    16: 'assets/img/logo-16.png',
-    32: 'assets/img/logo-32.png',
-    48: 'assets/img/logo-48.png',
-    128: 'assets/img/logo-128.png',
+    16: 'img/logo-16.png',
+    32: 'img/logo-32.png',
+    48: 'img/logo-48.png',
+    128: 'img/logo-128.png',
   },
   action: {
-    default_title: 'ExtJS Spyglass',
-    default_icon: 'assets/img/logo-32.png',
-    default_popup: 'popup/index.html',
+    default_title: 'Chrome Element Inspector',
+    default_icon: 'img/logo-32.png',
+    default_popup: 'src/popup/index.html',
   },
   background: {
-    service_worker: './background/index.js',
+    service_worker: 'src/background/index.js',
     type: 'module',
   },
   content_scripts: [
     {
       matches: ['http://*/*', 'https://*/*'],
-      js: ['content/index.js'],
+      js: ['src/content/index.js'],
     },
   ],
   sandbox: {
-    pages: ['sidebarPanel/app.html'],
+    pages: ['src/sidebarPanel/app.html'],
   },
   web_accessible_resources: [
     {
       resources: [
-        'assets/img/logo-16.png',
-        'assets/img/logo-32.png',
-        'assets/img/logo-48.png',
-        'assets/img/logo-128.png',
+        'img/logo-16.png',
+        'img/logo-32.png',
+        'img/logo-48.png',
+        'img/logo-128.png',
       ],
       matches: ['http://*/*', 'https://*/*'],
     },
