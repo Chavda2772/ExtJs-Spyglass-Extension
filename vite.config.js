@@ -8,9 +8,9 @@ export default defineConfig(({ mode }) => {
     build: {
       emptyOutDir: true,
       outDir: 'build',
-      rollupOptions: {
-        input: ['public/popup/index.html'],
-      },
+      // rollupOptions: {
+      //   input: ['src/manifest.js'],
+      // },
       // minify: false,
       // minifySyntax: false,
     },
