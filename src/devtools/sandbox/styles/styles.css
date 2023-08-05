@@ -1,0 +1,57 @@
+/* .statusMessage .x-autocontainer-innerCt {
+  vertical-align: middle;
+  text-align: center;
+  font-weight: bold;
+}
+
+a,
+a:visited {
+  color: #404040;
+  font-weight: 600;
+}
+
+h2,
+h3 {
+  padding: 5px;
+}
+
+h2 {
+  font-size: 1.4em;
+  background-color: #c5cae9;
+}
+
+h3 {
+  font-size: 1.3em;
+  background-color: #e8eaf6;
+}
+
+pre {
+  max-width: 100%;
+  overflow: scroll;
+  padding-right: 45px;
+} */
+
+.thumb-wrap > div {
+  background: #ebebeb;
+  border: 1px solid #cfcfcf;
+  font-weight: bold;
+  height: 120px;
+  width: 120px;
+  float: left;
+  color: #555;
+  text-align: center;
+  line-height: 120px;
+  margin: 0px 12px 24px 12px;
+}
+
+.list-item {
+  display: flow;
+  justify-content: start;
+  align-items: center;
+  font-weight: 200;
+  background-color: aliceblue;
+  margin: 6px;
+  border-radius: 7px;
+  padding-left: 9px;
+  cursor: pointer;
+}
