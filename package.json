@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite build --watch --config vite.config.development.js",
+    "dev": "vite build --watch --config vite.config.js",
     "build": "vite build",
     "preview": "vite preview"
   },

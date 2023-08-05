@@ -6,7 +6,7 @@ var extFrameWindow = document.getElementById('extjsFrameWindow');
 window.addEventListener('message', function ({ data }) {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id, data, (response) => {
-      extFrameWindow.contentWindow.postMessage(response.title, '*');
+      // extFrameWindow.contentWindow.postMessage(response.title, '*');
     });
   });
 });
@@ -24,13 +24,15 @@ chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
       (result, isException) => {
         debugger;
         if (isException) {
+          debugger;
           // sended Error Message to Sandbox
-          extFrameWindow.contentWindow.postMessage(
-            { isError: true, ...isException },
-            '*'
-          );
+          // extFrameWindow.contentWindow.postMessage(
+          //   { isError: true, ...isException },
+          //   '*'
+          // );
         } else {
-          extFrameWindow.contentWindow.postMessage(result, '*');
+          debugger;
+          // extFrameWindow.contentWindow.postMessage(result, '*');
         }
       }
     );
