@@ -9,6 +9,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         sidebarPanel: 'src/devtools/sidebarPanel.html',
+        sandbox: 'src/devtools/sandbox/sandbox.html',
       },
     },
   },
