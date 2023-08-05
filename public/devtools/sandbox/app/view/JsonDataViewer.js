@@ -7,4 +7,8 @@ Ext.define('Spyglass.view.JsonDataViewer', {
 
   scrollable: true,
   html: '<div id="JsonViwerData"></div>',
+  listeners: {
+    afterrender: 'onAfterrender',
+    loadComponentJson: 'onLoadComponentJson',
+  },
 });

@@ -2,8 +2,22 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
   extend: 'Ext.app.ViewController',
   alias: 'controller.jsonDataViewerController',
 
-  // This method is called as a "handler" for the Add button in our view
-  onAddClick: function () {
-    Ext.Msg.alert('Add', 'The Add button was clicked');
+  viewerId: '',
+  viewerInstance: null,
+
+  onAfterrender: function () {
+    var me = this;
+    var view = me.getView();
+
+    me.viewerId = 'jsonViewer-' + view.id;
+    me.viewerInstance = new JSONViewer();
+
+    view.setHtml('<div id="' + me.viewerId + '"></div>');
+    view.el.dom
+      .querySelector('#' + me.viewerId)
+      .appendChild(me.viewerInstance.getContainer());
+  },
+  onLoadComponentJson: function (selection) {
+    this.viewerInstance.showJSON(selection.data.componentConfiguration);
   },
 });

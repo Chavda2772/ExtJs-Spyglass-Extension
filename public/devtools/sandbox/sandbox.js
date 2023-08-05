@@ -3,15 +3,18 @@
 // import './app/view/JsonDataViewer.js';
 
 Ext.application({
-  requires: ['Spyglass.common.Enums', 'Spyglass.MainViewport'],
+  requires: [
+    // This will automatically load all classes in the Spyglass namespace
+    // so that application classes do not need to require each other.
+    'Spyglass.common.Enums',
+    'Spyglass.view.Viewport',
+  ],
+
   name: 'Spyglass',
-
   appFolder: 'app',
-  appProperty: 'Spyglass',
 
-  mainView: 'Spyglass.MainViewport',
-  launch: function () {
-    debugger;
-    // Ext.create('Spyglass.view.Main');
-  },
+  mainView: 'Spyglass.view.Viewport',
+  // launch: function () {
+  //   Ext.create('Spyglass.view.Main');
+  // },
 });
