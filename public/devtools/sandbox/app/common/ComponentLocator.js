@@ -35,6 +35,12 @@ export class ComponentLocator {
   }
 
   getComponentConfiguration(component) {
-    return component.$className;
+    return {
+      className: component.$className,
+      sampel: 'anc' + Math.random() * 100,
+      chld: {
+        fileName: Math.random() * 100,
+      },
+    };
   }
 }

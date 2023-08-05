@@ -1,4 +1,4 @@
-import { ComponentLocator } from './app/common/ComponentLocator.js';
+import { ComponentLocator } from './sandbox/app/common/ComponentLocator.js';
 
 const extFrameWindow = document.getElementById('extjsFrameWindow');
 
@@ -19,9 +19,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 // Handle selection element change on elements tool
 chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    debugger;
     chrome.devtools.inspectedWindow.eval(
       'new (' + ComponentLocator.toString() + ')($0)',
       (result, isException) => {
+        debugger;
         if (isException) {
           // sended Error Message to Sandbox
           extFrameWindow.contentWindow.postMessage(

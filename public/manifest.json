@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "description": "Empower Sencha Ext JS developers with the ExtJS Spyglass Chrome extension. Easily inspect and debug Ext JS applications, navigate component hierarchies, modify properties in real-time, and gain deep insights into application behavior.",
-  "devtools_page": "sidebarPanel/index.html",
+  "devtools_page": "devtools/devtools.html",
   "host_permissions": ["scripting"],
   "permissions": [
     "tabs",
@@ -21,22 +21,22 @@
     "128": "assets/img/logo-128.png"
   },
   "action": {
-    "default_title": "Chrome Element Inspector",
+    "default_title": "ExtJS Spyglass",
     "default_icon": "assets/img/logo-32.png",
-    "default_popup": "popup/index.html"
+    "default_popup": "popup/popup.html"
   },
   "background": {
-    "service_worker": "background/index.js",
+    "service_worker": "backgroundService/backgroundService.js",
     "type": "module"
   },
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["content/index.js"]
+      "js": ["contentScript/contentScript.js"]
     }
   ],
   "sandbox": {
-    "pages": ["sidebarPanel/app.html"]
+    "pages": ["devtools/sandbox/sandbox.html"]
   },
   "web_accessible_resources": [
     {

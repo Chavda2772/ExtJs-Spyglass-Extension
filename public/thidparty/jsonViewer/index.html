@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Test page</title>
+
+    <script type="text/javascript" src="json-viewer.js"></script>
+    <link rel="stylesheet" type="text/css" href="json-viewer.css" />
+  </head>
+  <body>
+    <div id="json"></div>
+    <script>
+      var jsonObj = {
+        hello: 'hello',
+        hi: {
+          a: 'a',
+          b: 'b',
+          sub: {
+            set: 'as',
+            dd: 'd',
+          },
+        },
+      };
+      var jsonViewer = new JSONViewer();
+      document.querySelector('#json').appendChild(jsonViewer.getContainer());
+
+      jsonViewer.showJSON(jsonObj);
+    </script>
+  </body>
+</html>

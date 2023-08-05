@@ -1,4 +1,4 @@
-import enums from '../../../config/Enums.js';
+import enums from '../../../../config/Enums.js';
 
 console.log('Enums import', enums);
 
