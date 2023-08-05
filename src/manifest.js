@@ -1,45 +1,53 @@
 import { defineManifest } from '@crxjs/vite-plugin';
 
 export default defineManifest({
-  name: 'ExtJS Component Inspector',
+  name: 'ExtJS Spyglass',
   version: '1.0.0',
   manifest_version: 3,
   description:
-    'Chrome extension to inspect elements on a page; similar to Chrome DevTools',
-  devtools_page: 'src/sidebarPanel/index.html',
-  permissions: ['tabs', 'scripting', 'activeTab', 'devtools'],
+    'Empower Sencha Ext JS developers with the ExtJS Spyglass Chrome extension. Easily inspect and debug Ext JS applications, navigate component hierarchies, modify properties in real-time, and gain deep insights into application behavior.',
+  devtools_page: '/public/devtools/devtools.html',
+  host_permissions: ['scripting'],
+  permissions: [
+    'tabs',
+    'scripting',
+    'activeTab',
+    'devtools',
+    'offscreen',
+    '<all_urls>',
+  ],
   minimum_chrome_version: '69',
   icons: {
-    16: 'img/logo-16.png',
-    32: 'img/logo-32.png',
-    48: 'img/logo-48.png',
-    128: 'img/logo-128.png',
+    16: 'assets/img/logo-16.png',
+    32: 'assets/img/logo-32.png',
+    48: 'assets/img/logo-48.png',
+    128: 'assets/img/logo-128.png',
   },
   action: {
-    default_title: 'Chrome Element Inspector',
-    default_icon: 'img/logo-32.png',
-    default_popup: 'src/popup/index.html',
+    default_title: 'ExtJS Spyglass',
+    default_icon: 'assets/img/logo-32.png',
+    default_popup: '/public/popup/popup.html',
   },
   background: {
-    service_worker: 'src/background/index.js',
+    service_worker: '/public/backgroundService/backgroundService.js',
     type: 'module',
   },
   content_scripts: [
     {
       matches: ['http://*/*', 'https://*/*'],
-      js: ['src/content/index.js'],
+      js: ['/public/contentScript/contentScript.js'],
     },
   ],
   sandbox: {
-    pages: ['src/sidebarPanel/app.html'],
+    pages: ['/public/devtools/sandbox/sandbox.html'],
   },
   web_accessible_resources: [
     {
       resources: [
-        'img/logo-16.png',
-        'img/logo-32.png',
-        'img/logo-48.png',
-        'img/logo-128.png',
+        'assets/img/logo-16.png',
+        'assets/img/logo-32.png',
+        'assets/img/logo-48.png',
+        'assets/img/logo-128.png',
       ],
       matches: ['http://*/*', 'https://*/*'],
     },

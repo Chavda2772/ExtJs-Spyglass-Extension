@@ -1,3 +1,4 @@
+<<<<<<<< HEAD:src/sidebarPanel/sidebarPanel.js
 import { ComponentLocator } from './app/common/ComponentLocator.js';
 
 var extFrameWindow = document.getElementById('extjsFrameWindow');
@@ -10,11 +11,24 @@ window.addEventListener('message', function ({ data }) {
     });
   });
 });
+========
+import { ComponentLocator } from './sandbox/app/common/ComponentLocator.js';
+const extFrameWindow = document.getElementById('extjsFrameWindow');
+
+// Global window event listner for Ext js application sended
+// window.addEventListener('message', function ({ data }) {
+//   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+//     chrome.tabs.sendMessage(tabs[0].id, data, (response) => {
+//       extFrameWindow.contentWindow.postMessage(response.title, '*');
+//     });
+//   });
+// });
+>>>>>>>> origin/development:public/devtools/sidebarPanel.js
 
 // Listen for sended chrome message
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  // Listning ...
-});
+// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+//   // Listning ...
+// });
 
 // Handle selection element change on elements tool
 chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
