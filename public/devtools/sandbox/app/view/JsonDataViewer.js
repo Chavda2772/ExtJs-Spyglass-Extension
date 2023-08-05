@@ -1,8 +1,10 @@
 Ext.define('Spyglass.view.JsonDataViewer', {
   extend: 'Ext.panel.Panel',
+  requires: ['Spyglass.controller.JsonDataViewerController'],
 
   alias: ['widget.jsonDataViewer'],
+  controller: 'jsonDataViewerController',
 
   scrollable: true,
-  html: '<div id="JsonViwerData"><h1>JSON Data</h1></div>',
+  html: '<div id="JsonViwerData"></div>',
 });

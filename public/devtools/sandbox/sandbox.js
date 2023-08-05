@@ -1,8 +1,9 @@
-import './app/MainViewport.js';
-import './app/common/Enums.js';
-import './app/view/JsonDataViewer.js';
+// import './app/MainViewport.js';
+// import './app/common/Enums.js';
+// import './app/view/JsonDataViewer.js';
 
 Ext.application({
+  requires: ['Spyglass.common.Enums', 'Spyglass.MainViewport'],
   name: 'Spyglass',
 
   appFolder: 'app',
@@ -10,6 +11,7 @@ Ext.application({
 
   mainView: 'Spyglass.MainViewport',
   launch: function () {
+    debugger;
     // Ext.create('Spyglass.view.Main');
   },
 });

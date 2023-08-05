@@ -1,10 +1,10 @@
-import enums from '../../../../config/Enums.js';
+// import enums from '../../../../config/Enums.js';
 
-console.log('Enums import', enums);
-
-Ext.define('CL.common.Enums', {
+Ext.define('Spyglass.common.Enums', {
   singleton: true,
   alternateClassName: 'Enums',
 
-  ...enums,
+  msgType: {
+    getCmpId: 'getCmpId',
+  },
 });

@@ -6,7 +6,7 @@ export default [
   'public/popup/popup.js',
   'public/devtools/devtools.html',
   'public/devtools/devtools.js',
-  // 'public/devtools/sidebarPanel.html',
+  'public/devtools/sidebarPanel.html',
   'public/devtools/sidebarPanel.js',
   'public/devtools/sandbox/sandbox.html',
   'public/devtools/sandbox/styles/styles.css',

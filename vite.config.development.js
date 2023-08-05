@@ -13,14 +13,14 @@ export default defineConfig(({ mode }) => {
       outDir: 'build',
     },
     plugins: [
-      viteStaticCopy({
-        targets: [
-          {
-            src: path.resolve(__dirname, './src') + '/ [!.]*', // exclude dotfiles
-            dest: './', // copy to the root of the output directory
-          },
-        ],
-      }),
+      // viteStaticCopy({
+      //   targets: [
+      //     {
+      //       src: path.resolve(__dirname, './src') + '/ [!.]*', // exclude dotfiles
+      //       dest: './', // copy to the root of the output directory
+      //     },
+      //   ],
+      // }),
     ],
   };
 });
