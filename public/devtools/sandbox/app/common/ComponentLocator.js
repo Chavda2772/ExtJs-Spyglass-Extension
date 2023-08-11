@@ -1,6 +1,8 @@
 export class ComponentLocator {
     targetDomElement;
     component;
+    componentConfig;
+    componentInitialConfig;
     excludeProps = [
         '$initParent',
         "$configWatch",
@@ -34,7 +36,7 @@ export class ComponentLocator {
         '_field',
         '_parent'
     ];
-    includeProps = ['initialConfig'];
+    //includeProps = ['initialConfig', 'columns', 'listeners', 'selectable', 'store'];
     constructor(element) {
         this.targetDomElement = element;
         this.component = Ext.Component.from(element);
@@ -56,7 +58,8 @@ export class ComponentLocator {
         componentHierarchy.push({
             name: targetComponent.xtype,
             className: targetComponent.$className,
-            componentConfiguration: this.getComponentConfiguration(Ext.clone(targetComponent)),
+            filePath: Ext.Loader.getPath(targetComponent.$className),
+            ...this.getComponentBasicConfiguration(Ext.clone(targetComponent)),
         });
 
         if (targetComponent.up()) {
@@ -66,40 +69,54 @@ export class ComponentLocator {
         return componentHierarchy;
     }
 
-    getComponentConfiguration(objectNode, keyName) {
+    // Basic filter
+    getComponentBasicConfiguration(objectNode) {
         var me = this;
-        var objDetails = {};
+        const objDetails = {};
+        debugger;
+        var initConfig = me.getComponentConfiguration(objectNode.getInitialConfig());
+        var config = me.getComponentConfiguration(objectNode.getConfig());
+
+        debugger;
+        return {
+            ...objDetails,
+        };
+    }
+    // Advance Filter
+    getComponentConfiguration(objectNode) {
+        var me = this;
+        let objDetails = null;
 
         Object.keys(objectNode).forEach((key) => {
             try {
-                if (typeof objectNode[key] === 'object') {
-                    if (!me.excludeProps.includes(objectNode[key])) {
-                        //debugger;
-                        if (me.includeProps.includes(key)) {
-                            objDetails = { ...objDetails, ...me.getChildConfigs(objectNode[key]) }
-                            debugger;
+                if (!me.excludeProps.includes(key)) {
+                    if (typeof objectNode[key] === 'object') {
+                        if (Array.isArray(objectNode[key])) {
+                            objDetails[key] = objectNode[key].map(item => {
+                                if (typeof item === 'object' && !Array.isArray(item)) {
+                                    return me.getComponentConfiguration(item);
+                                }
+                                return item;
+                            });
+                        } else if (Ext.Object.isEmpty(objectNode[key])) {
+                            objDetails[key] = {};
+                        } else {
+                            objDetails[key] = me.getComponentConfiguration(objectNode[key]);
                         }
-                        //console.log((keyName || "") + "/" + key)
-                        //JSON.stringify(objectNode[key], me.customReplacer)
-                        //objDetails = { ...objDetails, ...me.fetchNestedLevels(objectNode[key], 0, 2, (keyName || "") + "/" + key) }
-                        //objDetails[key] = "{ Has Child Elements }";
-
+                    } else {
+                        objDetails[key] = objectNode[key];
                     }
                 }
-                else {
-                    objDetails[key] = objectNode[key];
-                }
             } catch (e) {
-                console.error(e)
-                debugger;
+                console.error(e);
             }
         });
 
         return {
-            className: objectNode.$className,
             ...objDetails,
         };
     }
+
 
     getChildConfigs(configuration) {
         var me = this;
@@ -108,7 +125,6 @@ export class ComponentLocator {
         //debugger;
         // Without exclude
         Object.keys(configuration).forEach((key) => {
-            debugger;
             if (typeof configuration[key] === 'object') {
                 if (!me.excludeProps.includes(configuration[key])) {
                     withoutExclu = { ...withoutExclu, ...me.getChildConfigs(configuration[key]) }
@@ -118,7 +134,7 @@ export class ComponentLocator {
                 withoutExclu[key] = configuration[key];
             }
         });
-
+        //debugger;
         return withoutExclu;
     }
 
@@ -142,6 +158,31 @@ export class ComponentLocator {
         }
 
         return result;
+    }
+
+    getObjectPropertyConfig(propObject) {
+        var me = this;
+        var propConfig = {};
+
+
+        Object.keys(configuration).forEach((key) => {
+            if (typeof configuration[key] === 'object') {
+                debugger;
+                if (Array.isArray(configuration[key])) {
+                    debugger;
+                }
+                else {
+                    if (!me.excludeProps.includes(propObject)) {
+                        propConfig = { ...propConfig, ...me.getObjectPropertyConfig(propObject) }
+                    }
+                }
+            }
+            else {
+                propConfig[key] = configuration[key];
+            }
+        });
+
+        return propConfig;
     }
 
     customReplacer(key, value) {
