@@ -104,13 +104,11 @@ export class ComponentLocator {
         me.component = Ext.Component.from(element);
         var componentListDetails = this.getComponentHierarchy(this.component);
 
-        debugger;
         //var detail = me.getDataWithoutExcludedPropertys(me.component);
-        var temp = JSON.stringify({
-            componentDetails: { ...componentListDetails }
-        });
-        debugger;
-        return temp; 
+        var temp = {
+            componentDetails: JSON.stringify([ ...componentListDetails ])
+        };
+        return temp;
     }
 
     getComponentHierarchy(targetComponent) {
@@ -121,8 +119,10 @@ export class ComponentLocator {
             name: targetComponent.xtype,
             className: targetComponent.$className,
             filePath: Ext.Loader.getPath(targetComponent.$className),
-            config: { ...me.getComponentConfiguration(Ext.clone(targetComponent.getConfig())) },
-            initialConfig: { ...me.getComponentConfiguration(Ext.clone(targetComponent.getInitialConfig())) },
+            componentConfiguration: {
+                config: { ...me.getComponentConfiguration(Ext.clone(targetComponent.getConfig())) },
+                initialConfig: { ...me.getComponentConfiguration(Ext.clone(targetComponent.getInitialConfig())) },
+            }
         });
 
         if (targetComponent.up()) {
@@ -312,7 +312,6 @@ export class ComponentLocator {
 
         Object.keys(configuration).forEach((key) => {
             if (typeof configuration[key] === 'object') {
-                //debugger;
                 if (Array.isArray(configuration[key])) {
                     //debugger;
                 }
