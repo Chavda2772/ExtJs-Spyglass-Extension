@@ -18,21 +18,30 @@ const extFrameWindow = document.getElementById('extjsFrameWindow');
 
 // Handle selection element change on elements tool
 chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    chrome.devtools.inspectedWindow.eval(
-        'new (' + ComponentLocator.toString() + ')($0)',
-        (result, isException) => {
-            debugger;
-        if (isException) {
-          // sended Error Message to Sandbox
-          extFrameWindow.contentWindow.postMessage(
-            { isError: true, ...isException },
-            '*'
-          );
-        } else {
-          extFrameWindow.contentWindow.postMessage(result, '*');
-        }
-      }
-    );
-  });
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        //chrome.scripting.executeScript({
+        //    target: { tabId: tabs[0].id },
+        //    injection: Ext.versions.ext.version,
+        //    callback: function (error, success) {
+        //        debugger;
+        //    },
+        //}
+        //)
+        chrome.devtools.inspectedWindow.eval(
+            'new (' + ComponentLocator.toString() + ')($0)',
+            (result, isException) => {
+                if (isException) {
+                    console.error(isException)
+                    //chrome.devtools.inspectedWindow.eval('console.error(' + isException.description + ')');
+                    // sended Error Message to Sandbox
+                    extFrameWindow.contentWindow.postMessage(
+                        { isError: true, ...isException },
+                        '*'
+                    );
+                } else {
+                    extFrameWindow.contentWindow.postMessage(result, '*');
+                }
+            }
+        );
+    });
 });
