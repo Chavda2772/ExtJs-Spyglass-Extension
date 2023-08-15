@@ -216,7 +216,15 @@ export class ComponentLocator {
 
         Object.keys(objectNode).forEach((key) => {
             try {
-                if (!me.excludeProps.includes(key)) {
+                if (me.excludeProps.includes(key)) {
+                    if (Array.isArray(objectNode[key])) {
+                        objectNode[key] = '[[Array]]'
+                    }
+                    else {
+                        objectNode[key] = '[[Object]]'
+                    }
+                }
+                else {
                     console.log(keyName + key);
                     if (objectNode[key] == null) {
                         objDetails[key] = null;

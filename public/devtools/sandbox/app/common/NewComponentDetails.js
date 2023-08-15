@@ -11,9 +11,8 @@ export class NewComponentDetails {
             targetComponent = this.getParentComponent(targetComponent);
         }
 
-        debugger;
         return {
-            componentStore: JSON.stringify(componentStore),
+            componentDetails: JSON.stringify(componentStore),
         };
     }
 
@@ -35,27 +34,15 @@ export class NewComponentDetails {
             isHidden: component.isHidden(),
             isVisible: component.isVisible(),
             path: `${location.origin}${location.pathname
-                }/../${Ext.ClassManager.getPath(component.$className || "")}`,
+                }/${Ext.ClassManager.getPath(component.$className || "")}`,
             bind: JSON.stringify(
                 this.stringify(component.getBind(), component),
                 null,
                 2
             ),
-            initialConfig: JSON.stringify(
-                this.stringify(component.initialConfig, component),
-                null,
-                2
-            ),
-            defaultConfig: JSON.stringify(
-                this.stringify(component.defaultConfig, component),
-                null,
-                2
-            ),
-            viewModel: JSON.stringify(
-                this.stringify(component.getViewModel(), component),
-                null,
-                2
-            ),
+            initialConfig: this.stringify(component.initialConfig, component),
+            defaultConfig: this.stringify(component.defaultConfig, component),
+            viewModel: this.stringify(component.getViewModel(), component),
         };
     }
 
@@ -92,49 +79,49 @@ export class NewComponentDetails {
         return "undefined";
     }
 
-    stringify(val, cmp, key, level = 0) {
-        if (val === null) return val;
-        if (val === undefined) return "undefined";
-        if (Ext.isPrimitive(val)) return Ext.htmlEncode(val);
-        if (Ext.isArray(val)) {
+    stringify(value, component, key, level = 0) {
+        if (value === null) return value;
+        if (value === undefined) return "undefined";
+        if (Ext.isPrimitive(value)) return Ext.htmlEncode(value);
+        if (Ext.isArray(value)) {
             if (level > this.LEVEL_LIMIT) return "[[Array]]";
 
-            return val.map((i) => this.stringify(i, cmp, undefined, level + 1));
+            return value.map((item) => this.stringify(item, component, undefined, level + 1));
         }
-        if (Ext.isFunction(val)) return "[[Function]]";
+        if (Ext.isFunction(value)) return "[[Function]]";
 
-        if (Ext.isObject(val)) {
+        if (Ext.isObject(value)) {
             if (level > this.LEVEL_LIMIT) return "[[Object]]";
 
-            if (val.isBinding || val.$className === "Ext.app.bind.Binding") {
+            if (value.isBinding || value.$className === "Ext.app.bind.Binding") {
                 return {
-                    path: this.getBindPath(val, cmp, key),
-                    value: this.stringify(val.getRawValue(), cmp, level + 1),
+                    path: this.getBindPath(value, component, key),
+                    value: this.stringify(value.getRawValue(), component, level + 1),
                 };
             }
-            if (val.isViewModel) {
+            if (value.isViewModel) {
                 return {
-                    data: this.stringify(val.getData(), cmp, key, level + 1),
-                    formulas: this.stringify(val.getFormulas(), cmp, key, level + 1),
+                    data: this.stringify(value.getData(), component, key, level + 1),
+                    formulas: this.stringify(value.getFormulas(), component, key, level + 1),
                 };
             }
 
-            if (val.isModel) {
-                return this.stringify(val.data, cmp, key, level + 1);
+            if (value.isModel) {
+                return this.stringify(value.data, component, key, level + 1);
             }
 
-            if (val.isSession || val.isInstance) {
-                return this.stringify(val.initialConfig, cmp, key, level + 1);
+            if (value.isSession || value.isInstance) {
+                return this.stringify(value.initialConfig, component, key, level + 1);
             }
 
             var res = {};
-            Ext.Object.getKeys(val || {}).map((k) => {
-                res[k] = this.stringify(val[k], cmp, k, level + 1);
+            Ext.Object.getKeys(value || {}).map((key) => {
+                res[key] = this.stringify(value[key], component, key, level + 1);
             });
 
             return res;
         }
 
-        return Ext.toString(val);
+        return value;
     }
 }
