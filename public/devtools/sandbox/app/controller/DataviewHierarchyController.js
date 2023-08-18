@@ -3,7 +3,6 @@ Ext.define('Spyglass.controller.DataviewHierarchyController', {
     alias: 'controller.dataviewHierarchyController',
 
     onLoadCompData: function (compData) {
-        debugger;
         this.getView().getStore().setData(compData);
     },
 

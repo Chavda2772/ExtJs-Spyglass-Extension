@@ -96,19 +96,26 @@ export class ComponentLocator {
         "_viewModel",
         "pendingActiveItem"
     ];
+    includedFunctions = ['initConfig'];
+    LEVEL_LIMIT = 4;
     //includeProps = ['initialConfig', 'columns', 'listeners', 'selectable', 'store'];
     constructor(element) {
         var me = this;
+        try {
 
-        me.targetDomElement = element;
-        me.component = Ext.Component.from(element);
-        var componentListDetails = this.getComponentHierarchy(this.component);
+            me.targetDomElement = element;
+            me.component = Ext.Component.from(element);
+            //debugger;
+            var componentListDetails = this.getComponentHierarchy(this.component);
 
-        //var detail = me.getDataWithoutExcludedPropertys(me.component);
-        var temp = {
-            componentDetails: JSON.stringify([ ...componentListDetails ])
-        };
-        return temp;
+            //var detail = me.getDataWithoutExcludedPropertys(me.component);
+            var temp = {
+                componentDetails: JSON.stringify([...componentListDetails])
+            };
+            return temp;
+        } catch (e) {
+            debugger;
+        }
     }
 
     getComponentHierarchy(targetComponent) {
@@ -119,14 +126,11 @@ export class ComponentLocator {
             name: targetComponent.xtype,
             className: targetComponent.$className,
             filePath: Ext.Loader.getPath(targetComponent.$className),
-            componentConfiguration: {
-                config: { ...me.getComponentConfiguration(Ext.clone(targetComponent.getConfig())) },
-                initialConfig: { ...me.getComponentConfiguration(Ext.clone(targetComponent.getInitialConfig())) },
-            }
+            ...me.getComponentConfiguration(Ext.clone(targetComponent))
         });
 
         if (targetComponent.up()) {
-            componentHierarchy.push(...this.getComponentHierarchy(targetComponent.up()));
+            componentHierarchy.push(...me.getComponentHierarchy(targetComponent.up()));
         }
 
         return componentHierarchy;
@@ -216,39 +220,42 @@ export class ComponentLocator {
 
         Object.keys(objectNode).forEach((key) => {
             try {
-                if (me.excludeProps.includes(key)) {
-                    if (Array.isArray(objectNode[key])) {
-                        objectNode[key] = '[[Array]]'
-                    }
-                    else {
-                        objectNode[key] = '[[Object]]'
-                    }
+                //if (me.excludeProps.includes(key)) {
+                //    if (Array.isArray(objectNode[key])) {
+                //        objectNode[key] = '[[Array]]'
+                //    }
+                //    else {
+                //        objectNode[key] = '[[Object]]'
+                //    }
+                //}
+                //else {
+                if (key == 'initConfig') {
+                    debugger;
                 }
-                else {
-                    console.log(keyName + key);
-                    if (objectNode[key] == null) {
-                        objDetails[key] = null;
-                    }
-                    else if (objectNode[key] == undefined) {
-                        objDetails[key] = undefined;
-                    }
-                    else if (typeof objectNode[key] === 'object') {
-                        if (Array.isArray(objectNode[key])) {
-                            objDetails[key] = objectNode[key].map(item => {
-                                if (typeof item === 'object' && !Array.isArray(item)) {
-                                    return me.getComponentConfiguration(item, keyName + key + '/');
-                                }
-                                return item;
-                            });
-                        } else if (Ext.Object.isEmpty(objectNode[key])) {
-                            objDetails[key] = {};
-                        } else {
-                            objDetails[key] = me.getComponentConfiguration(objectNode[key], keyName + key + '/');
-                        }
-                    } else {
-                        objDetails[key] = objectNode[key];
-                    }
-                }
+                objDetails[key] = me.stringify(Ext.clone(objectNode[key]))
+                //if (objectNode[key] == null) {
+                //    objDetails[key] = null;
+                //}
+                //else if (objectNode[key] == undefined) {
+                //    objDetails[key] = undefined;
+                //}
+                //else if (typeof objectNode[key] === 'object') {
+                //    if (Array.isArray(objectNode[key])) {
+                //        objDetails[key] = objectNode[key].map(item => {
+                //            if (typeof item === 'object' && !Array.isArray(item)) {
+                //                return me.getComponentConfiguration(item, keyName + key + '/');
+                //            }
+                //            return item;
+                //        });
+                //    } else if (Ext.Object.isEmpty(objectNode[key])) {
+                //        objDetails[key] = {};
+                //    } else {
+                //        objDetails[key] = me.getComponentConfiguration(objectNode[key], keyName + key + '/');
+                //    }
+                //} else {
+                //    objDetails[key] = objectNode[key];
+                //}
+                //}
             } catch (e) {
                 console.error(e);
             }
@@ -335,5 +342,80 @@ export class ComponentLocator {
         });
 
         return propConfig;
+    }
+
+    stringify(value, level = 0) {
+        var me = this;
+
+        if (value === null) {
+            return null;
+        }
+
+        if (value === undefined) {
+            return undefined;
+        }
+
+        if (Ext.isPrimitive(value)) {
+            return Ext.htmlEncode(value);
+        }
+
+        if (Ext.isArray(value)) {
+            if (level > this.LEVEL_LIMIT) {
+                return "[[Array]]";
+            }
+
+            return value.map((item) => {
+                return this.stringify(item, level + 1)
+            });
+
+        }
+
+        if (Ext.isFunction(value)) {
+            if (value.name == 'getId') {
+                debugger;
+            }
+            if (me.includedFunctions.includes(value)) {
+                debugger;;
+            }
+            return "[[Function]]";
+        }
+
+        if (Ext.isObject(value)) {
+            if (level > this.LEVEL_LIMIT) {
+                return "[[Object]]";
+            }
+
+            if (value.isBinding || value.$className === "Ext.app.bind.Binding") {
+                return {
+                    //path: this.getBindPath(value, component, key),
+                    path: 'Working on it ....',
+                    value: this.stringify(value.getRawValue(), level + 1),
+                };
+            }
+
+            if (value.isViewModel) {
+                return {
+                    data: this.stringify(value.getData(), level + 1),
+                    formulas: this.stringify(value.getFormulas(), level + 1),
+                };
+            }
+
+            if (value.isModel) {
+                return this.stringify(value.data, level + 1);
+            }
+
+            if (value.isSession || value.isInstance) {
+                return this.stringify(value.initialConfig, level + 1);
+            }
+
+            var res = {};
+            Ext.Object.getKeys(value || {}).map((key) => {
+                res[key] = this.stringify(value[key], level + 1);
+            });
+
+            return res;
+        }
+
+        return value;
     }
 }

@@ -1,7 +1,7 @@
 export class NewComponentDetails {
     LEVEL_LIMIT = 4;
 
-    constructor(element) {
+    constructor(element, config) {
         var targetComponent = Ext.Component.fromElement(element);
         var componentStore = [];
 

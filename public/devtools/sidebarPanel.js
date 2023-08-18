@@ -28,7 +28,7 @@ chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
         //}
         //)
         chrome.devtools.inspectedWindow.eval(
-            'new (' + NewComponentDetails.toString() + ')($0)',
+            'new (' + ComponentLocator.toString() + ')($0)',
             (result, isException) => {
                 if (isException) {
                     console.error(isException)
