@@ -96,9 +96,8 @@ export class ComponentLocator {
         "_viewModel",
         "pendingActiveItem"
     ];
-    includedFunctions = ['initConfig'];
+    includedFunctions = ['initConfig', 'formulas', 'getId', 'getColumnsMenuItem', 'getCollapsible'];
     LEVEL_LIMIT = 4;
-    //includeProps = ['initialConfig', 'columns', 'listeners', 'selectable', 'store'];
     constructor(element) {
         var me = this;
         try {
@@ -136,83 +135,6 @@ export class ComponentLocator {
         return componentHierarchy;
     }
 
-    // Get Excluded propertys
-    getDataWithoutExcludedPropertys(component) {
-        var me = this;
-
-        try {
-            // get path in replacer ***********************************************
-            var componentJson = JSON.stringify(component, function (key, value) {
-                //debugger;
-                if (me.excludeProps.includes(key)) {
-                    return null;
-                }
-                else if (Array.isArray(value)) {
-                    console.log(key);
-                    return ['Data fetching pending ....'];
-                    // **
-                    // Need to improve array as it exceed call stack
-                    // **
-                    var data = [];
-                    if (!value.length) {
-                        return data;
-                    }
-
-                    return value.map(function (item) {
-                        if (typeof item == 'object') {
-                            data.push(me.getDataWithoutExcludedPropertys(item));
-                        }
-                        else {
-                            data.push(item)
-                        }
-                    });
-                }
-                console.log(key);
-                return value;
-            });
-
-            return JSON.parse(componentJson);
-
-        } catch (e) {
-            const regex = /property '(.*)' closes the circle/gm;
-            let messages;
-            var wordMatch = '';
-
-            while ((messages = regex.exec(e)) !== null) {
-                // This is necessary to avoid infinite loops with zero-width matches
-                if (messages.index === regex.lastIndex) {
-                    regex.lastIndex++;
-                }
-
-                // The result can be accessed through the `m`-variable.
-                messages.forEach((match) => {
-                    if (!match.includes('property')) {
-                        wordMatch = match;
-                    }
-                });
-            }
-            console.error(e);
-            if (!me.excludeProps.includes(wordMatch)) {
-                me.excludeProps.push(wordMatch);
-            }
-            me.getDataWithoutExcludedPropertys(component);
-        }
-    }
-
-
-    // Basic filter
-    getComponentBasicConfiguration(objectNode) {
-        var me = this;
-        //const objDetails = {};
-
-        var initialConfig = me.getComponentConfiguration(objectNode.getInitialConfig());
-        var config = me.getComponentConfiguration(objectNode.getConfig());
-
-        return {
-            initialConfig,
-            config,
-        };
-    }
     // Advance Filter
     getComponentConfiguration(objectNode, keyName = '/') {
         var me = this;
@@ -220,42 +142,7 @@ export class ComponentLocator {
 
         Object.keys(objectNode).forEach((key) => {
             try {
-                //if (me.excludeProps.includes(key)) {
-                //    if (Array.isArray(objectNode[key])) {
-                //        objectNode[key] = '[[Array]]'
-                //    }
-                //    else {
-                //        objectNode[key] = '[[Object]]'
-                //    }
-                //}
-                //else {
-                if (key == 'initConfig') {
-                    debugger;
-                }
-                objDetails[key] = me.stringify(Ext.clone(objectNode[key]))
-                //if (objectNode[key] == null) {
-                //    objDetails[key] = null;
-                //}
-                //else if (objectNode[key] == undefined) {
-                //    objDetails[key] = undefined;
-                //}
-                //else if (typeof objectNode[key] === 'object') {
-                //    if (Array.isArray(objectNode[key])) {
-                //        objDetails[key] = objectNode[key].map(item => {
-                //            if (typeof item === 'object' && !Array.isArray(item)) {
-                //                return me.getComponentConfiguration(item, keyName + key + '/');
-                //            }
-                //            return item;
-                //        });
-                //    } else if (Ext.Object.isEmpty(objectNode[key])) {
-                //        objDetails[key] = {};
-                //    } else {
-                //        objDetails[key] = me.getComponentConfiguration(objectNode[key], keyName + key + '/');
-                //    }
-                //} else {
-                //    objDetails[key] = objectNode[key];
-                //}
-                //}
+                objDetails[key] = me.stringify(Ext.clone(objectNode[key]), key, objectNode)
             } catch (e) {
                 console.error(e);
             }
@@ -266,87 +153,7 @@ export class ComponentLocator {
         };
     }
 
-
-    getChildConfigs(configuration) {
-        var me = this;
-        var withoutExclu = {};
-
-        // Without exclude
-        Object.keys(configuration).forEach((key) => {
-            if (typeof configuration[key] === 'object') {
-                if (Array.isArray(configuration[key])) {
-                    //objDetails[key] = objectNode[key].map(item => {
-                    //    if (typeof item === 'object' && !Array.isArray(item)) {
-                    //        return me.getComponentConfiguration(item);
-                    //    }
-                    //    return item;
-                    //});
-                } else if (Ext.Object.isEmpty(configuration[key])) {
-                    withoutExclu[key] = {};
-                } else if (!me.excludeProps.includes(configuration[key])) {
-                    withoutExclu[key] = me.getChildConfigs(configuration[key]);
-                }
-
-                //if (!me.excludeProps.includes(configuration[key])) {
-                //    withoutExclu = { ...withoutExclu, ...me.getChildConfigs(configuration[key]) }
-                //}
-            }
-            else {
-                withoutExclu[key] = configuration[key];
-            }
-        });
-        return withoutExclu;
-    }
-
-    fetchNestedLevels(obj, depth, maxDepth, keyName) {
-        var me = this;
-
-        if (depth > maxDepth) {
-            return null; // Stop recursion if depth exceeds the limit
-        }
-
-        if (typeof obj !== 'object' || obj === null) {
-            return obj; // Base case: return non-objects directly
-        }
-
-        const result = {};
-
-        for (const key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                result[key] = me.fetchNestedLevels(obj[key], depth + 1, maxDepth);
-            }
-        }
-
-        return result;
-    }
-
-    getObjectPropertyConfig(propObject) {
-        var me = this;
-        var propConfig = {};
-
-
-        Object.keys(configuration).forEach((key) => {
-            if (typeof configuration[key] === 'object') {
-                if (Array.isArray(configuration[key])) {
-                    //debugger;
-                }
-                else {
-                    if (!me.excludeProps.includes(propObject)) {
-                        propConfig = { ...propConfig, ...me.getObjectPropertyConfig(propObject) }
-                    }
-                }
-            }
-            else {
-                propConfig[key] = configuration[key];
-            }
-        });
-
-        return propConfig;
-    }
-
-    stringify(value, level = 0) {
-        var me = this;
-
+    stringify(value, key, component, level = 0) {
         if (value === null) {
             return null;
         }
@@ -355,27 +162,20 @@ export class ComponentLocator {
             return undefined;
         }
 
-        if (Ext.isPrimitive(value)) {
-            return Ext.htmlEncode(value);
-        }
-
         if (Ext.isArray(value)) {
             if (level > this.LEVEL_LIMIT) {
                 return "[[Array]]";
             }
 
             return value.map((item) => {
-                return this.stringify(item, level + 1)
+                return this.stringify(item, key, component, level + 1)
             });
 
         }
 
         if (Ext.isFunction(value)) {
-            if (value.name == 'getId') {
-                debugger;
-            }
-            if (me.includedFunctions.includes(value)) {
-                debugger;;
+            if (this.includedFunctions.includes(key)) {
+                return this.stringify(component[key](), key, component, level + 1);
             }
             return "[[Function]]";
         }
@@ -387,35 +187,49 @@ export class ComponentLocator {
 
             if (value.isBinding || value.$className === "Ext.app.bind.Binding") {
                 return {
-                    //path: this.getBindPath(value, component, key),
-                    path: 'Working on it ....',
-                    value: this.stringify(value.getRawValue(), level + 1),
+                    path: this.getBindPath(value, component, key),
+                    value: this.stringify(value.getRawValue(), key, component, level + 1),
                 };
             }
 
             if (value.isViewModel) {
                 return {
-                    data: this.stringify(value.getData(), level + 1),
-                    formulas: this.stringify(value.getFormulas(), level + 1),
+                    data: this.stringify(value.getData(), key, component, level + 1),
+                    formulas: this.stringify(value.getFormulas(), key, component, level + 1),
                 };
             }
 
             if (value.isModel) {
-                return this.stringify(value.data, level + 1);
+                return this.stringify(value.data, key, component, level + 1);
             }
 
             if (value.isSession || value.isInstance) {
-                return this.stringify(value.initialConfig, level + 1);
+                return this.stringify(value.initialConfig, key, component, level + 1);
             }
 
             var res = {};
             Ext.Object.getKeys(value || {}).map((key) => {
-                res[key] = this.stringify(value[key], level + 1);
+                res[key] = this.stringify(value[key], key, component, level + 1);
             });
 
             return res;
         }
 
         return value;
+    }
+
+    getBindPath(bind, component, key) {
+        if (bind.isMultiBinding) {
+            return component.initialConfig.bind[key];
+        }
+
+        if (bind.stub) {
+            return bind.stub.linkDescriptor || `{${bind.stub.path}}` || undefined;
+        }
+
+        if (bind.tpl) {
+            return bind.tpl.text || "";
+        }
+        return undefined;
     }
 }
