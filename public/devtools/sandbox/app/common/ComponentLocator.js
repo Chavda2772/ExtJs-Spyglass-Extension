@@ -121,12 +121,19 @@ export class ComponentLocator {
         var me = this;
         var componentHierarchy = [];
 
-        componentHierarchy.push({
+        componentDetail = {
             name: targetComponent.xtype,
             className: targetComponent.$className,
-            filePath: Ext.Loader.getPath(targetComponent.$className),
+            isExtComponent: false,
             ...me.getComponentConfiguration(Ext.clone(targetComponent))
-        });
+        };
+
+        if (!targetComponent.$className.startsWith('Ext.')) {
+            componentDetail.filePath = me.getFileLink(Ext.Loader.getPath(targetComponent.$className));
+            componentDetail.isExtComponent = false;
+        }
+
+        componentHierarchy.push(componentDetail);
 
         if (targetComponent.up()) {
             componentHierarchy.push(...me.getComponentHierarchy(targetComponent.up()));
@@ -231,5 +238,24 @@ export class ComponentLocator {
             return bind.tpl.text || "";
         }
         return undefined;
+    }
+
+    async getText(filePath) {
+        let res = await fetch(filePath);
+        let resVal = await res.text();
+        return resVal;
+    }
+
+    getFileLink(filePath) {
+        var actualPath = '';
+        var location = window.location;
+        var originalPath = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+
+        actualPath = window.location.origin + originalPath + '/' + filePath;
+        return `<a target="_blank" href="${actualPath}"></a>`;
+    }
+
+    createElementOnHover() {
+
     }
 }
