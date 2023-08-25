@@ -25,6 +25,6 @@
         }
     ],
     listeners: {
-        loadCompData: 'onLoadCompData',
+        loadComponentJson: 'onLoadComponentJson',
     },
 });

@@ -7,6 +7,7 @@ Ext.define('Spyglass.controller.ViewportController', {
         var view = me.getView();
 
         view.down('#dvJsonViewer').fireEvent('loadComponentJson', data);
+        view.down('#tvJsonTree').fireEvent('loadComponentJson', data);
     },
     onAfterRender: function (viewport, eOpts) {
         window.addEventListener('message', event => {
@@ -19,7 +20,6 @@ Ext.define('Spyglass.controller.ViewportController', {
 
             var data = JSON.parse(event.data.componentDetails);
             viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', data);
-            viewport.down('#tvJsonTree').fireEvent('loadCompData', data);
         }, false);
     },
 });
