@@ -13,6 +13,11 @@ Ext.define('Spyglass.view.Viewport', {
     defaults: {
         split: true,
     },
+    viewModel: {
+        data: {
+            mode: 'read'
+        }
+    },
     items: [
         {
             title: 'hierarchy',
@@ -34,16 +39,49 @@ Ext.define('Spyglass.view.Viewport', {
             collapsible: true,
             width: '70%',
             layout: 'vbox',
+            header: {
+                items: [
+                    {
+                        xtype: 'segmentedbutton',
+                        items: [
+                            {
+                                tooltip: 'Read Mode',
+                                iconCls: 'x-fa fa-book',
+                                mode: 'read',
+                                handler: 'onChangeView',
+                                bind: {
+                                    pressed: '{mode == "read"}',
+                                },
+                            },
+                            {
+                                tooltip: 'Tree View',
+                                iconCls: 'x-fa fa-tree',
+                                mode: 'tree',
+                                handler: 'onChangeView',
+                                bind: {
+                                    pressed: '{mode == "tree"}',
+                                },
+                            }
+                        ],
+                    }
+                ]
+            },
             items: [
                 {
                     xtype: 'jsonDataViewer',
                     itemId: 'dvJsonViewer',
                     flex: 1,
+                    bind: {
+                        hidden: '{mode != "read"}'
+                    },
                 },
                 {
                     xtype: 'JsonTreeView',
                     itemId: 'tvJsonTree',
                     flex: 1,
+                    bind: {
+                        hidden: '{mode != "tree"}'
+                    },
                 }
             ],
         },

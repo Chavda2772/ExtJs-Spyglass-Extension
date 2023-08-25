@@ -22,4 +22,9 @@ Ext.define('Spyglass.controller.ViewportController', {
             viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', data);
         }, false);
     },
+    onChangeView: function (button, e) {
+        this.getViewModel().set({
+            mode: button.mode
+        });
+    }
 });
