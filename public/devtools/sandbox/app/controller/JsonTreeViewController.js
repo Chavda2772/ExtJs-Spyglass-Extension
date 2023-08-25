@@ -26,6 +26,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                     returnData.push({
                         keyName: key,
                         valueName: '[[ OBJECT ]]',
+                        valueType: 'Object',
                         expanded: false,
                         leaf: false,
                         children: [...me.getStoreFromConfig(config[key])]
@@ -35,6 +36,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                     returnData.push({
                         keyName: key,
                         valueName: '[[ ARRAY ]]',
+                        valueType: 'Array',
                         expanded: false,
                         leaf: false,
                         children: [...me.getStoreFromConfig(config[key])]
@@ -44,6 +46,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                     returnData.push({
                         keyName: key,
                         valueName: config[key],
+                        valueType: typeof config[key],
                         expanded: false,
                         leaf: true
                     })
@@ -61,14 +64,17 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                     if (Ext.isObject(item)) {
                         obj.valueName = '[[ OBJECT ]]';
                         obj.children = [...me.getStoreFromConfig(item)];
+                        obj.valueType = 'Object';
                         obj.leaf = false;
                     }
                     else if (Ext.isArray(item)) {
                         obj.valueName = '[[ ARRAY ]]';
                         obj.children = [...me.getStoreFromConfig(item)];
+                        obj.valueType = 'Array';
                         obj.leaf = false;
                     } else {
                         obj.valueName = item;
+                        obj.valueType = typeof item;
                         obj.leaf = true;
                     }
 

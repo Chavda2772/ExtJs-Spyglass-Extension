@@ -170,7 +170,7 @@ export class ComponentLocator {
 
         if (Ext.isArray(value)) {
             if (level > this.LEVEL_LIMIT) {
-                return "[[Array]]";
+                return "[[ Array ]]";
             }
 
             return value.map((item) => {
@@ -183,12 +183,12 @@ export class ComponentLocator {
             if (this.includedFunctions.includes(key)) {
                 return this.stringify(component[key](), key, component, level + 1);
             }
-            return "[[Function]]";
+            return "[[ Function ]]";
         }
 
         if (Ext.isObject(value)) {
             if (level > this.LEVEL_LIMIT) {
-                return "[[Object]]";
+                return "[[ Object ]]";
             }
 
             if (value.isBinding || value.$className === "Ext.app.bind.Binding") {

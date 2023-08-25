@@ -15,7 +15,7 @@ Ext.define('Spyglass.view.Viewport', {
     },
     viewModel: {
         data: {
-            mode: 'read'
+            mode: 'tree'
         }
     },
     items: [
