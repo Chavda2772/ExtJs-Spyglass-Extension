@@ -120,8 +120,7 @@ export class ComponentLocator {
     getComponentHierarchy(targetComponent) {
         var me = this;
         var componentHierarchy = [];
-
-        componentDetail = {
+        var componentDetail = {
             name: targetComponent.xtype,
             className: targetComponent.$className,
             isExtComponent: false,

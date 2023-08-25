@@ -19,6 +19,7 @@ Ext.define('Spyglass.controller.ViewportController', {
 
             var data = JSON.parse(event.data.componentDetails);
             viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', data);
+            viewport.down('#tvJsonTree').fireEvent('loadCompData', data);
         }, false);
     },
 });

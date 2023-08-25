@@ -1,127 +1,128 @@
 export class NewComponentDetails {
-    LEVEL_LIMIT = 4;
+    jsonConfig = {
+        "name": "tree",
+        "className": "Ext.grid.Tree",
+        "isExtComponent": false,
+        "items": {
+            "allowFunctions": false,
+            "getKey": "[[Function]]"
+        },
+        "_items": {
+            "allowFunctions": false,
+            "getKey": "[[Function]]"
+        },
+        "innerItems": [0, 1, 2, 3, 2, 5, 6],
+        "lastSize": {},
+        "onInitializedListeners": [],
+        "$iid": 17,
+        "baseCls": "x-tree",
+        "autoGenId": true,
+        "id": "ext-tree-1",
+        "getId": "ext-tree-1",
+        "referenceList": [
+            "element",
+            "bodyElement",
+            "outerCt",
+            "innerCt",
+            "resizeMarkerElement"
+        ],
+    };
+    sampleData = {
+        expanded: true,
+        children: [{
+            text: 'parent',
+            duration: '6h 55m',
+            expanded: true,
+            children: [{
+                text: 'child 1',
+                duration: '2h 04m',
+                leaf: true
+            }, {
+                text: 'PHX layover',
+                duration: '2h 36m',
+                leaf: true
+            }, {
+                text: 'child 2',
+                duration: '2h 15m',
+                leaf: true
+            }]
+        }]
+    };
 
     constructor(element, config) {
-        var targetComponent = Ext.Component.fromElement(element);
-        var componentStore = [];
-
-        while (targetComponent) {
-            componentStore.unshift(this.getComponentInfo(targetComponent));
-
-            targetComponent = this.getParentComponent(targetComponent);
+        try {
+            var storeData = this.getStore(this.jsonConfig)
+        } catch (e) {
+            console.error(e)
         }
-
+        console.log(storeData);
         return {
-            componentDetails: JSON.stringify(componentStore),
+            componentDetails: JSON.stringify({
+                expanded: true,
+                children: storeData
+            }),
         };
     }
 
-    getComponentInfo(component) {
-        return {
-            id: component.getId(),
-            className: component.$className,
-            hasVM: !!component.getViewModel(),
-            hasRecord: component.isXType("gridrow") && !!component.getRecord(),
-            record: JSON.stringify(
-                this.stringify(
-                    component.isXType("gridrow") ? component.getRecord() : null,
-                    component
-                ),
-                null,
-                2
-            ),
-            xtypes: component.xtypesChain || [],
-            isHidden: component.isHidden(),
-            isVisible: component.isVisible(),
-            path: `${location.origin}${location.pathname
-                }/${Ext.ClassManager.getPath(component.$className || "")}`,
-            bind: JSON.stringify(
-                this.stringify(component.getBind(), component),
-                null,
-                2
-            ),
-            initialConfig: this.stringify(component.initialConfig, component),
-            defaultConfig: this.stringify(component.defaultConfig, component),
-            viewModel: this.stringify(component.getViewModel(), component),
-        };
-    }
+    getStore(config) {
+        var me = this;
+        var returnData = [];
 
-    getParentComponent(target) {
-        if (target.ownerCmp) return target.ownerCmp;
-
-        if (target.ownerCt) return target.ownerCt;
-
-        if (target.isXType("gridcellbase")) {
-            return target.getColumn();
-        }
-
-        // if (target.isMenuItem) {
-        //   return target.parentMenu || target.menu;
-        // }
-
-        if (Ext.isFunction(target.getParent)) {
-            return target.getParent();
-        }
-    }
-
-    getBindPath(bind, cmp, key) {
-        if (bind.isMultiBinding) {
-            return cmp.initialConfig.bind[key];
-        }
-
-        if (bind.stub) {
-            return bind.stub.linkDescriptor || `{${bind.stub.path}}` || "undefined";
-        }
-
-        if (bind.tpl) {
-            return bind.tpl.text || "";
-        }
-        return "undefined";
-    }
-
-    stringify(value, component, key, level = 0) {
-        if (value === null) return value;
-        if (value === undefined) return "undefined";
-        if (Ext.isPrimitive(value)) return Ext.htmlEncode(value);
-        if (Ext.isArray(value)) {
-            if (level > this.LEVEL_LIMIT) return "[[Array]]";
-
-            return value.map((item) => this.stringify(item, component, undefined, level + 1));
-        }
-        if (Ext.isFunction(value)) return "[[Function]]";
-
-        if (Ext.isObject(value)) {
-            if (level > this.LEVEL_LIMIT) return "[[Object]]";
-
-            if (value.isBinding || value.$className === "Ext.app.bind.Binding") {
-                return {
-                    path: this.getBindPath(value, component, key),
-                    value: this.stringify(value.getRawValue(), component, level + 1),
-                };
-            }
-            if (value.isViewModel) {
-                return {
-                    data: this.stringify(value.getData(), component, key, level + 1),
-                    formulas: this.stringify(value.getFormulas(), component, key, level + 1),
-                };
-            }
-
-            if (value.isModel) {
-                return this.stringify(value.data, component, key, level + 1);
-            }
-
-            if (value.isSession || value.isInstance) {
-                return this.stringify(value.initialConfig, component, key, level + 1);
-            }
-
-            var res = {};
-            Ext.Object.getKeys(value || {}).map((key) => {
-                res[key] = this.stringify(value[key], component, key, level + 1);
+        if (Ext.isObject(config)) {
+            Object.keys(config).forEach((key) => {
+                if (Ext.isObject(config[key])) {
+                    returnData.push({
+                        keyName: key,
+                        valueName: '[[ OBJECT ]]',
+                        expanded: false,
+                        leaf: false,
+                        children: [...me.getStore(config[key])]
+                    });
+                }
+                else if (Ext.isArray(config[key])) {
+                    returnData.push({
+                        keyName: key,
+                        valueName: '[[ ARRAY ]]',
+                        expanded: false,
+                        leaf: false,
+                        children: [...me.getStore(config[key])]
+                    });
+                }
+                else {
+                    returnData.push({
+                        keyName: key,
+                        valueName: config[key],
+                        expanded: false,
+                        leaf: true
+                    })
+                }
             });
-
-            return res;
         }
+        else if (Ext.isArray(config)) {
+            if (config.length) {
+                Ext.Array.forEach(config, (item, idx) => {
+                    var obj = {
+                        keyName: idx.toString(),
+                        expanded: false,
+                    };
 
-        return value;
+                    if (Ext.isObject(item)) {
+                        obj.valueName = '[[ OBJECT ]]';
+                        obj.leaf = false;
+                    }
+                    else if (Ext.isArray(item)) {
+                        obj.valueName = '[[ ARRAY ]]';
+                        obj.leaf = false;
+                    } else {
+                        obj.valueName = item;
+                        obj.leaf = true;
+                    }
+
+                    returnData.push(obj);
+                });
+            }
+        }
+        return returnData
     }
+
 }
