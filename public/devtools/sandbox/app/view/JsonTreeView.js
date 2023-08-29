@@ -9,7 +9,7 @@
 
     plugins: {
         cellediting: {
-            clicksToEdit: 1
+            clicksToEdit: 2,
         }
     },
     store: {
@@ -27,25 +27,9 @@
             text: 'value',
             dataIndex: 'valueName',
             flex: 1,
-            getEditor: function (record) {
-                //if (record.data.code == 'combo') {
-                return Ext.create('Ext.grid.CellEditor', {
-                    field: Ext.create('Ext.form.ComboBox', {
-                        store: {
-                            fields: ['abbr', 'name'],
-                            data: [
-                                { "valueName": "AL", "name": "Alabama" },
-                                { "valueName": "AK", "name": "Alaska" },
-                                { "valueName": "AZ", "name": "Arizona" }
-                            ]
-                        },
-                        queryMode: 'local',
-                        displayField: 'name',
-                        valueField: 'valueName',
-                    })
-                });
-                //}
-            }
+            getEditor: function (record, defaultType) {
+                return this.up('JsonTreeView').getController().onColumnEditorActive(record, defaultType);
+            },
         },
         {
             text: 'typeOf',

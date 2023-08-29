@@ -6,7 +6,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
         var me = this;
         var view = me.getView();
 
-        view.items.items[0].getStore().setRoot(me.getTreeStoreFromJson(selection.data))
+        view.items.items[0].getStore().setRoot(me.getTreeStoreFromJson(selection.data));
     },
     getTreeStoreFromJson: function (jsonData) {
         var me = this;
@@ -49,11 +49,10 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                         valueType: typeof config[key],
                         expanded: false,
                         leaf: true
-                    })
+                    });
                 }
             });
-        }
-        else if (Ext.isArray(config)) {
+        } else if (Ext.isArray(config)) {
             if (config.length) {
                 Ext.Array.forEach(config, (item, idx) => {
                     var obj = {
@@ -82,6 +81,36 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                 });
             }
         }
-        return returnData
+        return returnData;
+    },
+    onColumnEditorActive: function (record, defaultType) {
+        var me = this;
+        return me.getEditorDetails(record);
+    },
+    getEditorDetails: function (record) {
+        var me = this;
+        var data = record.data;
+
+        if (data.valueType == 'string') {
+            return {
+                xtype: 'textfield',
+            };
+        } else if (data.valueType == 'boolean') {
+            return {
+                xtype: 'combobox',
+                store: {
+                    fields: ['display', 'valueField'],
+                    data: [
+                        { valueField: true, display: 'True' },
+                        { valueField: false, display: 'False' },
+                    ],
+                },
+                queryMode: 'local',
+                displayField: 'display',
+                valueField: 'valueField',
+            };
+        } else {
+            return {};
+        }
     }
 });
