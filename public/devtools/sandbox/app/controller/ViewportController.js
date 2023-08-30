@@ -10,6 +10,7 @@ Ext.define('Spyglass.controller.ViewportController', {
         view.down('#tvJsonTree').fireEvent('loadComponentJson', data);
     },
     onAfterRender: function (viewport, eOpts) {
+        // Temp Changes
         var isExtension = false
 
         if (isExtension) {
