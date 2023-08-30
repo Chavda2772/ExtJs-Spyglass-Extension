@@ -42,6 +42,15 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                         children: [...me.getStoreFromConfig(config[key])]
                     });
                 }
+                else if (config[key] == '[[ Function ]]') {
+                    returnData.push({
+                        keyName: key,
+                        valueName: config[key],
+                        valueType: 'Function',
+                        expanded: false,
+                        leaf: true
+                    });
+                }
                 else {
                     returnData.push({
                         keyName: key,
@@ -71,7 +80,13 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                         obj.children = [...me.getStoreFromConfig(item)];
                         obj.valueType = 'Array';
                         obj.leaf = false;
-                    } else {
+                    }
+                    else if (item == '[[ Function ]]') {
+                        obj.valueName = item;
+                        obj.valueType = 'Function';
+                        obj.leaf = true;
+                    }
+                    else {
                         obj.valueName = item;
                         obj.valueType = typeof item;
                         obj.leaf = true;
@@ -90,27 +105,38 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
     getEditorDetails: function (record) {
         var me = this;
         var data = record.data;
+        var editorConfig = {};
 
-        if (data.valueType == 'string') {
-            return {
-                xtype: 'textfield',
-            };
-        } else if (data.valueType == 'boolean') {
-            return {
-                xtype: 'combobox',
-                store: {
-                    fields: ['display', 'valueField'],
-                    data: [
-                        { valueField: true, display: 'True' },
-                        { valueField: false, display: 'False' },
-                    ],
-                },
-                queryMode: 'local',
-                displayField: 'display',
-                valueField: 'valueField',
-            };
-        } else {
-            return {};
+        switch (data.valueType) {
+            case 'string':
+                editorConfig = {
+                    xtype: 'textfield',
+                }
+                break;
+            case 'boolean':
+                editorConfig = {
+                    xtype: 'combobox',
+                    store: {
+                        fields: ['display', 'valueField'],
+                        data: [
+                            { valueField: true, display: 'True' },
+                            { valueField: false, display: 'False' },
+                        ],
+                    },
+                    queryMode: 'local',
+                    displayField: 'display',
+                    valueField: 'valueField',
+                }
+                break;
+            case 'number':
+                editorConfig = {
+                    xtype: 'numberfield'
+                }
+                break;
+            default:
+                break;
         }
+
+        return editorConfig;
     }
 });

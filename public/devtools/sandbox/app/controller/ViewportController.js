@@ -10,17 +10,24 @@ Ext.define('Spyglass.controller.ViewportController', {
         view.down('#tvJsonTree').fireEvent('loadComponentJson', data);
     },
     onAfterRender: function (viewport, eOpts) {
-        window.addEventListener('message', event => {
-            // if Error Message
-            if (event.data.isError) {
-                console.error(event.data)
-                Ext.toast(event.data.value);
-                return;
-            }
+        var isExtension = false
 
-            var data = JSON.parse(event.data.componentDetails);
-            viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', data);
-        }, false);
+        if (isExtension) {
+            window.addEventListener('message', event => {
+                // if Error Message
+                if (event.data.isError) {
+                    console.error(event.data)
+                    Ext.toast(event.data.value);
+                    return;
+                }
+
+                var data = JSON.parse(event.data.componentDetails);
+                viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', data);
+            }, false);
+        }
+        else {
+            viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', tempData.data);
+        }
     },
     onChangeView: function (button, e) {
         this.getViewModel().set({
