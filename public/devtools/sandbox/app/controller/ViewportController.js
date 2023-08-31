@@ -11,7 +11,7 @@ Ext.define('Spyglass.controller.ViewportController', {
     },
     onAfterRender: function (viewport, eOpts) {
         // Temp Changes
-        var isExtension = false
+        var isExtension = true;
 
         if (isExtension) {
             window.addEventListener('message', event => {
@@ -28,6 +28,17 @@ Ext.define('Spyglass.controller.ViewportController', {
         }
         else {
             viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', tempData.data);
+            window.addEventListener('message', event => {
+                // if Error Message
+                if (event.data.isError) {
+                    console.error(event.data)
+                    Ext.toast(event.data.value);
+                    return;
+                }
+
+                var data = JSON.parse(event.data.componentDetails);
+                viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', data);
+            }, false);
         }
     },
     onChangeView: function (button, e) {

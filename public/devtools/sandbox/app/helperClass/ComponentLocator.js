@@ -251,10 +251,6 @@ export class ComponentLocator {
         var originalPath = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
 
         actualPath = window.location.origin + originalPath + '/' + filePath;
-        return `<a target="_blank" href="${actualPath}"></a>`;
-    }
-
-    createElementOnHover() {
-
+        return `<a target="_blank" href="${actualPath}"> Raw File </a>`;
     }
 }

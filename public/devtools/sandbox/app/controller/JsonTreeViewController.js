@@ -6,6 +6,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
         var me = this;
         var view = me.getView();
 
+        view.LoadedJson = selection.data;
         view.items.items[0].getStore().setRoot(me.getTreeStoreFromJson(selection.data));
     },
     getTreeStoreFromJson: function (jsonData) {
@@ -130,7 +131,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                 break;
             case 'number':
                 editorConfig = {
-                    xtype: 'numberfield'
+                    xtype: 'numberfield',
                 }
                 break;
             default:
@@ -138,5 +139,38 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
         }
 
         return editorConfig;
+    },
+    onChangeEditor: function (field, newValue, oldValue, eOpts) {
+        var me = this;
+        var view = me.getView();
+        var record = field.up().record;
+
+        // backup
+        var updateConfig = {
+            [record.data.keyName]: newValue
+        };
+
+        // Need Improvement
+        //debugger;
+        //var updateConfig = me.getConfigToUpdate(record, newValue);
+        //debugger;
+
+        var template = `new (${Spyglass.helperClass.UpdateComponent.toString()})('${JSON.stringify(updateConfig)}', '${view.LoadedJson.id}')`;
+        CommonHelper.postParentMessage({ script: template })
+
+    },
+    getConfigToUpdate: function (record, newValue) {
+        var me = this;
+        var view = me.getView();
+        var returnObj = {};
+
+        if (newValue) {
+            returnObj[record.data.keyName] = newValue;
+        }
+        else if (Ext.Object.isEmpty()) {
+
+        }
+
+        return returnObj;
     }
 });

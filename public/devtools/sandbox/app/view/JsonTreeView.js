@@ -7,6 +7,9 @@
     rootVisible: false,
     width: '100%',
 
+    // Custom Config
+    LoadedJson: {},
+
     plugins: {
         gridfilters: true,
         cellediting: {
@@ -33,13 +36,18 @@
             dataIndex: 'valueName',
             flex: 1,
             getEditor: function (record, defaultType) {
-                var editorConfig = this.up('JsonTreeView')
-                    .getController()
-                    .onColumnEditorActive(record, defaultType);
+                var view = this.up('JsonTreeView');
+                var editorConfig = view.getController().onColumnEditorActive(record, defaultType);
 
                 if (!Ext.Object.isEmpty(editorConfig)) {
                     var editor = Ext.create('Ext.grid.CellEditor', {
-                        field: Ext.create(editorConfig),
+                        record,
+                        field: Ext.create({
+                            ...editorConfig,
+                            listeners: {
+                                change: 'onChangeEditor'
+                            }
+                        }),
                     });
 
                     return editor;

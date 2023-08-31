@@ -15,4 +15,16 @@ Ext.define('Spyglass.controller.DataviewHierarchyController', {
 
         me.getView().fireEvent('componentSelected', selected[0]);
     },
+    onItemDoubleClick: function (view, record, item, index, e, eOpts) {
+
+        var template = `
+        console.group("Comp Details :- " + '${record.data.id}')
+        console.log("Component ", Ext.getCmp('${record.data.id}'))
+        console.log("ViewModel ", Ext.getCmp('${record.data.id}').lookupViewModel())
+        console.groupEnd()
+        `;
+
+        CommonHelper.postParentMessage({ script: template });
+        Ext.toast("Component details print to console.");
+    }
 });

@@ -22,13 +22,16 @@ Ext.define('Spyglass.view.DataviewHierarchy', {
     emptyText: 'No records found !!!',
     cls: 'custom-list',
     onItemMouseEnter(record, item, index, e) {
-        CommonHelper.postParentMessage({ script: '9+4' })
+        var template = `new (${Spyglass.helperClass.HoverIn.toString()})('${record.data.id}')`;
+        CommonHelper.postParentMessage({ script: template })
     },
     onItemMouseLeave(record, item, index, e) {
-        console.log('Mouse Leave');
+        var template = `new (${Spyglass.helperClass.HoverOut.toString()})`;
+        CommonHelper.postParentMessage({ script: template });
     },
     listeners: {
         loadCompData: 'onLoadCompData',
         selectionchange: 'onSelectionChange',
+        itemdblclick: 'onItemDoubleClick'
     },
 });

@@ -1,5 +1,5 @@
-import { ComponentLocator } from './sandbox/app/common/ComponentLocator.js';
-import { NewComponentDetails } from './sandbox/app/common/NewComponentDetails.js';
+import { ComponentLocator } from './sandbox/app/helperClass/ComponentLocator.js';
+import { NewComponentDetails } from './sandbox/app/helperClass/NewComponentDetails.js';
 const extFrameWindow = document.getElementById('extjsFrameWindow');
 
 // Global window event listner for Ext js application sended
@@ -8,9 +8,6 @@ window.addEventListener('message', (event) => {
         // sended Error Message to Sandbox
         if (isException) {
             extFrameWindow.contentWindow.postMessage({ isError: true, ...isException }, '*');
-        }
-        else {
-            extFrameWindow.contentWindow.postMessage(result, '*');
         }
     });
 });
