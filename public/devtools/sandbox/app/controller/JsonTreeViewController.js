@@ -193,7 +193,10 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
             }
         }).show();
     },
-    onComponentRefresh: function (button) {
+    onComponentRerender: function (button) {
+        console.log("Component refresh added");
+    },
+    onDataRefresh: function (button) {
         console.log("Component refresh added");
     },
 });

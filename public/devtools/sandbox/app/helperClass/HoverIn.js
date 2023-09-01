@@ -16,6 +16,7 @@ export class HoverIn {
             parentDiv.style.border = '2px solid red';
             parentDiv.style.position = 'absolute';
             parentDiv.style.zIndex = '9999999';
+            parentDiv.style.boxSizing = 'border-box';
             parentDiv.classList.add('Spyglass-hover-in');
 
             document.body.appendChild(parentDiv);

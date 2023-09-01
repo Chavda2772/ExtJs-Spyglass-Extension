@@ -19,7 +19,12 @@
         {
             xtype: 'button',
             text: 'Rerender Component',
-            handler: 'onComponentRefresh'
+            handler: 'onComponentRerender'
+        },
+        {
+            xtype: 'button',
+            text: 'Refresh',
+            handler: 'onDataRefresh'
         },
     ],
 
