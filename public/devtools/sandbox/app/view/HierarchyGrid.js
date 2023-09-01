@@ -8,7 +8,7 @@ Ext.define('Spyglass.view.HierarchyGrid', {
     title: 'Hierarchy',
     hideHeaders: true,
     store: {},
-    flex: 1,
+    emptyText: 'No Records found !!!',
     columns: [{
         text: 'name',
         dataIndex: 'name',

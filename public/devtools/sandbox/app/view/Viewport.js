@@ -25,6 +25,7 @@ Ext.define('Spyglass.view.Viewport', {
             region: 'center',
             collapsible: false,
             scrollable: true,
+            layout: 'fit',
             items: {
                 xtype: 'hierarchyGrid',
                 itemId: 'dvComponentHierarchy',
