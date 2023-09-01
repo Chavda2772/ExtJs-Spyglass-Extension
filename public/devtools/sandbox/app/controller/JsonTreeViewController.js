@@ -5,9 +5,13 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
     onLoadComponentJson: function (selection) {
         var me = this;
         var view = me.getView();
+        var store = view.getStore();
+
+        if (store.isFiltered())
+            store.clearFilter();
 
         view.LoadedJson = selection.data;
-        view.items.items[0].getStore().setRoot(me.getTreeStoreFromJson(selection.data));
+        store.setRoot(me.getTreeStoreFromJson(selection.data));
     },
     getTreeStoreFromJson: function (jsonData) {
         var me = this;
@@ -172,5 +176,11 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
         }
 
         return returnObj;
-    }
+    },
+    onAddConfig: function (button) {
+        console.log("Config added");
+    },
+    onComponentRefresh: function (button) {
+        console.log("Component refresh added");
+    },
 });

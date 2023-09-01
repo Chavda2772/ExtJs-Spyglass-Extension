@@ -1,6 +1,6 @@
-Ext.define('Spyglass.controller.DataviewHierarchyController', {
+Ext.define('Spyglass.controller.HierarchyGridController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.dataviewHierarchyController',
+    alias: 'controller.hierarchyGridController',
 
     onLoadCompData: function (compData) {
         this.getView().getStore().setData(compData);
@@ -26,5 +26,24 @@ Ext.define('Spyglass.controller.DataviewHierarchyController', {
 
         CommonHelper.postParentMessage({ script: template });
         Ext.toast("Component details print to console.");
+    },
+    onRenderHierarchy: function (value, cell, record) {
+        var view = this.getView();
+        var tpl = view.lookupTpl('rowTpl');
+        var returnValue = value;
+
+        if (!Ext.Object.isEmpty(tpl)) {
+            returnValue = tpl.apply(record.data);
+        }
+
+        return returnValue;
+    },
+    onItemMouseEnter: function (column, record, item, index, e, eOpts) {
+        var template = `new (${Spyglass.helperClass.HoverIn.toString()})('${record.data.id}')`;
+        CommonHelper.postParentMessage({ script: template })
+    },
+    onItemMouseLeave: function (column, record, item, index, e, eOpts) {
+        var template = `new (${Spyglass.helperClass.HoverOut.toString()})`;
+        CommonHelper.postParentMessage({ script: template });
     }
 });

@@ -10,6 +10,19 @@
     // Custom Config
     LoadedJson: {},
 
+    tbar: [
+        {
+            xtype: 'button',
+            text: 'Add Config',
+            handler: 'onAddConfig'
+        },
+        {
+            xtype: 'button',
+            text: 'Rerender Component',
+            handler: 'onComponentRefresh'
+        },
+    ],
+
     plugins: {
         gridfilters: true,
         cellediting: {

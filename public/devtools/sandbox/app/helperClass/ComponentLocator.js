@@ -113,7 +113,7 @@ export class ComponentLocator {
             };
             return temp;
         } catch (e) {
-            debugger;
+            //debugger;
         }
     }
 

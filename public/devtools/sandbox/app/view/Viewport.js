@@ -1,10 +1,10 @@
 Ext.define('Spyglass.view.Viewport', {
     extend: 'Ext.container.Viewport',
     requires: [
-        'Spyglass.view.DataviewHierarchy',
         'Spyglass.view.JsonDataViewer',
         'Spyglass.controller.ViewportController',
         'Spyglass.view.JsonTreeView',
+        'Spyglass.view.HierarchyGrid',
         'Spyglass.common.CommonHelper',
         'Spyglass.common.TempData',
     ],
@@ -26,8 +26,9 @@ Ext.define('Spyglass.view.Viewport', {
             region: 'center',
             collapsible: false,
             scrollable: true,
+            flex: 1,
             items: {
-                xtype: 'dataviewHierarchy',
+                xtype: 'hierarchyGrid',
                 itemId: 'dvComponentHierarchy',
                 listeners: {
                     componentSelected: 'onComponentSelected',
