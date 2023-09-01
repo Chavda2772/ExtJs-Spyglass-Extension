@@ -197,6 +197,16 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
         console.log("Component refresh added");
     },
     onDataRefresh: function (button) {
-        console.log("Component refresh added");
+        var template = `Ext.getCmp('ext-button-5')`;
+
+        CommonHelper.postParentWithResponse({
+            script: template,
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
     },
 });
