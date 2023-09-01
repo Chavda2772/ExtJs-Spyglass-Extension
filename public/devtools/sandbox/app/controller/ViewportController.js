@@ -18,7 +18,13 @@ Ext.define('Spyglass.controller.ViewportController', {
                 // if Error Message
                 if (event.data.isError) {
                     console.error(event.data)
-                    Ext.toast(event.data.value);
+                    Ext.toast({
+                        html: event.data.value,
+                        closable: false,
+                        align: 't',
+                        slideDUration: 400,
+                        maxWidth: 400
+                    });
                     return;
                 }
 
@@ -32,7 +38,13 @@ Ext.define('Spyglass.controller.ViewportController', {
                 // if Error Message
                 if (event.data.isError) {
                     console.error(event.data)
-                    Ext.toast(event.data.value);
+                    Ext.toast({
+                        html: event.data.value,
+                        closable: false,
+                        align: 't',
+                        slideDUration: 400,
+                        maxWidth: 400
+                    });
                     return;
                 }
 

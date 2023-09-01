@@ -1,6 +1,6 @@
 ﻿Ext.define('Spyglass.view.JsonTreeView', {
     extend: 'Ext.tree.Panel',
-    requires: ['Spyglass.controller.JsonTreeViewController'],
+    requires: ['Spyglass.controller.JsonTreeViewController', 'Spyglass.view.AddConfig'],
 
     alias: ['widget.JsonTreeView'],
     controller: 'jsonTreeViewController',

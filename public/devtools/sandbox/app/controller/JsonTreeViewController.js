@@ -121,6 +121,8 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
             case 'boolean':
                 editorConfig = {
                     xtype: 'combobox',
+                    forceSelection: true,
+                    editable: false,
                     store: {
                         fields: ['display', 'valueField'],
                         data: [
@@ -178,7 +180,20 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
         return returnObj;
     },
     onAddConfig: function (button) {
-        console.log("Config added");
+        var view = this.getView();
+
+        Ext.create('Spyglass.view.AddConfig', {
+            listeners: {
+                addConfig: function (config) {
+                    var updateConfig = {
+                        [config.keyName]: config.value
+                    };
+
+                    var template = `new (${Spyglass.helperClass.UpdateComponent.toString()})('${JSON.stringify(updateConfig)}', '${view.LoadedJson.id}')`;
+                    CommonHelper.postParentMessage({ script: template })
+                }
+            }
+        }).show();
     },
     onComponentRefresh: function (button) {
         console.log("Component refresh added");
