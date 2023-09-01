@@ -161,8 +161,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
         //var updateConfig = me.getConfigToUpdate(record, newValue);
         //debugger;
 
-        var template = `new (${Spyglass.helperClass.UpdateComponent.toString()})('${JSON.stringify(updateConfig)}', '${view.LoadedJson.id}')`;
-        CommonHelper.postParentMessage({ script: template })
+        CommonHelper.postParentMessage(`new (${Spyglass.helperClass.UpdateComponent.toString()})('${JSON.stringify(updateConfig)}', '${view.LoadedJson.id}')`)
 
     },
     getConfigToUpdate: function (record, newValue) {
@@ -189,8 +188,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                         [config.keyName]: config.value
                     };
 
-                    var template = `new (${Spyglass.helperClass.UpdateComponent.toString()})('${JSON.stringify(updateConfig)}', '${view.LoadedJson.id}')`;
-                    CommonHelper.postParentMessage({ script: template })
+                    CommonHelper.postParentMessage(`new (${Spyglass.helperClass.UpdateComponent.toString()})('${JSON.stringify(updateConfig)}', '${view.LoadedJson.id}')`)
                 }
             }
         }).show();

@@ -17,14 +17,12 @@ Ext.define('Spyglass.controller.HierarchyGridController', {
     },
     onItemDoubleClick: function (view, record, item, index, e, eOpts) {
 
-        var template = `
+        CommonHelper.postParentMessage(`
         console.group("Comp Details :- " + '${record.data.id}')
         console.log("Component ", Ext.getCmp('${record.data.id}'))
         console.log("ViewModel ", Ext.getCmp('${record.data.id}').lookupViewModel())
         console.groupEnd()
-        `;
-
-        CommonHelper.postParentMessage({ script: template });
+        `);
         Ext.toast("Component details print to console.");
     },
     onRenderHierarchy: function (value, cell, record) {
@@ -39,11 +37,9 @@ Ext.define('Spyglass.controller.HierarchyGridController', {
         return returnValue;
     },
     onItemMouseEnter: function (column, record, item, index, e, eOpts) {
-        var template = `new (${Spyglass.helperClass.HoverIn.toString()})('${record.data.id}')`;
-        CommonHelper.postParentMessage({ script: template })
+        CommonHelper.postParentMessage(`new (${Spyglass.helperClass.HoverIn.toString()})('${record.data.id}')`)
     },
     onItemMouseLeave: function (column, record, item, index, e, eOpts) {
-        var template = `new (${Spyglass.helperClass.HoverOut.toString()})`;
-        CommonHelper.postParentMessage({ script: template });
+        CommonHelper.postParentMessage(`new (${Spyglass.helperClass.HoverOut.toString()})`);
     }
 });
