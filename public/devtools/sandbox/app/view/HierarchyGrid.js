@@ -5,9 +5,10 @@ Ext.define('Spyglass.view.HierarchyGrid', {
     alias: ['widget.hierarchyGrid'],
     controller: 'hierarchyGridController',
 
+    title: 'Hierarchy',
     hideHeaders: true,
-    layout: 'fit',
     store: {},
+    flex: 1,
     columns: [{
         text: 'name',
         dataIndex: 'name',
