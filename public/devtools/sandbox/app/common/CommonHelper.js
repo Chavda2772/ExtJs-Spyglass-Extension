@@ -44,5 +44,14 @@ Ext.define('Spyglass.common.CommonHelper', {
                 reject(err);
             }
         });
+    },
+    showToast: function (message) {
+        Ext.toast({
+            html: message,
+            closable: false,
+            align: 'lb?',
+            slideDUration: 400,
+            maxWidth: 400
+        });
     }
 });
