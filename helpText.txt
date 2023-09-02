@@ -1,1 +1,4 @@
 "dev": "vite --config vite.config.development.js",
+
+Powershell command to get list of files with path
+Get-ChildItem -Path D:\LogTest\FTP-02\ -Filter *.py -Recurse | %{$_.FullName}
