@@ -4,17 +4,17 @@
   "manifest_version": 3,
   "description": "Empower Sencha Ext JS developers with the ExtJS Spyglass Chrome extension. Easily inspect and debug Ext JS applications, navigate component hierarchies, modify properties in real-time, and gain deep insights into application behavior.",
   "devtools_page": "devtools/devtools.html",
-  "permissions": ["tabs", "scripting", "activeTab", "offscreen"],
+  "permissions": [ "tabs", "scripting", "activeTab", "offscreen" ],
   "minimum_chrome_version": "69",
   "icons": {
-    "16": "assets/img/logo-16.png",
-    "32": "assets/img/logo-32.png",
-    "48": "assets/img/logo-48.png",
-    "128": "assets/img/logo-128.png"
+    "16": "assets/img/icon16.png",
+    "32": "assets/img/icon32.png",
+    "48": "assets/img/icon48.png",
+    "128": "assets/img/icon128.png"
   },
   "action": {
     "default_title": "ExtJS Spyglass",
-    "default_icon": "assets/img/logo-32.png",
+    "default_icon": "assets/img/icon128.png",
     "default_popup": "popup/popup.html"
   },
   "background": {
@@ -23,22 +23,22 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["contentScript/contentScript.js"]
+      "matches": [ "http://*/*", "https://*/*" ],
+      "js": [ "contentScript/contentScript.js" ]
     }
   ],
   "sandbox": {
-    "pages": ["devtools/sandbox/sandbox.html"]
+    "pages": [ "devtools/sandbox/sandbox.html" ]
   },
   "web_accessible_resources": [
     {
       "resources": [
-        "assets/img/logo-16.png",
-        "assets/img/logo-32.png",
-        "assets/img/logo-48.png",
-        "assets/img/logo-128.png"
+        "assets/img/icon16.png",
+        "assets/img/icon32.png",
+        "assets/img/icon48.png",
+        "assets/img/icon128.png"
       ],
-      "matches": ["http://*/*", "https://*/*"]
+      "matches": [ "http://*/*", "https://*/*" ]
     }
   ]
 }
