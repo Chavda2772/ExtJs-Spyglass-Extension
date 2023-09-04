@@ -43,7 +43,7 @@ Ext.define('Spyglass.view.Viewport', {
             region: 'east',
             itemId: 'compDetailView',
             collapsible: true,
-            width: '70%',
+            width: '60%',
             layout: 'vbox',
             bind: {
                 hidden: '{isEmptyView}'

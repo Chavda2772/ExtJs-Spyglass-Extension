@@ -120,11 +120,14 @@ export class ComponentLocator {
     getComponentHierarchy(targetComponent) {
         var me = this;
         var componentHierarchy = [];
+
         var componentDetail = {
-            name: targetComponent.xtype,
+            id: targetComponent.id,
+            xtype: targetComponent.xtype,
+            xtypes: targetComponent.xtypes,
             className: targetComponent.$className,
             isExtComponent: false,
-            ...me.getComponentConfiguration(Ext.clone(targetComponent))
+            //...me.getComponentConfiguration(Ext.clone(targetComponent))
         };
 
         if (!targetComponent.$className.startsWith('Ext.')) {

@@ -18,7 +18,7 @@ Ext.define('Spyglass.view.HierarchyGrid', {
     rowTpl:
         '<tpl for=".">' +
         '<div class="list-item">' +
-        '<h4>{name}</h4>' +
+        '<h4>{xtype}</h4>' +
         '<p>{id}</p>' +
         '<p>{className}</p>' +
         '</div>' +
