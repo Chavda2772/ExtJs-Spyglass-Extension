@@ -197,32 +197,28 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
         console.log("Component refresh added");
     },
     onDataRefresh: function (button) {
-        var template = `Ext.getCmp('ext-button-5')`;
+        var me = this;
+        var view = me.getView();
 
-        CommonHelper.postParentWithResponse({
-            script: template,
-            success: function (data) {
-                console.log(data);
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
+        me.refreshComponentDetails(view.LoadedJson.id);
     },
     refreshComponentDetails: function (compId) {
         var me = this;
         var view = me.getView();
         var store = view.getStore();
 
+        view.setLoading(true);
         CommonHelper.postParentWithResponse({
             script: `new (${Spyglass.helperClass.ComponentDetail.toString()})('${compId}')`,
             success: function ({ componentDetail }) {
                 var jsonData = JSON.parse(componentDetail);
 
                 store.setRoot(me.getTreeStoreFromJson(jsonData));
+                view.setLoading(false)
             },
             error: function (error) {
                 console.error(error);
+                view.setLoading(false)
             }
         });
     }
