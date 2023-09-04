@@ -1,6 +1,7 @@
 import { HoverIn } from './app/helperClass/HoverIn.js';
 import { HoverOut } from './app/helperClass/HoverOut.js';
 import { UpdateComponent } from './app/helperClass/UpdateComponent.js';
+import { ComponentDetail } from './app/helperClass/ComponentDetail.js';
 
 Ext.application({
     requires: [
@@ -18,7 +19,8 @@ Ext.application({
         Spyglass.helperClass = {
             HoverIn,
             HoverOut,
-            UpdateComponent
+            UpdateComponent,
+            ComponentDetail
         }
     },
 });

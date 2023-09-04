@@ -11,7 +11,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
             store.clearFilter();
 
         view.LoadedJson = selection.data;
-        store.setRoot(me.getTreeStoreFromJson(selection.data));
+        me.refreshComponentDetails(selection.data.id);
     },
     getTreeStoreFromJson: function (jsonData) {
         var me = this;
@@ -209,4 +209,21 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
             }
         });
     },
+    refreshComponentDetails: function (compId) {
+        var me = this;
+        var view = me.getView();
+        var store = view.getStore();
+
+        CommonHelper.postParentWithResponse({
+            script: `new (${Spyglass.helperClass.ComponentDetail.toString()})('${compId}')`,
+            success: function ({ componentDetail }) {
+                var jsonData = JSON.parse(componentDetail);
+
+                store.setRoot(me.getTreeStoreFromJson(jsonData));
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
 });

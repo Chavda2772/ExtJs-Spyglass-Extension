@@ -18,7 +18,18 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
             .appendChild(me.viewerInstance.getContainer());
     },
     onLoadComponentJson: function (selection) {
-        console.log(selection.data);
-        this.viewerInstance.showJSON(selection.data);
+        var me = this;
+
+        CommonHelper.postParentWithResponse({
+            script: `new (${Spyglass.helperClass.ComponentDetail.toString()})('${selection.data.id}')`,
+            success: function ({ componentDetail }) {
+                var jsonData = JSON.parse(componentDetail);
+
+                me.viewerInstance.showJSON(jsonData);
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
     },
 });
