@@ -21,7 +21,6 @@ export default [
     // framework files    
     'public/devtools/sandbox/app/common/CommonHelper.js',
     'public/devtools/sandbox/app/common/Enums.js',
-    'public/devtools/sandbox/app/common/TempData.js',
     'public/devtools/sandbox/app/controller/HierarchyGridController.js',
     'public/devtools/sandbox/app/controller/JsonDataViewerController.js',
     'public/devtools/sandbox/app/controller/JsonTreeViewController.js',
