@@ -15,7 +15,7 @@ window.addEventListener('message', (event) => {
         if (isException) {
             response = { isError: true, ...isException };
         }
-        else if (!result) {
+        else if (result === undefined || result === null || result === '') {
             response = { result: true };
         }
         else {
