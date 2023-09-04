@@ -6,7 +6,6 @@ Ext.define('Spyglass.view.Viewport', {
         'Spyglass.view.JsonTreeView',
         'Spyglass.view.HierarchyGrid',
         'Spyglass.common.CommonHelper',
-        'Spyglass.common.TempData',
     ],
 
     alias: ['widget.mainViewport'],
