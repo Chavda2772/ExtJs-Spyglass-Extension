@@ -34,5 +34,22 @@ Ext.define('Spyglass.controller.ViewportController', {
         this.getViewModel().set({
             mode: button.mode
         });
+    },
+    onBeforeRender(viewport, eOpts) {
+        var me = this;
+        var vm = me.getViewModel();
+
+        var template = 'typeof Ext == "object"';
+        CommonHelper.postParentWithResponse({
+            script: template,
+            success: function (data) {
+                vm.set({
+                    isEmptyView: !data
+                });
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
     }
 });

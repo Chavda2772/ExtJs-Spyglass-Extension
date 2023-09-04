@@ -17,8 +17,9 @@ Ext.define('Spyglass.view.Viewport', {
     },
     viewModel: {
         data: {
-            mode: 'tree'
-        }
+            mode: 'tree',
+            isEmptyView: true
+        },
     },
     items: [
         {
@@ -26,6 +27,9 @@ Ext.define('Spyglass.view.Viewport', {
             collapsible: false,
             scrollable: true,
             layout: 'fit',
+            bind: {
+                hidden: '{isEmptyView}'
+            },
             items: {
                 xtype: 'hierarchyGrid',
                 itemId: 'dvComponentHierarchy',
@@ -41,6 +45,9 @@ Ext.define('Spyglass.view.Viewport', {
             collapsible: true,
             width: '70%',
             layout: 'vbox',
+            bind: {
+                hidden: '{isEmptyView}'
+            },
             header: {
                 items: [
                     {
@@ -87,9 +94,23 @@ Ext.define('Spyglass.view.Viewport', {
                 }
             ],
         },
+        {
+            region: 'west',
+            collapsible: false,
+            scrollable: true,
+            width: '100%',
+            bind: {
+                hidden: '{!isEmptyView}'
+            },
+            items: [{
+                xtype: 'displayfield',
+                fieldLabel: 'No Ext JS Site.',
+            }]
+        }
     ],
 
     listeners: {
         afterrender: 'onAfterRender',
+        beforerender: 'onBeforeRender'
     },
 });
