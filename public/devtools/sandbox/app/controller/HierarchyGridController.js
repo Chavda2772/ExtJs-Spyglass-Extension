@@ -3,7 +3,11 @@ Ext.define('Spyglass.controller.HierarchyGridController', {
     alias: 'controller.hierarchyGridController',
 
     onLoadCompData: function (compData) {
-        this.getView().getStore().setData(compData);
+        var view = this.getView();
+        var store = view.getStore();
+
+        store.setData(compData);
+        view.setSelection(store.getData().getAt(0));
     },
 
     onSelectionChange: function (dataview, selected, eOpts) {
