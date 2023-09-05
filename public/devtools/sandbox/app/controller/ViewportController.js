@@ -20,7 +20,15 @@ Ext.define('Spyglass.controller.ViewportController', {
             }
             else {
                 var data = JSON.parse(event.data.componentDetails);
-                viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', data);
+                if (data.operationType == 'emptydetail') {
+                    CommonHelper.showToast("No Component details found for element.");
+                }
+                else if (data.operationType == 'error') {
+                    CommonHelper.showToast(data.message);
+                }
+                else {
+                    viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', data);
+                }
             }
         }, false);
     },
@@ -33,10 +41,10 @@ Ext.define('Spyglass.controller.ViewportController', {
             mode: button.mode
         });
 
-        if (vm.get('mode') == "read") {
+        if (button.mode == "read") {
             view.down('#dvJsonViewer').fireEvent('detailViewChange');
         }
-        else if (vm.get('mode') == "tree") {
+        else if (button.mode == "tree") {
             view.down('#tvJsonTree').fireEvent('detailViewChange');
         }
 

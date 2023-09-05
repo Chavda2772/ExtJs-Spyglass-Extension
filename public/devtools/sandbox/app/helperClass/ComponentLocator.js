@@ -104,16 +104,28 @@ export class ComponentLocator {
 
             me.targetDomElement = element;
             me.component = Ext.Component.from(element);
-            //debugger;
-            var componentListDetails = this.getComponentHierarchy(this.component);
 
-            //var detail = me.getDataWithoutExcludedPropertys(me.component);
-            var temp = {
-                componentDetails: JSON.stringify([...componentListDetails])
+            if (Ext.Object.isEmpty(me.component)) {
+                return {
+                    componentDetails: JSON.stringify({
+                        operationType: "emptydetail",
+                    })
+                }
+            }
+
+            return {
+                componentDetails: JSON.stringify([...me.getComponentHierarchy(me.component)])
             };
-            return temp;
         } catch (e) {
             //debugger;
+            console.error(e);
+            return {
+                componentDetails: JSON.stringify({
+                    operationType: "error",
+                    message: e.message,
+                    errorStack: e
+                })
+            }
         }
     }
 
@@ -126,7 +138,7 @@ export class ComponentLocator {
             xtype: targetComponent.xtype,
             xtypes: targetComponent.xtypes,
             className: targetComponent.$className,
-            isExtComponent: false,
+            isExtComponent: true,
             //...me.getComponentConfiguration(Ext.clone(targetComponent))
         };
 

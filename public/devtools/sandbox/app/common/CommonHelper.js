@@ -49,9 +49,9 @@ Ext.define('Spyglass.common.CommonHelper', {
         Ext.toast({
             html: message,
             closable: false,
-            align: 'lb?',
-            slideDUration: 400,
-            maxWidth: 400
+            align: 'b',
+            slideDUration: 1000,
+            maxWidth: '70vw'
         });
     }
 });
