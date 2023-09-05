@@ -2,7 +2,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.jsonTreeViewController',
 
-    onLoadComponentJson: function (selection) {
+    onLoadComponentJson: function (selection, isActiveView) {
         var me = this;
         var view = me.getView();
         var store = view.getStore();
@@ -10,8 +10,10 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
         if (store.isFiltered())
             store.clearFilter();
 
+        // Set Config in View
         view.LoadedJson = selection.data;
-        me.refreshComponentDetails(selection.data.id);
+        if (isActiveView)
+            me.refreshComponentDetails(view.LoadedJson.id);
     },
     getTreeStoreFromJson: function (jsonData) {
         var me = this;
@@ -214,12 +216,17 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                 var jsonData = JSON.parse(componentDetail);
 
                 store.setRoot(me.getTreeStoreFromJson(jsonData));
-                view.setLoading(false)
+                view.setLoading(false);
+                console.log("Tree Json Loaded", jsonData);
             },
             error: function (error) {
                 console.error(error);
-                view.setLoading(false)
+                view.setLoading(false);
             }
         });
+    },
+    onDetailViewChange() {
+        var me = this;
+        me.refreshComponentDetails(me.getView().LoadedJson.id);
     }
 });

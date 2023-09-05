@@ -5,9 +5,10 @@ Ext.define('Spyglass.controller.ViewportController', {
     onComponentSelected: function (data) {
         var me = this;
         var view = me.getView();
+        var vm = me.getViewModel();
 
-        view.down('#dvJsonViewer').fireEvent('loadComponentJson', data);
-        view.down('#tvJsonTree').fireEvent('loadComponentJson', data);
+        view.down('#dvJsonViewer').fireEvent('loadComponentJson', data, vm.get('mode') == "read");
+        view.down('#tvJsonTree').fireEvent('loadComponentJson', data, vm.get('mode') == "tree");
     },
     onAfterRender: function (viewport, eOpts) {
         // Callback EventListener
@@ -24,9 +25,21 @@ Ext.define('Spyglass.controller.ViewportController', {
         }, false);
     },
     onChangeView: function (button, e) {
-        this.getViewModel().set({
+        var me = this;
+        var view = me.getView();
+        var vm = me.getViewModel();
+
+        vm.set({
             mode: button.mode
         });
+
+        if (vm.get('mode') == "read") {
+            view.down('#dvJsonViewer').fireEvent('detailViewChange');
+        }
+        else if (vm.get('mode') == "tree") {
+            view.down('#tvJsonTree').fireEvent('detailViewChange');
+        }
+
     },
     onBeforeRender(viewport, eOpts) {
         var me = this;

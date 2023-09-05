@@ -90,5 +90,6 @@
     ],
     listeners: {
         loadComponentJson: 'onLoadComponentJson',
+        detailViewChange: 'onDetailViewChange'
     },
 });
