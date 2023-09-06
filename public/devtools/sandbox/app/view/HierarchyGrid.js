@@ -25,7 +25,7 @@ Ext.define('Spyglass.view.HierarchyGrid', {
         '</tpl>',
     listeners: {
         loadCompData: 'onLoadCompData',
-        selectionchange: 'onSelectionChange',
+        select: 'onRecordSelect',
         itemdblclick: 'onItemDoubleClick',
         itemmouseenter: 'onItemMouseEnter',
         itemmouseleave: 'onItemMouseLeave'

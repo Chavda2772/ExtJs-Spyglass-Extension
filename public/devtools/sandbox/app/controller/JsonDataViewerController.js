@@ -22,7 +22,11 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
         var view = me.getView();
 
         view.LoadedJson = selection.data;
-        if (isActiveView) 
+
+        if (Ext.Object.isEmpty(selection))
+            me.viewerInstance.showJSON({});
+
+        if (isActiveView && view.LoadedJson?.id)
             me.refreshComponentDetails(view.LoadedJson.id);
     },
     refreshComponentJson(compId) {
@@ -48,6 +52,9 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
     },
     onDetailViewChange() {
         var me = this;
-        me.refreshComponentJson(me.getView().LoadedJson.id);
+        var view = me.getView();
+
+        if (view.LoadedJson?.id)
+            me.refreshComponentJson(view.LoadedJson.id);
     }
 });

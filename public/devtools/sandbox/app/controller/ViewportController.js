@@ -20,15 +20,16 @@ Ext.define('Spyglass.controller.ViewportController', {
             }
             else {
                 var data = JSON.parse(event.data.componentDetails);
-                if (data.operationType == 'emptydetail') {
+                var returnVal = {};
+
+                if (data.operationType == 'emptydetail')
                     CommonHelper.showToast("No Component details found for element.");
-                }
-                else if (data.operationType == 'error') {
+                else if (data.operationType == 'error')
                     CommonHelper.showToast(data.message);
-                }
-                else {
-                    viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', data);
-                }
+                else
+                    returnVal = data;
+
+                viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', returnVal);
             }
         }, false);
     },

@@ -6,6 +6,7 @@
     controller: 'jsonTreeViewController',
     rootVisible: false,
     width: '100%',
+    emptyText: 'No Records found !!!',
 
     // Custom Config
     LoadedJson: {},

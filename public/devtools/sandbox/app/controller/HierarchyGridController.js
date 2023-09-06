@@ -7,25 +7,34 @@ Ext.define('Spyglass.controller.HierarchyGridController', {
         var store = view.getStore();
 
         store.setData(compData);
-        view.setSelection(store.getData().getAt(0));
+
+        if (Ext.Object.isEmpty(compData)) {
+            view.fireEvent('componentSelected', {});
+        }
+        else {
+            view.setSelection(store.getAt(0));
+        }
     },
 
-    onSelectionChange: function (dataview, selected, eOpts) {
+    onRecordSelect: function (dataview, record, index, eOpts) {
         var me = this;
-        if (!selected[0]) {
+        var view = me.getView();
+
+        if (Ext.Object.isEmpty(record)) {
             Ext.toast('No record selected');
             return true;
         }
 
-        me.getView().fireEvent('componentSelected', selected[0]);
+        view.fireEvent('componentSelected', record);
     },
     onItemDoubleClick: function (view, record, item, index, e, eOpts) {
 
         CommonHelper.postParentMessage(`
-        console.group("Comp Details :- " + '${record.data.id}')
-        console.log("Component ", Ext.getCmp('${record.data.id}'))
-        console.log("ViewModel ", Ext.getCmp('${record.data.id}').lookupViewModel())
-        console.groupEnd()
+        console.group("Comp Details :- " + '${record.data.id}');
+        console.log("Component ", Ext.getCmp('${record.data.id}'));
+        console.log("ViewModel ", Ext.getCmp('${record.data.id}').lookupViewModel());
+        console.log("Controller ", Ext.getCmp('${record.data.id}').lookupController());
+        console.groupEnd();
         `);
         Ext.toast("Component details print to console.");
     },
