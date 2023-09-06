@@ -27,7 +27,7 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
             me.viewerInstance.showJSON({});
 
         if (isActiveView && view.LoadedJson?.id)
-            me.refreshComponentDetails(view.LoadedJson.id);
+            me.refreshComponentJson(view.LoadedJson.id);
     },
     refreshComponentJson(compId) {
         var me = this;
