@@ -7,27 +7,41 @@
     rootVisible: false,
     width: '100%',
     emptyText: 'No Records found !!!',
+    viewModel: {
+        data: {
+            emptyJson: true
+        }
+    },
+    bind: {
+        hideHeaders: '{emptyJson}',
+    },
 
     // Custom Config
     LoadedJson: {},
 
-    tbar: [
-        {
-            xtype: 'button',
-            text: 'Add Config',
-            handler: 'onAddConfig'
+    tbar: {
+        bind: {
+            hidden: '{emptyJson}'
         },
-        {
-            xtype: 'button',
-            text: 'Rerender Component',
-            handler: 'onComponentRerender'
-        },
-        {
-            xtype: 'button',
-            text: 'Refresh',
-            handler: 'onDataRefresh'
-        },
-    ],
+        items: [
+            {
+                xtype: 'button',
+                text: 'Add Config',
+                handler: 'onAddConfig'
+            },
+            {
+                xtype: 'button',
+                text: 'Rerender Component',
+                hidden: true,
+                handler: 'onComponentRerender'
+            },
+            {
+                xtype: 'button',
+                text: 'Refresh',
+                handler: 'onDataRefresh'
+            },
+        ]
+    },
 
     plugins: {
         gridfilters: true,

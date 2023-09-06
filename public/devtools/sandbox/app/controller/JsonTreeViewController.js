@@ -5,6 +5,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
     onLoadComponentJson: function (selection, isActiveView) {
         var me = this;
         var view = me.getView();
+        var vm = me.getViewModel();
         var store = view.getStore();
 
         if (store.isFiltered())
@@ -13,8 +14,13 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
         // Set Config in View
         view.LoadedJson = selection.data;
 
-        if (Ext.Object.isEmpty(selection))
+        if (Ext.Object.isEmpty(selection)) {
             store.setRoot({});
+            vm.set('emptyJson', true);
+        }
+        else {
+            vm.set('emptyJson', false);
+        }
 
         if (isActiveView && view.LoadedJson?.id)
             me.refreshComponentDetails(view.LoadedJson.id);
