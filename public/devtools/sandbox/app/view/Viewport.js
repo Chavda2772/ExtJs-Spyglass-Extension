@@ -24,7 +24,8 @@ Ext.define('Spyglass.view.Viewport', {
         {
             region: 'center',
             collapsible: false,
-            scrollable: true,
+            width: '40%',
+            flex: 1,
             layout: 'fit',
             bind: {
                 hidden: '{isEmptyView}'
