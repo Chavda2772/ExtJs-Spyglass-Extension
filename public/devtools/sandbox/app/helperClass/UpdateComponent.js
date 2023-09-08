@@ -7,7 +7,6 @@ export class UpdateComponent {
             var destinationConfig = reqData;
             var sourceConfig = comp.initialConfig;
 
-
             Object.keys(destinationConfig).forEach((item) => {
                 if (item.startsWith('_')) {
                     var keyName = item.substring(1);
@@ -18,7 +17,7 @@ export class UpdateComponent {
 
             var mergedProps = me.mergeConfigsObjects(sourceConfig, destinationConfig);
             if (!Ext.Object.isEmpty(comp) && !Ext.Object.isEmpty(mergedProps)) {
-                comp.setdConfig(mergedProps);
+                comp.setConfig(mergedProps);
             }
 
             return {
