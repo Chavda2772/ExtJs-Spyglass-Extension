@@ -26,7 +26,6 @@ export class UpdateComponent {
             }
         }
         catch (e) {
-            console.error(e);
             return {
                 success: false,
                 message: e.message

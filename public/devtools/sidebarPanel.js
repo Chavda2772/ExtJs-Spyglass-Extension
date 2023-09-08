@@ -1,4 +1,4 @@
-import { ComponentLocator } from './sandbox/app/helperClass/ComponentLocator.js';
+import { ComponentHierarchy } from './sandbox/app/helperClass/ComponentHierarchy.js';
 const extFrameWindow = document.getElementById('extjsFrameWindow');
 
 // Global window event listner for Framework iframe
@@ -50,10 +50,9 @@ chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
         //}
         //)
         chrome.devtools.inspectedWindow.eval(
-            'new (' + ComponentLocator.toString() + ')($0)',
+            'new (' + ComponentHierarchy.toString() + ')($0)',
             (result, isException) => {
                 if (isException) {
-                    console.error(isException);
                     // sended Error Message to framework 
                     extFrameWindow.contentWindow.postMessage(
                         { isError: true, ...isException },

@@ -25,7 +25,7 @@ export default [
     'public/devtools/sandbox/app/controller/JsonDataViewerController.js',
     'public/devtools/sandbox/app/controller/JsonTreeViewController.js',
     'public/devtools/sandbox/app/controller/ViewportController.js',
-    'public/devtools/sandbox/app/helperClass/ComponentLocator.js',
+    'public/devtools/sandbox/app/helperClass/ComponentHierarchy.js',
     'public/devtools/sandbox/app/helperClass/HoverIn.js',
     'public/devtools/sandbox/app/helperClass/HoverOut.js',
     'public/devtools/sandbox/app/helperClass/NewComponentDetails.js',

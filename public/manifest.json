@@ -1,6 +1,6 @@
 {
   "name": "ExtJS Spyglass",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "manifest_version": 3,
   "description": "Empower Sencha Ext JS developers with the ExtJS Spyglass Chrome extension. Easily inspect and debug Ext JS applications, navigate component hierarchies, modify properties in real-time, and gain deep insights into application behavior.",
   "devtools_page": "devtools/devtools.html",
