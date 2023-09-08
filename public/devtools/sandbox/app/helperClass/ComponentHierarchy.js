@@ -35,13 +35,7 @@ export class ComponentHierarchy {
             xtype: targetComponent.xtype,
             xtypes: targetComponent.xtypes,
             className: targetComponent.$className,
-            isExtComponent: true,
         };
-
-        if (!targetComponent.$className.startsWith('Ext.')) {
-            componentDetail.filePath = me.getFileLink(Ext.Loader.getPath(targetComponent.$className));
-            componentDetail.isExtComponent = false;
-        }
 
         componentHierarchy.push(componentDetail);
 
