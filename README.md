@@ -1,6 +1,6 @@
 # ExtJS Spyglass Chrome Extension (Beta)
 
-![ExtJS Spyglass Logo](logo.png)
+![ExtJS Spyglass Logo](https://github.com/Chavda2772/chrome-extjs-component/assets/66986475/e867bb3a-6137-4805-9659-82e9c6ca3126)
 
 ## Description
 ExtJS Spyglass is a powerful Chrome extension designed to enhance the development experience for Sencha Ext JS developers. This extension acts as a sophisticated toolset that enables developers to inspect, navigate, and understand their Ext JS applications more effectively. Just like a spyglass reveals hidden details, ExtJS Spyglass empowers developers to gain deep insights into their Ext JS components, configurations, and interactions, ultimately leading to more efficient development and debugging.
