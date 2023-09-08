@@ -1,4 +1,5 @@
 .list-item {
+    box-sizing: border-box;
     cursor: pointer;
     padding: 5px;
 }

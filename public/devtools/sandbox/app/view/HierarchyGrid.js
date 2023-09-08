@@ -13,7 +13,7 @@ Ext.define('Spyglass.view.HierarchyGrid', {
     columns: [{
         text: 'name',
         dataIndex: 'name',
-        flex: 1,
+        width: '100%',
         renderer: 'onRenderHierarchy'
     }],
     rowTpl:

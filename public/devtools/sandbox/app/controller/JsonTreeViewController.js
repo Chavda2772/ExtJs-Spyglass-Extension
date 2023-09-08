@@ -24,6 +24,8 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
 
         if (isActiveView && view.LoadedJson?.id)
             me.refreshComponentDetails(view.LoadedJson.id);
+
+        view.columns[0].sort('asc');
     },
     getTreeStoreFromJson: function (jsonData) {
         var me = this;
@@ -163,29 +165,38 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
         var view = me.getView();
         var record = field.up().record;
 
-        // backup
-        var updateConfig = {
-            [record.data.keyName]: newValue
-        };
-
         // Need Improvement
-        //debugger;
-        //var updateConfig = me.getConfigToUpdate(record, newValue);
-        //debugger;
+        var updateConfig = me.getConfigToUpdate(record, newValue);
 
         CommonHelper.postParentMessage(`new (${Spyglass.helperClass.UpdateComponent.toString()})('${JSON.stringify(updateConfig)}', '${view.LoadedJson.id}')`)
 
     },
-    getConfigToUpdate: function (record, newValue) {
+    getConfigToUpdate: function (record, value) {
         var me = this;
-        var view = me.getView();
-        var returnObj = {};
+        var returnObj;
 
-        if (newValue) {
-            returnObj[record.data.keyName] = newValue;
+        if (record.parentNode) {
+            var keyName = record.data.keyName;
+
+            if (keyName.startsWith('_')) {
+                keyName = keyName.substring(1);
+            }
+
+            if (record.parentNode.data.valueType == 'Array') {
+                returnObj = [];
+            }
+            else {
+                returnObj = {};
+            }
+
+            returnObj[keyName] = value;
         }
-        else if (Ext.Object.isEmpty()) {
 
+        if (record.isRoot()) {
+            return value;
+        }
+        else {
+            returnObj = me.getConfigToUpdate(record.parentNode, returnObj);
         }
 
         return returnObj;
