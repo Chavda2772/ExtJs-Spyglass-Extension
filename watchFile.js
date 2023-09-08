@@ -28,7 +28,6 @@ export default [
     'public/devtools/sandbox/app/helperClass/ComponentHierarchy.js',
     'public/devtools/sandbox/app/helperClass/HoverIn.js',
     'public/devtools/sandbox/app/helperClass/HoverOut.js',
-    'public/devtools/sandbox/app/helperClass/NewComponentDetails.js',
     'public/devtools/sandbox/app/helperClass/UpdateComponent.js',
     'public/devtools/sandbox/app/view/AddConfig.js',
     'public/devtools/sandbox/app/view/HierarchyGrid.js',
