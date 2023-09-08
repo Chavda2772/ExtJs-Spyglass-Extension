@@ -1,14 +1,19 @@
 Ext.define('Spyglass.view.JsonDataViewer', {
-  extend: 'Ext.panel.Panel',
-  requires: ['Spyglass.controller.JsonDataViewerController'],
+    extend: 'Ext.panel.Panel',
+    requires: ['Spyglass.controller.JsonDataViewerController'],
 
-  alias: ['widget.jsonDataViewer'],
-  controller: 'jsonDataViewerController',
+    alias: ['widget.jsonDataViewer'],
+    controller: 'jsonDataViewerController',
 
-  scrollable: true,
-  html: '<div id="JsonViwerData"></div>',
-  listeners: {
-    afterrender: 'onAfterrender',
-    loadComponentJson: 'onLoadComponentJson',
-  },
+    // Custom Config
+    LoadedJson: {},
+
+    scrollable: true,
+    width: '100%',
+
+    listeners: {
+        afterrender: 'onAfterrender',
+        loadComponentJson: 'onLoadComponentJson',
+        detailViewChange: 'onDetailViewChange'
+    },
 });

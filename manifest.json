@@ -33,12 +33,12 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "public/assets/img/icon16.png",
-        "public/assets/img/icon32.png",
-        "public/assets/img/icon48.png",
-        "public/assets/img/icon128.png",
-        "public/assets/icon128-red.png",
-        "public/assets/icon128-green.png"
+        "assets/img/icon16.png",
+        "assets/img/icon32.png",
+        "assets/img/icon48.png",
+        "assets/img/icon128.png",
+        "assets/icon128-red.png",
+        "assets/icon128-green.png"
       ],
       "matches": [ "http://*/*", "https://*/*" ]
     }
