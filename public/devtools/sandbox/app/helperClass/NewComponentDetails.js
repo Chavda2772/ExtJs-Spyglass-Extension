@@ -55,7 +55,6 @@ export class NewComponentDetails {
         } catch (e) {
             console.error(e)
         }
-        console.log(storeData);
         return {
             componentDetails: JSON.stringify({
                 expanded: true,
