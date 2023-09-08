@@ -1,4 +1,4 @@
-# ExtJS Spyglass Chrome Extension (Beta)
+# ExtJS Spyglass Extension (Beta)
 
 ![ExtJS Spyglass Logo](https://github.com/Chavda2772/chrome-extjs-component/assets/66986475/e867bb3a-6137-4805-9659-82e9c6ca3126)
 
