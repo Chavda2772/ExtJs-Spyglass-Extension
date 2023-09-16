@@ -4,3 +4,7 @@ Powershell command to get list of files with path
 Get-ChildItem -Path D:\LogTest\FTP-02\ -Filter *.py -Recurse | %{$_.FullName}
 
 This extension is used to debug Ext JS applications with component hierarchy and component details with ReadOnly view and TreeView which the user can modify to check the component effect and also provide component hover effect to check component area in current application view.
+
+"world": "MAIN", // to excute script directly
+
+"short_description": "Empower Ext JS developers with ExtJS Spyglass: Debug, inspect, and modify Ext JS apps effortlessly.",
