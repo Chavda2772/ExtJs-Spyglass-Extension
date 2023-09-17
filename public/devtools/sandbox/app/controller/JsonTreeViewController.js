@@ -70,6 +70,15 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                         leaf: true
                     });
                 }
+                else if (config[key] == null) {
+                    returnData.push({
+                        keyName: key,
+                        valueName: config[key],
+                        valueType: 'string',
+                        expanded: false,
+                        leaf: true
+                    });
+                }
                 else {
                     returnData.push({
                         keyName: key,
