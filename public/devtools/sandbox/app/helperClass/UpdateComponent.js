@@ -2,33 +2,130 @@ export class UpdateComponent {
     constructor(config, id) {
         var me = this;
         try {
-            var comp = Ext.getCmp(id);
+            var comp = me.comp = Ext.getCmp(id);
             var reqData = JSON.parse(config);
             var destinationConfig = reqData;
-            var sourceConfig = comp.initialConfig;
+            var firstKeyName = Object.keys(destinationConfig)[0];
 
-            Object.keys(destinationConfig).forEach((item) => {
-                if (item.startsWith('_')) {
-                    var keyName = item.substring(1);
-                    destinationConfig[keyName] = destinationConfig[item];
-                    delete destinationConfig[item];
-                }
-            });
-
-            var mergedProps = me.mergeConfigsObjects(sourceConfig, destinationConfig);
-            if (!Ext.Object.isEmpty(comp) && !Ext.Object.isEmpty(mergedProps)) {
-                comp.setConfig(mergedProps);
-            }
+            me.getLastComponetInstance(comp, firstKeyName, destinationConfig[firstKeyName])
 
             return {
                 success: true,
             }
         }
         catch (e) {
+            console.error(e);
             return {
                 success: false,
                 message: e.message
             }
+        }
+    }
+
+    getLastComponetInstance(componentConfig, key, configValue) {
+        var me = this;
+
+        if (typeof configValue == 'object') {
+            var childKey = Object.keys(configValue)[0];
+            var compConfig = {};
+
+            if (componentConfig[key] == undefined) {
+                var keyMethod = 'get' + key.substring(0, 1).toUpperCase() + key.substring(1);
+                if (typeof componentConfig[keyMethod] == 'function') {
+                    compConfig = componentConfig[keyMethod]()
+                }
+            }
+            else {
+                compConfig = componentConfig[key];
+            }
+
+            var isSuccess = me.getLastComponetInstance(compConfig, childKey, configValue[childKey]);
+
+            if (!isSuccess) {
+                if (componentConfig.isInstance) {
+                    return me.setRecursiveValue(componentConfig, key, configValue);
+                } else {
+                    return false;
+                }
+            }
+        }
+        else {
+            if (componentConfig.isInstance) {
+                var setterMethod = 'set' + key.substring(0, 1).toUpperCase() + key.substring(1);
+
+                if (typeof componentConfig[setterMethod] == 'function') {
+                    componentConfig[setterMethod](configValue);
+                }
+                else {
+                    componentConfig.setConfig({
+                        [key]: configValue
+                    });
+                }
+
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    setRecursiveValue(componentConfig, key, configValue) {
+        var me = this;
+
+        if (typeof configValue == 'object') {
+            var childComp = componentConfig[key];
+            var objKeys = Object.keys(childComp);
+            var hasChildInstance = false;
+
+            objKeys.forEach(item => {
+                if (childComp[item]?.isInstance) {
+                    hasChildInstance = true;
+                }
+            });
+
+            if (hasChildInstance) {
+                return me.setValueOnly(componentConfig, key, configValue);
+            }
+            else {
+                var merged = me.mergeConfigsObjects(childComp, configValue);
+                componentConfig.setConfig({
+                    [key]: merged
+                });
+                return true;
+            }
+        }
+        else {
+            componentConfig.setConfig({
+                [key]: configValue
+            })
+            return true;
+        }
+    }
+
+    setValueOnly(componentConfig, key, configValue, path = '') {
+        var me = this;
+        if (typeof configValue == 'object') {
+            var firKey = Object.keys(configValue)[0];
+            var retVal = me.setValueOnly(componentConfig, firKey, configValue[firKey], key + '.' + firKey);
+            return retVal;
+        }
+        else {
+            const pathArray = path.split('.');
+            let currentObj = componentConfig;
+
+            for (let i = 0; i < pathArray.length - 1; i++) {
+                const loopkey = pathArray[i];
+                if (!currentObj[loopkey] || typeof currentObj[loopkey] !== 'object') {
+                    currentObj[loopkey] = {};
+                }
+                currentObj = currentObj[loopkey];
+            }
+
+            const finalKey = pathArray[pathArray.length - 1];
+            currentObj[finalKey] = configValue;
+
+            return true;
         }
     }
 
