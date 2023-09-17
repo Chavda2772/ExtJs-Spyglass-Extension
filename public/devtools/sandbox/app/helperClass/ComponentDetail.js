@@ -120,7 +120,7 @@ export class ComponentDetail {
             xtype: targetComponent.xtype,
             xtypes: targetComponent.xtypes,
             className: targetComponent.$className,
-            isExtComponent: false,
+            isExtComponent: true,
             ...me.getComponentConfiguration(Ext.clone(targetComponent))
         };
 
@@ -236,6 +236,6 @@ export class ComponentDetail {
         var originalPath = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
 
         actualPath = window.location.origin + originalPath + '/' + filePath;
-        return `<a target="_blank" href="${actualPath}"> Raw File </a>`;
+        return `<a target="_blank" href="${actualPath}"> File Path </a>`;
     }
 }
