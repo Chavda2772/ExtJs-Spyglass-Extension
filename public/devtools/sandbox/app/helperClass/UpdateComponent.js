@@ -97,8 +97,6 @@ export class UpdateComponent {
     setRecursiveValue(componentConfig, key, configValue) {
         var me = this;
 
-        debugger;
-
         if (typeof configValue == 'object') {
             var childComp = componentConfig[key];
             var objKeys = Object.keys(childComp);
