@@ -7,10 +7,10 @@ export class UpdateComponent {
             var destinationConfig = reqData;
             var firstKeyName = Object.keys(destinationConfig)[0];
 
-            me.getLastComponetInstance(comp, firstKeyName, destinationConfig[firstKeyName])
+            var isSuccess = me.getLastComponetInstance(comp, firstKeyName, destinationConfig[firstKeyName])
 
             return {
-                success: true,
+                success: isSuccess,
             }
         }
         catch (e) {
@@ -29,7 +29,29 @@ export class UpdateComponent {
             var childKey = Object.keys(configValue)[0];
             var compConfig = {};
 
-            if (componentConfig[key] == undefined) {
+            if (Ext.isArray(configValue)) {
+                // for component config
+                if (!Ext.isArray(componentConfig[key])) {
+                    if (Ext.isArray(componentConfig[key][key])) {
+                        compConfig = componentConfig[key][key];
+                    }
+                    else {
+                        compConfig = componentConfig[key];
+                    }
+                }
+                else {
+                    compConfig = componentConfig[key];
+                }
+
+                // for key
+                configValue.forEach((item, idx) => {
+                    if (item) {
+                        childKey = idx + ''
+                    }
+                });
+
+            }
+            else if (componentConfig[key] == undefined) {
                 var keyMethod = 'get' + key.substring(0, 1).toUpperCase() + key.substring(1);
                 if (typeof componentConfig[keyMethod] == 'function') {
                     compConfig = componentConfig[keyMethod]()
@@ -48,6 +70,8 @@ export class UpdateComponent {
                     return false;
                 }
             }
+
+            return isSuccess;
         }
         else {
             if (componentConfig.isInstance) {
@@ -72,6 +96,8 @@ export class UpdateComponent {
 
     setRecursiveValue(componentConfig, key, configValue) {
         var me = this;
+
+        debugger;
 
         if (typeof configValue == 'object') {
             var childComp = componentConfig[key];
