@@ -37,6 +37,14 @@ export class ComponentHierarchy {
             className: targetComponent.$className,
         };
 
+        if (targetComponent.superclass.xtype == 'viewport') {
+            componentDetail.id = targetComponent.el?.dom?.id;
+
+            if (!componentDetail.id)
+                componentDetail.id = targetComponent.id;
+
+        }
+
         componentHierarchy.push(componentDetail);
 
         if (targetComponent.up()) {
