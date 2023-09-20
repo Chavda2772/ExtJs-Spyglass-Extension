@@ -5,7 +5,14 @@ export class RedefineComponent {
             var component = Ext.getCmp(compId);
 
             if (!component.$className.startsWith('Ext.')) {
-                var cmpPath = me.getFilePath(component.$className);
+                var compView = me.getFilePath(component.$className);
+
+                me.requestFileContent(compView);
+
+                if (!component.defaultListenerScope && !Ext.Object.isEmpty(component.getController())) {
+                    var compController = me.getFilePath(component.getController().$className)
+                    me.requestFileContent(compController);
+                }
 
             } else {
                 console.log("Ext js component cannot redefine")
@@ -25,6 +32,13 @@ export class RedefineComponent {
     }
 
     requestFileContent(filePath) {
-
+        Ext.Ajax.request({
+            url: filePath,
+            async: false,
+            callback: function (eopts, isSuccess, response) {
+                if (isSuccess)
+                    eval(response.responseText);
+            }
+        })
     }
 }

@@ -259,7 +259,9 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
 
                 store.setRoot(me.getTreeStoreFromJson(jsonData));
                 view.setLoading(false);
-                console.log("Tree Json Loaded", jsonData);
+                me.getViewModel().set({
+                    isExtComponent: jsonData.isExtComponent,
+                });
             },
             error: function (error) {
                 console.error(error);

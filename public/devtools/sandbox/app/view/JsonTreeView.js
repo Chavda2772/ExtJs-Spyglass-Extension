@@ -9,7 +9,8 @@
     emptyText: 'No Records found !!!',
     viewModel: {
         data: {
-            emptyJson: true
+            emptyJson: true,
+            isExtComponent: true
         }
     },
     bind: {
@@ -31,14 +32,16 @@
             },
             {
                 xtype: 'button',
-                text: 'Redefine Selected Component',
-                hidden: true,
-                handler: 'onComponentRedefine'
+                text: 'Refresh',
+                handler: 'onDataRefresh'
             },
             {
                 xtype: 'button',
-                text: 'Refresh',
-                handler: 'onDataRefresh'
+                text: 'Redefine Component',
+                handler: 'onComponentRedefine',
+                bind: {
+                    hidden: '{isExtComponent}'
+                }
             },
         ]
     },
