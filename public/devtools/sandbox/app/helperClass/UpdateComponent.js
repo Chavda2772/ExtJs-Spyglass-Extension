@@ -3,8 +3,7 @@ export class UpdateComponent {
         var me = this;
         try {
             var comp = me.comp = Ext.getCmp(id);
-            var reqData = JSON.parse(config);
-            var destinationConfig = reqData;
+            var destinationConfig = config;
             var firstKeyName = Object.keys(destinationConfig)[0];
 
             var isSuccess = me.getLastComponetInstance(comp, firstKeyName, destinationConfig[firstKeyName])
@@ -24,6 +23,10 @@ export class UpdateComponent {
 
     getLastComponetInstance(componentConfig, key, configValue) {
         var me = this;
+
+        if (Ext.Object.isEmpty(componentConfig)) {
+            return false;
+        }
 
         if (typeof configValue == 'object') {
             var childKey = Object.keys(configValue)[0];
@@ -96,34 +99,38 @@ export class UpdateComponent {
 
     setRecursiveValue(componentConfig, key, configValue) {
         var me = this;
+        try {
+            if (typeof configValue == 'object') {
+                var childComp = componentConfig[key];
+                var objKeys = Object.keys(childComp);
+                var hasChildInstance = false;
 
-        if (typeof configValue == 'object') {
-            var childComp = componentConfig[key];
-            var objKeys = Object.keys(childComp);
-            var hasChildInstance = false;
+                objKeys.forEach(item => {
+                    if (childComp[item]?.isInstance) {
+                        hasChildInstance = true;
+                    }
+                });
 
-            objKeys.forEach(item => {
-                if (childComp[item]?.isInstance) {
-                    hasChildInstance = true;
+                if (hasChildInstance) {
+                    return me.setValueOnly(componentConfig, key, configValue);
                 }
-            });
-
-            if (hasChildInstance) {
-                return me.setValueOnly(componentConfig, key, configValue);
+                else {
+                    var merged = me.mergeConfigsObjects(childComp, configValue);
+                    componentConfig.setConfig({
+                        [key]: merged
+                    });
+                    return true;
+                }
             }
             else {
-                var merged = me.mergeConfigsObjects(childComp, configValue);
                 componentConfig.setConfig({
-                    [key]: merged
-                });
+                    [key]: configValue
+                })
                 return true;
             }
-        }
-        else {
-            componentConfig.setConfig({
-                [key]: configValue
-            })
-            return true;
+
+        } catch (e) {
+            return false;
         }
     }
 
