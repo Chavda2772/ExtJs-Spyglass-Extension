@@ -31,9 +31,9 @@
             },
             {
                 xtype: 'button',
-                text: 'Rerender Component',
+                text: 'Redefine Selected Component',
                 hidden: true,
-                handler: 'onComponentRerender'
+                handler: 'onComponentRedefine'
             },
             {
                 xtype: 'button',

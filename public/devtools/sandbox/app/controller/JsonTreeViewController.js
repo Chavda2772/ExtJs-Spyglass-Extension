@@ -225,8 +225,19 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
             }
         }).show();
     },
-    onComponentRerender: function (button) {
-        console.log("Component refresh added");
+    onComponentRedefine: function (button) {
+        var me = this;
+        var view = me.getView();
+
+        CommonHelper.postParentWithResponse({
+            script: `new (${Spyglass.helperClass.RedefineComponent.toString()})('${view.LoadedJson.id}')`,
+            success: function (response) {
+
+            },
+            error: function (error) {
+
+            }
+        });
     },
     onDataRefresh: function (button) {
         var me = this;

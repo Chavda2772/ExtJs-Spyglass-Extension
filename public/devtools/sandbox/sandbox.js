@@ -2,6 +2,7 @@ import { HoverIn } from './app/helperClass/HoverIn.js';
 import { HoverOut } from './app/helperClass/HoverOut.js';
 import { UpdateComponent } from './app/helperClass/UpdateComponent.js';
 import { ComponentDetail } from './app/helperClass/ComponentDetail.js';
+import { RedefineComponent } from './app/helperClass/RedefineComponent.js';
 
 Ext.application({
     requires: [
@@ -20,7 +21,8 @@ Ext.application({
             HoverIn,
             HoverOut,
             UpdateComponent,
-            ComponentDetail
+            ComponentDetail,
+            RedefineComponent
         }
     },
 });
