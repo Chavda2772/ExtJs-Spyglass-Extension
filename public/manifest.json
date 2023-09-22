@@ -1,11 +1,11 @@
 {
   "name": "ExtJS Spyglass",
   "short_name": "Spyglass",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "manifest_version": 3,
   "description": "Empower Ext JS devs with ExtJS Spyglass Chrome extension. Inspect, debug, and gain insights into Ext JS apps.",
   "devtools_page": "devtools/devtools.html",
-  "permissions": [ "tabs", "scripting", "activeTab", "offscreen" ],
+  "permissions": [ "scripting", "activeTab", "offscreen" ],
   "minimum_chrome_version": "88",
   "icons": {
     "16": "assets/img/icon16.png",
