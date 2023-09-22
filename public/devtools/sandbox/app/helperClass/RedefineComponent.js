@@ -37,7 +37,9 @@ export class RedefineComponent {
             async: false,
             callback: function (eopts, isSuccess, response) {
                 if (isSuccess)
-                    eval(response.responseText);
+                    new Function(response.responseText)();
+                else
+                    console.error(response.responseText);
             }
         })
     }

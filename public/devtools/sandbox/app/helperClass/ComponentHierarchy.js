@@ -45,6 +45,12 @@ export class ComponentHierarchy {
 
         }
 
+        if (!componentDetail.xtype)
+            componentDetail.xtype = targetComponent.superclass.xtype;
+
+        if (!componentDetail.xtypes?.length)
+            componentDetail.xtypes = componentDetail.superclass.xtypes;
+
         componentHierarchy.push(componentDetail);
 
         if (targetComponent.up()) {
