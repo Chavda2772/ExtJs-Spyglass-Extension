@@ -36,9 +36,24 @@
                 handler: 'onDataRefresh'
             },
             {
-                xtype: 'button',
+                xtype: 'splitbutton',
                 text: 'Redefine Component',
                 handler: 'onComponentRedefine',
+                redefineType: 'both',
+                menu: [
+                    {
+                        text: 'Controller Only',
+                        iconCls: 'x-fa fa-gamepad',
+                        redefineType: 'controller',
+                        handler: 'onComponentRedefine'
+                    },
+                    {
+                        text: 'View Only',
+                        iconCls: 'x-fa fa-eye',
+                        redefineType: 'view',
+                        handler: 'onComponentRedefine'
+                    }
+                ],
                 bind: {
                     hidden: '{isExtComponent}'
                 }

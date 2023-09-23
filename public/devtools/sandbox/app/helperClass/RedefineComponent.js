@@ -1,25 +1,34 @@
 export class RedefineComponent {
-    constructor(compId) {
+    constructor(config) {
         var me = this;
         try {
-            var component = Ext.getCmp(compId);
+            var component = Ext.getCmp(config.compId);
 
-            if (!component.$className.startsWith('Ext.')) {
+            if (component.$className.startsWith('Ext.')) return true;
+
+            // Redefine view
+            if (config.reDefineType == 'both' || config.reDefineType == 'view') {
                 var compView = me.getFilePath(component.$className);
-
                 me.requestFileContent(compView);
+            }
 
+            // Redefine Controller
+            if (config.reDefineType == 'both' || config.reDefineType == 'controller') {
                 if (!component.defaultListenerScope && !Ext.Object.isEmpty(component.getController())) {
                     var compController = me.getFilePath(component.getController().$className)
                     me.requestFileContent(compController);
                 }
+            }
 
-            } else {
-                console.log("Ext js component cannot redefine")
+            return {
+                isSuccess: true,
             }
 
         } catch (e) {
-            //debugger;
+            return {
+                isSuccess: false,
+                message: e.message
+            }
         }
     }
 
@@ -32,15 +41,23 @@ export class RedefineComponent {
     }
 
     requestFileContent(filePath) {
+        var isSuccess = false;
+        var message = '';
         Ext.Ajax.request({
             url: filePath,
             async: false,
             callback: function (eopts, isSuccess, response) {
-                if (isSuccess)
+                if (isSuccess) {
                     new Function(response.responseText)();
-                else
-                    console.error(response.responseText);
+                    isSuccess = true;
+                }
+                else {
+                    message = 'Cannot redefine component. This may use production builds or using a bundler.';
+                    console.log(message);
+                }
             }
-        })
+        });
+
+        return isSuccess;
     }
 }
