@@ -240,7 +240,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
 
             },
             error: function (error) {
-                
+
             }
         });
     },
@@ -269,7 +269,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                 view.setLoading(false);
             },
             error: function (error) {
-                console.error(error);
+                console.error(error.message);
                 view.setLoading(false);
             }
         });

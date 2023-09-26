@@ -50,7 +50,7 @@ Ext.define('Spyglass.controller.HierarchyGridController', {
         return returnValue;
     },
     onItemMouseEnter: function (column, record, item, index, e, eOpts) {
-        CommonHelper.postParentMessage(`new (${Spyglass.helperClass.HoverIn.toString()})('${record.data.id}')`)
+        CommonHelper.postParentMessage(`new (${Spyglass.helperClass.HoverIn.toString()})('${record.data.hoverElId}')`)
     },
     onItemMouseLeave: function (column, record, item, index, e, eOpts) {
         CommonHelper.postParentMessage(`new (${Spyglass.helperClass.HoverOut.toString()})`);

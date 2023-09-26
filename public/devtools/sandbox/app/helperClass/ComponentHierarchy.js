@@ -32,24 +32,21 @@ export class ComponentHierarchy {
 
         var componentDetail = {
             id: targetComponent.id,
+            hoverElId: targetComponent.id,
             xtype: targetComponent.xtype,
             xtypes: targetComponent.xtypes,
             className: targetComponent.$className,
         };
 
         if (targetComponent.superclass.xtype == 'viewport') {
-            componentDetail.id = targetComponent.el?.dom?.id;
-
-            if (!componentDetail.id)
-                componentDetail.id = targetComponent.id;
-
+            componentDetail.hoverElId = targetComponent.el?.dom?.id || targetComponent.id;
         }
 
         if (!componentDetail.xtype)
-            componentDetail.xtype = targetComponent.superclass.xtype;
+            componentDetail.xtype = targetComponent?.superclass?.xtype || '';
 
         if (!componentDetail.xtypes?.length)
-            componentDetail.xtypes = componentDetail.superclass.xtypes;
+            componentDetail.xtypes = componentDetail?.superclass?.xtypes || '';
 
         componentHierarchy.push(componentDetail);
 

@@ -54,7 +54,7 @@ Ext.define('Spyglass.controller.ViewportController', {
         var me = this;
         var vm = me.getViewModel();
 
-        var template = 'typeof Ext == "object"';
+        var template = 'typeof Ext?.versions == "object"';
         CommonHelper.postParentWithResponse({
             script: template,
             success: function (data) {

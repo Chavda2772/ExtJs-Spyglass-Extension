@@ -1,0 +1,7 @@
+.Spyglass-hover-in {
+    background-color: #a0c5e8a8;
+    border: 2px solid red;
+    position: absolute;
+    z-index: 9999999;
+    box-sizing: border-box;
+}

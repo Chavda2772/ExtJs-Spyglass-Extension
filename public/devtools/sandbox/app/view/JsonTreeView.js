@@ -115,6 +115,7 @@
             text: 'typeOf',
             dataIndex: 'valueType',
             flex: 1,
+            hidden: true,
             filter: {
                 type: 'string',
                 operator: '/='
