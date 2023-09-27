@@ -1,26 +1,25 @@
 import { defineConfig } from 'vite';
-// import { viteStaticCopy } from 'vite-plugin-static-copy';
-import path from 'path';
-import watchFiles from './watchFile';
+import fg from 'fast-glob';
 
 export default defineConfig(({ mode }) => {
-  return {
-    build: {
-      emptyOutDir: true,
-      rollupOptions: {
-        input: watchFiles,
-      },
-      outDir: 'build',
-    },
-    plugins: [
-      // viteStaticCopy({
-      //   targets: [
-      //     {
-      //       src: path.resolve(__dirname, './src') + '/ [!.]*', // exclude dotfiles
-      //       dest: './', // copy to the root of the output directory
-      //     },
-      //   ],
-      // }),
-    ],
-  };
+    return {
+        build: {
+            emptyOutDir: true,
+            rollupOptions: {
+                input: ['./public/manifest.json'],
+            },
+            outDir: 'build',
+        },
+        plugins: [{
+            name: 'watch-external',
+            async buildStart() {
+                const files = await fg('public/**/*');
+                for (let file of files) {
+                    if (!file.includes('/thidparty/')) {
+                        this.addWatchFile(file);
+                    }
+                }
+            }
+        }],
+    };
 });
