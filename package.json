@@ -1,10 +1,10 @@
 {
   "name": "extjs-spyglass",
   "private": true,
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "scripts": {
-    "dev": "vite build --watch --config vite.config.development.js",
+    "dev": "vite build --watch --config vite.config.js",
     "build": "vite build",
     "preview": "vite preview"
   },

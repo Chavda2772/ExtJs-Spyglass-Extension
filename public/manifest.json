@@ -1,7 +1,7 @@
 {
   "name": "ExtJS Spyglass",
   "short_name": "Spyglass",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "manifest_version": 3,
   "description": "Empower Ext JS devs with ExtJS Spyglass Chrome extension. Inspect, debug, and gain insights into Ext JS apps.",
   "devtools_page": "devtools/devtools.html",
@@ -26,7 +26,8 @@
     {
       "matches": [ "http://*/*", "https://*/*" ],
       "js": [ "contentScript/contentScript.js" ],
-      "css": [ "contentScript/spyglassMain.css" ]
+      "css": [ "contentScript/spyglassMain.css" ],
+      "world": "MAIN"
     }
   ],
   "sandbox": {
@@ -35,7 +36,6 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "contentScript/inject.js",
         "assets/img/icon16.png",
         "assets/img/icon32.png",
         "assets/img/icon48.png",
