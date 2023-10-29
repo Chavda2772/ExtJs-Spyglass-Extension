@@ -53,5 +53,26 @@ Ext.define('Spyglass.common.CommonHelper', {
             slideDUration: 1000,
             maxWidth: '70vw'
         });
+    },
+    sortObject: function (unSortObject, direction = "asc") {
+        if (!Ext.isObject(unSortObject)) {
+            console.error("No object found !!")
+            return {};
+        }
+
+        var collectionList = Object.keys(unSortObject).sort();
+
+        if (direction != 'asc')
+            collectionList = collectionList.toReversed();
+
+        try {
+            return collectionList.reduce((obj, key) => {
+                obj[key] = unSortObject[key];
+                return obj;
+            }, {});
+        } catch (e) {
+            console.error(e)
+            return {};
+        }
     }
 });

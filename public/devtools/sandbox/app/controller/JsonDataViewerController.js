@@ -4,6 +4,7 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
 
     viewerId: '',
     viewerInstance: null,
+    viewerJsonData: {},
 
     onAfterrender: function () {
         var me = this;
@@ -32,15 +33,31 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
     refreshComponentJson(compId) {
         var me = this;
         var view = me.getView();
+        var vm = view.getViewModel();
 
         view.setLoading(true);
         CommonHelper.postParentWithResponse({
             script: `new (${Spyglass.helperClass.ComponentDetail.toString()})('${compId}')`,
             success: function ({ componentDetail }) {
-                var jsonData = JSON.parse(componentDetail);
+                try {
+                    var jsonData = JSON.parse(componentDetail);
+                    var orderObj = CommonHelper.sortObject(jsonData, vm.get('sortedOrder'))
 
-                me.viewerInstance.showJSON(jsonData);
-                console.log("Data Loaded", jsonData);
+                    if (Ext.Object.isEmpty(orderObj))
+                        orderObj = jsonData;
+
+                    if (Ext.Object.isEmpty(orderObj))
+                        vm.set('emptyJson', true);
+                    else
+                        vm.set('emptyJson', false);
+
+                    me.viewerJsonData = orderObj;
+                    me.viewerInstance.showJSON(orderObj);
+                    console.log("Data Loaded.");
+                } catch (e) {
+                    vm.set('emptyJson', true);
+                    console.log("Error While loading data :- ", e);
+                }
                 view.setLoading(false);
             },
             error: function (error) {
@@ -56,5 +73,14 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
 
         if (view.LoadedJson?.id)
             me.refreshComponentJson(view.LoadedJson.id);
+    },
+    onSortViewerData: function (button) {
+        var me = this;
+        var vm = me.getViewModel();
+        var sortOrder = button.SortOrder;
+        var sortedData = CommonHelper.sortObject(me.viewerJsonData, sortOrder);
+
+        vm.set('sortedOrder', sortOrder);
+        me.viewerInstance.showJSON(sortedData);
     }
 });

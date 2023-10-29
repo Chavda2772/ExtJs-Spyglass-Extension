@@ -125,8 +125,12 @@ export class ComponentDetail {
         };
 
         if (!targetComponent.$className.startsWith('Ext.')) {
-            componentDetail.filePath = me.getFileLink(Ext.Loader.getPath(targetComponent.$className));
             componentDetail.isExtComponent = false;
+
+            if (targetComponent?.$className)
+                componentDetail.ViewFile = me.getFileLink(Ext.Loader.getPath(targetComponent?.$className));
+            if (targetComponent.lookupController()?.$className)
+                componentDetail.ControllerFile = me.getFileLink(Ext.Loader.getPath(targetComponent.lookupController()?.$className));
         }
 
         return componentDetail;
@@ -167,7 +171,6 @@ export class ComponentDetail {
             return value.map((item) => {
                 return this.stringify(item, key, component, level + 1)
             });
-
         }
 
         if (Ext.isFunction(value)) {
@@ -231,6 +234,11 @@ export class ComponentDetail {
     }
 
     getFileLink(filePath) {
+        if (!filePath) {
+            console.log("File Path is blank !!!")
+            return "";
+        }
+
         var actualPath = '';
         var location = window.location;
         var originalPath = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
