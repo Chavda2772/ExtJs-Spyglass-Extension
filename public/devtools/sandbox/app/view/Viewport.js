@@ -85,11 +85,14 @@ Ext.define('Spyglass.view.Viewport', {
                     {
                         xtype: 'button',
                         text: 'Add Config',
+                        iconCls: 'x-fas fa-plus',
+                        tooltip: 'Add new Configuration',
                         handler: 'onAddConfig'
                     },
                     {
                         xtype: 'button',
                         text: 'Refresh',
+                        tooltip: 'Refresh component details',
                         iconCls: 'x-fa fa-sync-alt',
                         handler: 'onRefreshDetail'
                     },

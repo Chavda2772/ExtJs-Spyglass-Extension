@@ -37,6 +37,26 @@ Ext.define('Spyglass.controller.ViewportController', {
                 viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', returnVal);
             }
         }, false);
+
+        // Get component hierarchy details
+        CommonHelper.postParentWithResponse({
+            script: `new (${Spyglass.helperClass.ComponentHierarchy.toString()})($0)`,
+            success: function (response) {
+                var data = JSON.parse(response.componentDetails);
+
+                if (data.operationType == 'emptydetail') {
+                    CommonHelper.showToast("No Component details found for element.");
+                }
+                else if (data.operationType == 'error') {
+                    CommonHelper.showToast(data.message);
+                }
+                else if (!Ext.Object.isEmpty(data)) {
+                    viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', data);
+                }
+
+            },
+            error: function (error) { }
+        });
     },
     onChangeView: function (button, e) {
         var me = this;
