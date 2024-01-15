@@ -8,7 +8,7 @@ Ext.define('Spyglass.controller.ViewportController', {
         var vm = me.getViewModel();
 
         vm.set({
-            recordId: data.get('id'),
+            cmpId: data.get('id'),
             isExtComponent: data.get('isExtComponent')
         });
 
@@ -73,16 +73,17 @@ Ext.define('Spyglass.controller.ViewportController', {
         });
     },
     onAddConfig: function (button) {
-        var view = this.getView();
+        var vm = this.getView().getViewModel();
 
         Ext.create('Spyglass.view.AddConfig', {
             listeners: {
                 addConfig: function (config) {
+                    var cmpId = vm.get("cmpId");
                     var updateConfig = {
                         [config.keyName]: config.value
                     };
-
-                    CommonHelper.postParentMessage(`new (${Spyglass.helperClass.UpdateComponent.toString()})(${JSON.stringify(updateConfig)}, '${view.LoadedJson.id}')`)
+                    
+                    CommonHelper.postParentMessage(`new (${Spyglass.helperClass.UpdateComponent.toString()})(${JSON.stringify(updateConfig)}, '${cmpId}')`)
                 }
             }
         }).show();
@@ -109,9 +110,9 @@ Ext.define('Spyglass.controller.ViewportController', {
     onComponentRedefine: function (button) {
         var me = this;
         var view = me.getView();
-        
+
         var config = {
-            compId: view.getViewModel().get('recordId'),
+            compId: view.getViewModel().get('cmpId'),
             reDefineType: button.redefineType
         }
 

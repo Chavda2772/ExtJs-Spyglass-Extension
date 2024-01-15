@@ -96,12 +96,16 @@ Ext.define('Spyglass.view.AddConfig', {
             return;
         }
 
-        if (frmValues.configType == 'number' && isNaN(frmValues.value)) {
+        if (frmValues.configType == 'number') {
             var valuefld = view.down('#txtConfigValue');
 
-            valuefld.markInvalid('Provide Valid number');
-            valuefld.focus();
-            return;
+            if (isNaN(Number(frmValues.value))) {
+                valuefld.markInvalid('Provide Valid number');
+                valuefld.focus();
+                return;
+            }
+
+            frmValues.value = Number(frmValues.value);
         }
 
         if (frmValues.configType == 'boolean')

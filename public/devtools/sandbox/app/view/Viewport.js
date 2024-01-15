@@ -21,7 +21,7 @@ Ext.define('Spyglass.view.Viewport', {
             isEmptyView: true,
 
             // Record
-            recordId: '',
+            cmpId: '',
             isExtComponent: false
         },
     },
