@@ -20,47 +20,6 @@
     // Custom Config
     LoadedJson: {},
 
-    tbar: {
-        bind: {
-            hidden: '{emptyJson}'
-        },
-        items: [
-            {
-                xtype: 'button',
-                text: 'Add Config',
-                handler: 'onAddConfig'
-            },
-            {
-                xtype: 'button',
-                text: 'Refresh',
-                handler: 'onDataRefresh'
-            },
-            {
-                xtype: 'splitbutton',
-                text: 'Redefine Component',
-                handler: 'onComponentRedefine',
-                redefineType: 'both',
-                menu: [
-                    {
-                        text: 'Controller Only',
-                        iconCls: 'x-fa fa-gamepad',
-                        redefineType: 'controller',
-                        handler: 'onComponentRedefine'
-                    },
-                    {
-                        text: 'View Only',
-                        iconCls: 'x-fa fa-eye',
-                        redefineType: 'view',
-                        handler: 'onComponentRedefine'
-                    }
-                ],
-                bind: {
-                    hidden: '{isExtComponent}'
-                }
-            },
-        ]
-    },
-
     plugins: {
         gridfilters: true,
         cellediting: {
@@ -123,7 +82,7 @@
         },
     ],
     listeners: {
+        refreshData: 'onRefreshData',
         loadComponentJson: 'onLoadComponentJson',
-        detailViewChange: 'onDetailViewChange'
     },
 });

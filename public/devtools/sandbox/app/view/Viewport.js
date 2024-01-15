@@ -17,7 +17,12 @@ Ext.define('Spyglass.view.Viewport', {
     viewModel: {
         data: {
             mode: 'read',
-            isEmptyView: true
+            sortedOrder: 'asc',
+            isEmptyView: true,
+
+            // Record
+            recordId: '',
+            isExtComponent: false
         },
     },
     items: [
@@ -72,6 +77,72 @@ Ext.define('Spyglass.view.Viewport', {
                                 },
                             }
                         ],
+                    }
+                ]
+            },
+            tbar: {
+                items: [
+                    {
+                        xtype: 'button',
+                        text: 'Add Config',
+                        handler: 'onAddConfig'
+                    },
+                    {
+                        xtype: 'button',
+                        text: 'Refresh',
+                        iconCls: 'x-fa fa-sync-alt',
+                        handler: 'onRefreshDetail'
+                    },
+                    {
+                        xtype: 'splitbutton',
+                        text: 'Redefine',
+                        tooltip: 'Redefine Component',
+                        handler: 'onComponentRedefine',
+                        redefineType: 'both',
+                        bind: {
+                            hidden: '{isExtComponent}'
+                        },
+                        menu: [
+                            {
+                                text: 'Controller Only',
+                                iconCls: 'x-fa fa-gamepad',
+                                redefineType: 'controller',
+                                handler: 'onComponentRedefine'
+                            },
+                            {
+                                text: 'View Only',
+                                iconCls: 'x-fa fa-eye',
+                                redefineType: 'view',
+                                handler: 'onComponentRedefine'
+                            }
+                        ],
+                    },
+                    '->',
+                    {
+                        xtype: 'segmentedbutton',
+                        bind: {
+                            hidden: '{mode != "read"}',
+                        },
+                        items: [
+                            {
+                                iconCls: 'x-fas fa-sort-alpha-down',
+                                tooltip: 'Sort Ascending',
+                                SortOrder: 'asc',
+                                handler: 'onSortOrderChange',
+                                bind: {
+                                    pressed: '{sortedOrder == "asc"}',
+                                },
+                            },
+                            {
+                                iconCls: 'x-fas fa-sort-alpha-up-alt',
+                                tooltip: 'Sort Descending',
+                                SortOrder: 'desc',
+                                handler: 'onSortOrderChange',
+                                bind: {
+                                    pressed: '{sortedOrder == "desc"}',
+                                }
+                            }
+                        ]
                     }
                 ]
             },

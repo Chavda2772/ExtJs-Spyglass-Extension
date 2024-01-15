@@ -67,7 +67,7 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
             }
         });
     },
-    onDetailViewChange() {
+    onRefreshData() {
         var me = this;
         var view = me.getView();
 
@@ -81,6 +81,13 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
         var sortedData = CommonHelper.sortObject(me.viewerJsonData, sortOrder);
 
         vm.set('sortedOrder', sortOrder);
+        me.viewerInstance.showJSON(sortedData);
+    },
+    onChangeSortOrder: function (sort) {
+        var me = this;
+        var sortedData = CommonHelper.sortObject(me.viewerJsonData, sort);
+
+        me.getViewModel().set('sortedOrder', sort);
         me.viewerInstance.showJSON(sortedData);
     }
 });

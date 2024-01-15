@@ -1,8 +1,11 @@
 export class HoverIn {
     constructor(id) {
         var element = document.getElementById(id);
+        var ghostEl = document.getElementById('Spyglass-ghost');
 
-        if (element) {
+        if (ghostEl) ghostEl.remove();
+
+        if (element) {            
             // Element Details
             var cordinates = element.getBoundingClientRect();
             var parentDiv = document.createElement('div');
