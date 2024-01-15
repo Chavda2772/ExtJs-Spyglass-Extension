@@ -73,7 +73,8 @@ Ext.define('Spyglass.controller.ViewportController', {
         });
     },
     onAddConfig: function (button) {
-        var vm = this.getView().getViewModel();
+        var me = this;
+        var vm = me.getView().getViewModel();
 
         Ext.create('Spyglass.view.AddConfig', {
             listeners: {
@@ -82,8 +83,13 @@ Ext.define('Spyglass.controller.ViewportController', {
                     var updateConfig = {
                         [config.keyName]: config.value
                     };
-                    
-                    CommonHelper.postParentMessage(`new (${Spyglass.helperClass.UpdateComponent.toString()})(${JSON.stringify(updateConfig)}, '${cmpId}')`)
+
+                    CommonHelper.postParentWithResponse({
+                        script: `new (${Spyglass.helperClass.UpdateComponent.toString()})(${JSON.stringify(updateConfig)}, '${cmpId}')`,
+                        success: function () {
+                            me.onRefreshDetail();
+                        }
+                    })
                 }
             }
         }).show();
