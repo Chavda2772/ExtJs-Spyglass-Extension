@@ -20,6 +20,7 @@ Ext.define('Spyglass.view.JsonDataViewer', {
         afterrender: 'onAfterrender',
         loadComponentJson: 'onLoadComponentJson',
         refreshData: 'onRefreshData',
-        changeSortOrder: 'onChangeSortOrder'
+        changeSortOrder: 'onChangeSortOrder',
+        filterData: 'onFilterData'
     },
 });

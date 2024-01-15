@@ -98,6 +98,20 @@ Ext.define('Spyglass.view.Viewport', {
                                 tooltip: 'Redefine specific class',
                                 handler: 'onRedefineFile'
                             },
+                            {
+                                text: 'Search',
+                                iconCls: 'x-fas fa-file-contract',
+                                tooltip: 'Search',
+                                hidden: true,
+                                menu: [
+                                    {
+                                        xtype: 'textfield',
+                                        listeners: {
+                                            change: 'onSearchJson'
+                                        }
+                                    }
+                                ]
+                            },
                         ]
                     },
                     {

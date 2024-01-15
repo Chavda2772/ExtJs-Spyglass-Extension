@@ -89,5 +89,21 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
 
         me.getViewModel().set('sortedOrder', sort);
         me.viewerInstance.showJSON(sortedData);
+    },
+    onFilterData: function (val) {
+        var me = this;        
+        retdata = me.findNestedObj(me.viewerJsonData, val);
+    },
+
+    // Helper function
+    findNestedObj: function (entireObj, keyToFind, valToFind) {
+        let foundObj;
+        JSON.stringify(entireObj, (_, nestedValue) => {
+            if (nestedValue && nestedValue[keyToFind] === valToFind) {
+                foundObj = nestedValue;
+            }
+            return nestedValue;
+        });
+        return foundObj;
     }
 });

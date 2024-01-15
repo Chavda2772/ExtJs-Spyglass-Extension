@@ -156,5 +156,8 @@ Ext.define('Spyglass.controller.ViewportController', {
         Ext.create({
             xtype: 'redefineFile',
         }).show();
+    },
+    onSearchJson: function (txt, newValue, oldValue, eOpts) {
+        this.getView().down('#dvJsonViewer').fireEvent('filterData', newValue);
     }
 });
