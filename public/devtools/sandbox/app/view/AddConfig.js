@@ -1,16 +1,15 @@
 Ext.define('Spyglass.view.AddConfig', {
-    extend: 'Ext.panel.Panel',
+    extend: 'Ext.window.Window',
 
     alias: ['widget.addConfig'],
 
     title: 'Add Config',
     modal: true,
-    fixed: true,
-    width: 500,
-    height: '100%',
-    floating: true,
+    width: 500,    
     closable: true,
-    defaultAlign: 'tr-br?',
+    defaultFocus: '#txtConfigKey',
+    maximizable: false,
+    bodyPadding: 10,
     defaultListenerScope: true,
     dockedItems: [{
         xtype: 'toolbar',
@@ -67,8 +66,8 @@ Ext.define('Spyglass.view.AddConfig', {
                     store: {
                         fields: ['display', 'valueField'],
                         data: [
-                            { display: 'Number', valueField: 'number' },
                             { display: 'String', valueField: 'string' },
+                            { display: 'Number', valueField: 'number' },
                             { display: 'Boolean', valueField: 'boolean' },
                         ],
                     },

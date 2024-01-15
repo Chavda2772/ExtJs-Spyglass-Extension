@@ -5,6 +5,7 @@ Ext.define('Spyglass.view.Viewport', {
         'Spyglass.controller.ViewportController',
         'Spyglass.view.JsonTreeView',
         'Spyglass.view.HierarchyGrid',
+        'Spyglass.view.RedefineFile',
         'Spyglass.common.CommonHelper',
     ],
 
@@ -83,14 +84,23 @@ Ext.define('Spyglass.view.Viewport', {
             tbar: {
                 items: [
                     {
-                        xtype: 'button',
-                        text: 'Add Config',
-                        iconCls: 'x-fas fa-plus',
-                        tooltip: 'Add new Configuration',
-                        handler: 'onAddConfig'
+                        iconCls: 'x-fas fa-bars',
+                        menu: [
+                            {
+                                text: 'Add Config',
+                                iconCls: 'x-fas fa-plus',
+                                tooltip: 'Add new Configuration',
+                                handler: 'onAddConfig'
+                            },
+                            {
+                                text: 'Redefine class',
+                                iconCls: 'x-fas fa-file-contract',
+                                tooltip: 'Redefine specific class',
+                                handler: 'onRedefineFile'
+                            },
+                        ]
                     },
                     {
-                        xtype: 'button',
                         text: 'Refresh',
                         tooltip: 'Refresh component details',
                         iconCls: 'x-fa fa-sync-alt',
@@ -99,6 +109,7 @@ Ext.define('Spyglass.view.Viewport', {
                     {
                         xtype: 'splitbutton',
                         text: 'Redefine',
+                        iconCls: 'x-fab fa-rev',
                         tooltip: 'Redefine Component',
                         handler: 'onComponentRedefine',
                         redefineType: 'both',

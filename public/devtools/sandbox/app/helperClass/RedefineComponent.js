@@ -2,9 +2,38 @@ export class RedefineComponent {
     constructor(config) {
         var me = this;
         try {
+            // Redefine specific class
+            if (config.isClassRedefine) {
+                
+                // Check class is there
+                if (!Ext.ClassManager.lookupName(config.className, false)) {
+                    return {
+                        isSuccess: false,
+                        message: 'Enter valid className.'
+                    };
+                }
+
+                try {
+                    var filePath = me.getFilePath(config.className);
+
+                    return {
+                        ...me.requestFileContent(filePath)
+                    };
+
+                }
+                catch (e) {
+                    return {
+                        isSuccess: false,
+                        message: e.message
+                    }
+                }
+            }
+
+            // Redefine componet
             var component = Ext.getCmp(config.compId);
 
-            if (component.$className.startsWith('Ext.')) return true;
+            if (component.$className.startsWith('Ext.'))
+                return true;
 
             // Redefine view
             if (config.reDefineType == 'both' || config.reDefineType == 'view') {
@@ -46,8 +75,8 @@ export class RedefineComponent {
         Ext.Ajax.request({
             url: filePath,
             async: false,
-            callback: function (eopts, isSuccess, response) {
-                if (isSuccess) {
+            callback: function (eopts, success, response) {
+                if (success) {
                     new Function(response.responseText)();
                     isSuccess = true;
                 }
@@ -58,6 +87,9 @@ export class RedefineComponent {
             }
         });
 
-        return isSuccess;
+        return {
+            isSuccess,
+            message
+        };
     }
 }

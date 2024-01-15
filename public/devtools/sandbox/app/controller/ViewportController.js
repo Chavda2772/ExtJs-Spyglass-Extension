@@ -146,4 +146,11 @@ Ext.define('Spyglass.controller.ViewportController', {
             script: `new (${Spyglass.helperClass.RedefineComponent.toString()})(${JSON.stringify(config)})`
         });
     },
+    onRedefineFile: function () {
+        var me = this;
+
+        Ext.create({
+            xtype: 'redefineFile',
+        }).show();
+    }
 });
