@@ -50,8 +50,7 @@ Ext.define('Spyglass.view.RedefineFile', {
                     name: 'cmpClassName',
                     emptyText: 'className ex.MyApp.view.Main',
                     msgTarget: 'under',
-                    allowBlank: false,
-                    value: 'myApp.view.desktop.main.nav.NavView'
+                    allowBlank: false,                    
                 }
             ]
         }

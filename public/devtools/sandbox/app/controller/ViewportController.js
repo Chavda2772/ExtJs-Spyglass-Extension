@@ -24,6 +24,10 @@ Ext.define('Spyglass.controller.ViewportController', {
                 }
             }
             else {
+                // data validation
+                if (!event.data.componentDetails)
+                    return true;
+
                 var data = JSON.parse(event.data.componentDetails);
                 var returnVal = {};
 
