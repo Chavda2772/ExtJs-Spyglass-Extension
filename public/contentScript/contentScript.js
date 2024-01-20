@@ -8,5 +8,3 @@ div.innerHTML = JSON.stringify({
 });
 
 document.body.appendChild(div);
-
-console.log('Content Scripts Loaded!');

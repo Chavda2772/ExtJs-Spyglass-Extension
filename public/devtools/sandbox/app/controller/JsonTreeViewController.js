@@ -89,7 +89,8 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                     });
                 }
             });
-        } else if (Ext.isArray(config)) {
+        }
+        else if (Ext.isArray(config)) {
             if (config.length) {
                 Ext.Array.forEach(config, (item, idx) => {
                     var obj = {
@@ -210,21 +211,6 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
 
         return returnObj;
     },
-    onAddConfig: function (button) {
-        var view = this.getView();
-
-        Ext.create('Spyglass.view.AddConfig', {
-            listeners: {
-                addConfig: function (config) {
-                    var updateConfig = {
-                        [config.keyName]: config.value
-                    };
-
-                    CommonHelper.postParentMessage(`new (${Spyglass.helperClass.UpdateComponent.toString()})(${JSON.stringify(updateConfig)}, '${view.LoadedJson.id}')`)
-                }
-            }
-        }).show();
-    },
     onComponentRedefine: function (button) {
         var me = this;
         var view = me.getView();
@@ -274,7 +260,7 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
             }
         });
     },
-    onDetailViewChange() {
+    onRefreshData() {
         var me = this;
         var view = me.getView();
 

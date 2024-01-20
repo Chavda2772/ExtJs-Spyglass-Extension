@@ -42,14 +42,14 @@ window.addEventListener("load", (event) => {
                 labelEl.innerHTML = innerHtml;
 
                 // Setting badge
-                chrome.action.setBadgeText({
-                    text: isExtJs ? 'On' : 'Off'
-                });
+                //chrome.action.setBadgeText({
+                //    text: isExtJs ? 'On' : 'Off'
+                //});
 
                 // Setting background color
-                chrome.action.setBadgeBackgroundColor({
-                    color: isExtJs ? 'green' : 'red'
-                });
+                //chrome.action.setBadgeBackgroundColor({
+                //    color: isExtJs ? 'green' : 'red'
+                //});
             }
         });
     });

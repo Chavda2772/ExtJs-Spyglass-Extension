@@ -3,6 +3,7 @@ import { HoverOut } from './app/helperClass/HoverOut.js';
 import { UpdateComponent } from './app/helperClass/UpdateComponent.js';
 import { ComponentDetail } from './app/helperClass/ComponentDetail.js';
 import { RedefineComponent } from './app/helperClass/RedefineComponent.js';
+import { ComponentHierarchy } from './app/helperClass/ComponentHierarchy.js';
 
 Ext.application({
     requires: [
@@ -16,13 +17,15 @@ Ext.application({
     appFolder: 'app',
 
     mainView: 'Spyglass.view.Viewport',
-    launch: function () {
+
+    init: function () {
         Spyglass.helperClass = {
             HoverIn,
             HoverOut,
             UpdateComponent,
             ComponentDetail,
-            RedefineComponent
+            RedefineComponent,
+            ComponentHierarchy
         }
-    },
+    }
 });

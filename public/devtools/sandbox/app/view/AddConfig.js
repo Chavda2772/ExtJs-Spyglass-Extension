@@ -1,16 +1,16 @@
 Ext.define('Spyglass.view.AddConfig', {
-    extend: 'Ext.panel.Panel',
+    extend: 'Ext.window.Window',
 
     alias: ['widget.addConfig'],
 
     title: 'Add Config',
     modal: true,
-    fixed: true,
-    width: 500,
-    height: '100%',
-    floating: true,
+    width: 500, 
+    minHeight: 300,
     closable: true,
-    defaultAlign: 'tr-br?',
+    defaultFocus: '#txtConfigKey',
+    maximizable: false,
+    bodyPadding: 10,
     defaultListenerScope: true,
     dockedItems: [{
         xtype: 'toolbar',
@@ -22,7 +22,7 @@ Ext.define('Spyglass.view.AddConfig', {
         items: [
             {
                 xtype: 'button',
-                text: 'Save',
+                text: 'Add',
                 handler: 'onSave'
             },
             {
@@ -67,8 +67,8 @@ Ext.define('Spyglass.view.AddConfig', {
                     store: {
                         fields: ['display', 'valueField'],
                         data: [
-                            { display: 'Number', valueField: 'number' },
                             { display: 'String', valueField: 'string' },
+                            { display: 'Number', valueField: 'number' },
                             { display: 'Boolean', valueField: 'boolean' },
                         ],
                     },
@@ -96,12 +96,16 @@ Ext.define('Spyglass.view.AddConfig', {
             return;
         }
 
-        if (frmValues.configType == 'number' && isNaN(frmValues.value)) {
+        if (frmValues.configType == 'number') {
             var valuefld = view.down('#txtConfigValue');
 
-            valuefld.markInvalid('Provide Valid number');
-            valuefld.focus();
-            return;
+            if (isNaN(Number(frmValues.value))) {
+                valuefld.markInvalid('Provide Valid number');
+                valuefld.focus();
+                return;
+            }
+
+            frmValues.value = Number(frmValues.value);
         }
 
         if (frmValues.configType == 'boolean')

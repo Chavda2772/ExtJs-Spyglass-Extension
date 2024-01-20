@@ -7,6 +7,19 @@ Ext.define('Spyglass.controller.ViewportController', {
         var view = me.getView();
         var vm = me.getViewModel();
 
+        if (Ext.Object.isEmpty(data)) {
+            vm.set({
+                emptyComponentData: true
+            });
+        }
+        else {
+            vm.set({
+                cmpId: data.get('id'),
+                isExtComponent: data.get('isExtComponent'),
+                emptyComponentData: false
+            });
+        }
+
         view.down('#dvJsonViewer').fireEvent('loadComponentJson', data, vm.get('mode') == "read");
         view.down('#tvJsonTree').fireEvent('loadComponentJson', data, vm.get('mode') == "tree");
     },
@@ -19,6 +32,10 @@ Ext.define('Spyglass.controller.ViewportController', {
                 }
             }
             else {
+                // data validation
+                if (!event.data.componentDetails)
+                    return true;
+
                 var data = JSON.parse(event.data.componentDetails);
                 var returnVal = {};
 
@@ -32,6 +49,25 @@ Ext.define('Spyglass.controller.ViewportController', {
                 viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', returnVal);
             }
         }, false);
+
+        // Get component hierarchy details
+        CommonHelper.postParentWithResponse({
+            script: `new (${Spyglass.helperClass.ComponentHierarchy.toString()})($0)`,
+            success: function (response) {
+                var data = JSON.parse(response.componentDetails);
+
+                if (data.operationType == 'emptydetail') {
+                    CommonHelper.showToast("No Component details found for element.");
+                }
+
+                if (data.operationType == 'error') {
+                    CommonHelper.showToast(data.message);
+                }
+
+                viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', data);
+            },
+            error: function (error) { }
+        });
     },
     onChangeView: function (button, e) {
         var me = this;
@@ -43,10 +79,10 @@ Ext.define('Spyglass.controller.ViewportController', {
         });
 
         if (button.mode == "read") {
-            view.down('#dvJsonViewer').fireEvent('detailViewChange');
+            view.down('#dvJsonViewer').fireEvent('refreshData');
         }
         else if (button.mode == "tree") {
-            view.down('#tvJsonTree').fireEvent('detailViewChange');
+            view.down('#tvJsonTree').fireEvent('refreshData');
         }
 
     },
@@ -66,5 +102,67 @@ Ext.define('Spyglass.controller.ViewportController', {
                 console.error(error);
             }
         });
+    },
+    onAddConfig: function (button) {
+        var me = this;
+        var vm = me.getView().getViewModel();
+
+        Ext.create('Spyglass.view.AddConfig', {
+            listeners: {
+                addConfig: function (config) {
+                    var cmpId = vm.get("cmpId");
+                    var updateConfig = {
+                        [config.keyName]: config.value
+                    };
+
+                    CommonHelper.postParentWithResponse({
+                        script: `new (${Spyglass.helperClass.UpdateComponent.toString()})(${JSON.stringify(updateConfig)}, '${cmpId}')`,
+                        success: function () {
+                            me.onRefreshDetail();
+                        }
+                    })
+                }
+            }
+        }).show();
+    },
+    onRefreshDetail: function () {
+        // get active view
+        var me = this;
+        var view = me.getView();
+        var mode = view.getViewModel().get('mode');
+
+        if (mode == 'read') {
+            view.down('#dvJsonViewer').fireEvent('refreshData');
+        }
+        else if (mode == 'tree') {
+            view.down('#tvJsonTree').fireEvent('refreshData');
+        }
+    },
+    onToggleSortBtn: function (btn, pressed, eOpts) {
+        var view = this.getView();
+        var order = pressed ? 'desc' : 'asc';
+
+        view.getViewModel().set('sortedOrder', order);
+        view.down('#dvJsonViewer').fireEvent('changeSortOrder', order);
+    },
+    onComponentRedefine: function (button) {
+        var me = this;
+        var view = me.getView();
+
+        var config = {
+            compId: view.getViewModel().get('cmpId'),
+            reDefineType: button.redefineType
+        }
+
+        CommonHelper.postParentWithResponse({
+            script: `new (${Spyglass.helperClass.RedefineComponent.toString()})(${JSON.stringify(config)})`
+        });
+    },
+    onRedefineFile: function () {
+        var me = this;
+
+        Ext.create({
+            xtype: 'redefineFile',
+        }).show();
     }
 });

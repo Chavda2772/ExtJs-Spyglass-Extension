@@ -36,7 +36,11 @@ export class ComponentHierarchy {
             xtype: targetComponent.xtype,
             xtypes: targetComponent.xtypes,
             className: targetComponent.$className,
+            isExtComponent: true,
         };
+
+        if (!targetComponent.$className.startsWith('Ext.'))
+            componentDetail.isExtComponent = false;
 
         if (targetComponent.superclass.xtype == 'viewport') {
             componentDetail.hoverElId = targetComponent.el?.dom?.id || targetComponent.id;
