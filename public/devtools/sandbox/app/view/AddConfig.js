@@ -22,7 +22,7 @@ Ext.define('Spyglass.view.AddConfig', {
         items: [
             {
                 xtype: 'button',
-                text: 'Save',
+                text: 'Add',
                 handler: 'onSave'
             },
             {

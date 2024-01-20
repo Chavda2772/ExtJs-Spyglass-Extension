@@ -9,7 +9,7 @@ export class RedefineComponent {
                 if (!Ext.ClassManager.lookupName(config.className, false)) {
                     return {
                         isSuccess: false,
-                        message: 'Enter valid className.'
+                        message: 'Class Not found. Enter valid className.'
                     };
                 }
 

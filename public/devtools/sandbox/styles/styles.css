@@ -15,3 +15,8 @@
         margin-top: 10px;
         font-weight: 500;
     }
+
+.editable-tree-cell {
+    background-color: #d3eaff;
+    color: black;
+}

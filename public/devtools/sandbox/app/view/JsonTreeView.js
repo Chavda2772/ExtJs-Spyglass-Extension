@@ -26,6 +26,15 @@
             clicksToEdit: 2,
         },
     },
+    bbar: {
+        bind: {
+            hidden: '{emptyJson}'
+        },
+        items: {
+            xtype: 'component',
+            html: '<strong><i><span style="color: red">*</span> Note: </i>Double-click on light blue cell for updating real-time component config.</strong>'
+        }
+    },
     store: {
         fields: ['keyName', 'valueName'],
         root: {},
@@ -62,12 +71,20 @@
 
                     return editor;
                 } else {
-                    Ext.toast('Can not edit ' + record.data.valueType + ' type');
+                    CommonHelper.showToast(`Can not edit <strong>${record.data.valueType}</strong> type`);
                 }
             },
             filter: {
                 type: 'string',
                 operator: '/='
+            },
+            renderer: function (val, metaData, rowIndex, colIndex, store, view, f) {
+                var valType = metaData.record.get('valueType');
+
+                if (valType != "Object" && valType != "Function" && valType != "Array")
+                    metaData.tdCls = 'editable-tree-cell'
+
+                return val;
             }
         },
         {

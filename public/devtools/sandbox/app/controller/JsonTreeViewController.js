@@ -89,7 +89,8 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                     });
                 }
             });
-        } else if (Ext.isArray(config)) {
+        }
+        else if (Ext.isArray(config)) {
             if (config.length) {
                 Ext.Array.forEach(config, (item, idx) => {
                     var obj = {

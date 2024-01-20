@@ -23,7 +23,7 @@ Ext.define('Spyglass.view.RedefineFile', {
         items: [
             {
                 xtype: 'button',
-                text: 'Save',
+                text: 'Redefine',
                 handler: 'onSave'
             },
             {
