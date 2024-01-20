@@ -7,10 +7,19 @@ Ext.define('Spyglass.controller.ViewportController', {
         var view = me.getView();
         var vm = me.getViewModel();
 
-        vm.set({
-            cmpId: data.get('id'),
-            isExtComponent: data.get('isExtComponent')
-        });
+        if (Ext.Object.isEmpty(data)) {
+            vm.set({
+                emptyComponentData: true
+            });
+        }
+        else
+        {
+            vm.set({
+                cmpId: data.get('id'),
+                isExtComponent: data.get('isExtComponent'),
+                emptyComponentData: false
+            });
+        }
 
         view.down('#dvJsonViewer').fireEvent('loadComponentJson', data, vm.get('mode') == "read");
         view.down('#tvJsonTree').fireEvent('loadComponentJson', data, vm.get('mode') == "tree");
@@ -156,8 +165,5 @@ Ext.define('Spyglass.controller.ViewportController', {
         Ext.create({
             xtype: 'redefineFile',
         }).show();
-    },
-    onSearchJson: function (txt, newValue, oldValue, eOpts) {
-        this.getView().down('#dvJsonViewer').fireEvent('filterData', newValue);
     }
 });

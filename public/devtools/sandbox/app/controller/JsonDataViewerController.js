@@ -9,12 +9,13 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
     onAfterrender: function () {
         var me = this;
         var view = me.getView();
+        var cmpViewer = view.down('#cmpViewer');
 
         me.viewerId = 'jsonViewer-' + view.id;
         me.viewerInstance = new JSONViewer();
 
-        view.setHtml('<div id="' + me.viewerId + '"></div>');
-        view.el.dom
+        cmpViewer.setHtml('<div id="' + me.viewerId + '"></div>');
+        cmpViewer.el.dom
             .querySelector('#' + me.viewerId)
             .appendChild(me.viewerInstance.getContainer());
     },
@@ -23,6 +24,7 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
         var view = me.getView();
 
         view.LoadedJson = selection.data;
+        view.down('#txtSearchField').setValue('');
 
         if (Ext.Object.isEmpty(selection))
             me.viewerInstance.showJSON({});
@@ -90,20 +92,91 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
         me.getViewModel().set('sortedOrder', sort);
         me.viewerInstance.showJSON(sortedData);
     },
-    onFilterData: function (val) {
-        var me = this;        
-        retdata = me.findNestedObj(me.viewerJsonData, val);
+    onSearchJson: function (txt, newValue, oldValue, eOpts) {
+        var me = this;
+        if (!newValue) {
+            me.viewerInstance.showJSON(me.viewerJsonData);
+            return true;
+        }
+
+        var retdata = me.filterNLevelObject(Ext.clone(me.viewerJsonData), newValue, "", "me.viewerJsonData");
+        me.viewerInstance.showJSON(retdata);
     },
 
     // Helper function
+    filterNLevelObject: function (objectNode, keyToFind, valueToFind, path) {
+        var me = this;
+        var foundObj = {};
+
+        if (typeof objectNode == "object") {
+            Object.keys(objectNode).forEach((key) => {
+                // Find Direct key
+                if (key.toLowerCase().startsWith(keyToFind.toLowerCase())) {
+                    foundObj[key] = objectNode[key];
+                }
+
+                // nested object
+                else if (Ext.isObject(objectNode[key])) {
+                    var retval = me.filterNLevelObject(objectNode[key], keyToFind, valueToFind, `${path}.${key}`)
+
+                    if (!Ext.Object.isEmpty(retval)) {
+                        foundObj[key] = retval;
+                    }
+                }
+                else if (Ext.isArray(objectNode[key])) {
+                    var retval = [];
+                    objectNode[key].forEach((item, idx) => {
+                        var arrFoundObj = me.filterNLevelObject(item, keyToFind, valueToFind, `${path}.${key}[${idx}]`)
+                        if (!Ext.Object.isEmpty(arrFoundObj)) {
+                            retval.push(arrFoundObj)
+                        }
+                    });
+                    
+                    if (!Ext.Object.isEmpty(retval)) {
+                        foundObj[key] = retval;
+                    }
+                }
+
+                try {
+                    //foundObj = objectNode[key] = me.filterNLevelObject(objectNode[key], keyToFind, valueToFind, `${path}.${key}`);
+                }
+                catch (e) {
+                    console.error(e);
+                }
+
+                //return true;
+            });
+        }
+        else if (typeof objectNode == "string") {
+            if (objectNode.includes(keyToFind)) {
+                return objectNode;
+            }
+        }
+        else if (typeof objectNode == "number") {
+            if (String(objectNode).includes(keyToFind)) {
+                return objectNode;
+            }
+        }
+        else if (typeof objectNode == "boolean") {
+            if (String(objectNode).includes(keyToFind)) {
+                return objectNode;
+            }
+        }
+
+        return {
+            ...foundObj,
+        };
+    },
     findNestedObj: function (entireObj, keyToFind, valToFind) {
         let foundObj;
-        JSON.stringify(entireObj, (_, nestedValue) => {
-            if (nestedValue && nestedValue[keyToFind] === valToFind) {
-                foundObj = nestedValue;
+
+        JSON.stringify(entireObj, (keyName, keyValue, a, b, c) => {
+            if (keyToFind == keyName) {
+                foundObj = keyValue;
             }
-            return nestedValue;
+            return keyValue;
         });
+
         return foundObj;
     }
 });

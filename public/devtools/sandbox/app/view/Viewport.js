@@ -23,7 +23,8 @@ Ext.define('Spyglass.view.Viewport', {
 
             // Record
             cmpId: '',
-            isExtComponent: false
+            isExtComponent: false,
+            emptyComponentData: false
         },
     },
     items: [
@@ -58,6 +59,9 @@ Ext.define('Spyglass.view.Viewport', {
                 items: [
                     {
                         xtype: 'segmentedbutton',
+                        bind: {
+                            hidden: '{emptyComponentData}'
+                        },
                         items: [
                             {
                                 tooltip: 'Read Mode',
@@ -82,6 +86,9 @@ Ext.define('Spyglass.view.Viewport', {
                 ]
             },
             tbar: {
+                bind: {
+                    hidden: '{emptyComponentData}'
+                },
                 items: [
                     {
                         iconCls: 'x-fas fa-bars',
@@ -97,20 +104,6 @@ Ext.define('Spyglass.view.Viewport', {
                                 iconCls: 'x-fas fa-file-contract',
                                 tooltip: 'Redefine specific class',
                                 handler: 'onRedefineFile'
-                            },
-                            {
-                                text: 'Search',
-                                iconCls: 'x-fas fa-file-contract',
-                                tooltip: 'Search',
-                                hidden: true,
-                                menu: [
-                                    {
-                                        xtype: 'textfield',
-                                        listeners: {
-                                            change: 'onSearchJson'
-                                        }
-                                    }
-                                ]
                             },
                         ]
                     },
