@@ -10,24 +10,53 @@ Ext.define('Spyglass.view.JsonDataViewer', {
             sortedOrder: 'asc'
         }
     },
+
     // Custom Config
     LoadedJson: {},
 
-    scrollable: true,
-    width: '100%',
+    layout: {
+        type: 'vbox',
+        align: 'stretch'
+    },
     items: [
         {
-            xtype: 'textfield',
-            itemId: 'txtSearchField',
-            emptyText: 'Search ...',
-            width: '100%',
-            listeners: {
-                change: 'onSearchJson'
-            }
+            xtype: 'panel',
+            layout: {
+                type: 'hbox',
+                align: 'stretch'
+            },
+            items: [
+                {
+                    xtype: 'textfield',
+                    itemId: 'txtSearchField',
+                    emptyText: 'Search ...',
+                    reference: 'rfSearchField',
+                    publishes: 'value',
+                    flex: 1,
+                    bind: {
+                        hidden: '{emptyJson}'
+                    },
+                    listeners: {
+                        change: 'onSearchJson',
+                        specialkey: 'onSpecialKeyPress'
+                    }
+                },
+                {
+                    xtype: 'button',                    
+                    text: 'clear',
+                    tooltip: 'clear',
+                    ui: 'default-toolbar-small',
+                    bind: {
+                        hidden: '{!rfSearchField.value}'
+                    },
+                    handler: 'onClearSearch'
+                }
+            ]
         },
         {
             xtype: 'component',
             itemId: 'cmpViewer',
+            scrollable: true,
             flex: 1,
         }
     ],

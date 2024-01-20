@@ -24,7 +24,7 @@ Ext.define('Spyglass.view.Viewport', {
             // Record
             cmpId: '',
             isExtComponent: false,
-            emptyComponentData: false
+            emptyComponentData: true
         },
     },
     items: [
@@ -51,7 +51,7 @@ Ext.define('Spyglass.view.Viewport', {
             itemId: 'compDetailView',
             collapsible: true,
             width: '60%',
-            layout: 'vbox',
+            layout: 'fit',
             bind: {
                 hidden: '{isEmptyView}'
             },
@@ -92,6 +92,7 @@ Ext.define('Spyglass.view.Viewport', {
                 items: [
                     {
                         iconCls: 'x-fas fa-bars',
+                        tooltip: 'Advance options',
                         menu: [
                             {
                                 text: 'Add Config',
@@ -108,7 +109,6 @@ Ext.define('Spyglass.view.Viewport', {
                         ]
                     },
                     {
-                        text: 'Refresh',
                         tooltip: 'Refresh component details',
                         iconCls: 'x-fa fa-sync-alt',
                         handler: 'onRefreshDetail'
@@ -140,30 +140,18 @@ Ext.define('Spyglass.view.Viewport', {
                     },
                     '->',
                     {
-                        xtype: 'segmentedbutton',
+                        xtype: 'button',
+                        reference: 'rfSortButton',
+                        publishes: 'pressed',
+                        enableToggle: true,
                         bind: {
                             hidden: '{mode != "read"}',
+                            tooltip: '{rfSortButton.pressed ? "Descending Sort" : "Ascending Sort"}',
+                            iconCls: '{rfSortButton.pressed ? "x-fas fa-sort-alpha-up-alt" : "x-fas fa-sort-alpha-down"}'
                         },
-                        items: [
-                            {
-                                iconCls: 'x-fas fa-sort-alpha-down',
-                                tooltip: 'Sort Ascending',
-                                SortOrder: 'asc',
-                                handler: 'onSortOrderChange',
-                                bind: {
-                                    pressed: '{sortedOrder == "asc"}',
-                                },
-                            },
-                            {
-                                iconCls: 'x-fas fa-sort-alpha-up-alt',
-                                tooltip: 'Sort Descending',
-                                SortOrder: 'desc',
-                                handler: 'onSortOrderChange',
-                                bind: {
-                                    pressed: '{sortedOrder == "desc"}',
-                                }
-                            }
-                        ]
+                        listeners: {
+                            toggle: 'onToggleSortBtn'
+                        },
                     }
                 ]
             },

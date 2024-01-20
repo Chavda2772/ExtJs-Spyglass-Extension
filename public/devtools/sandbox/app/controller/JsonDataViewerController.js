@@ -18,16 +18,24 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
         cmpViewer.el.dom
             .querySelector('#' + me.viewerId)
             .appendChild(me.viewerInstance.getContainer());
+
+        me.viewerInstance.showJSON({});
     },
     onLoadComponentJson: function (selection, isActiveView) {
         var me = this;
         var view = me.getView();
+        var vm = view.getViewModel();
 
         view.LoadedJson = selection.data;
         view.down('#txtSearchField').setValue('');
 
-        if (Ext.Object.isEmpty(selection))
+        if (Ext.Object.isEmpty(selection)) {
             me.viewerInstance.showJSON({});
+            vm.set('emptyJson', true);
+        }
+        else {
+            vm.set('emptyJson', false);
+        }
 
         if (isActiveView && view.LoadedJson?.id)
             me.refreshComponentJson(view.LoadedJson.id);
@@ -55,10 +63,9 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
 
                     me.viewerJsonData = orderObj;
                     me.viewerInstance.showJSON(orderObj);
-                    console.log("Data Loaded.");
                 } catch (e) {
                     vm.set('emptyJson', true);
-                    console.log("Error While loading data :- ", e);
+                    console.error("Error While loading data :- ", e);
                 }
                 view.setLoading(false);
             },
@@ -102,13 +109,23 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
         var retdata = me.filterNLevelObject(Ext.clone(me.viewerJsonData), newValue, "", "me.viewerJsonData");
         me.viewerInstance.showJSON(retdata);
     },
+    onClearSearch: function () {
+        this.getView().down('#txtSearchField').setValue('');
+    },
+    onSpecialKeyPress: function (text, e, eOpts) {
+        var me = this;
+
+        if (e.getKeyName() == 'ESC') {
+            me.onClearSearch()
+        }
+    },
 
     // Helper function
     filterNLevelObject: function (objectNode, keyToFind, valueToFind, path) {
         var me = this;
         var foundObj = {};
 
-        if (typeof objectNode == "object") {
+        if (Ext.isObject(objectNode)) {
             Object.keys(objectNode).forEach((key) => {
                 // Find Direct key
                 if (key.toLowerCase().includes(keyToFind.toLowerCase())) {
@@ -131,7 +148,7 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
                             retval.push(arrFoundObj)
                         }
                     });
-                    
+
                     if (!Ext.Object.isEmpty(retval)) {
                         foundObj[key] = retval;
                     }
@@ -147,17 +164,12 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
                 //return true;
             });
         }
-        else if (typeof objectNode == "string") {
+        else if (Ext.isString(objectNode)) {
             if (objectNode.includes(keyToFind)) {
                 return objectNode;
             }
         }
-        else if (typeof objectNode == "number") {
-            if (String(objectNode).includes(keyToFind)) {
-                return objectNode;
-            }
-        }
-        else if (typeof objectNode == "boolean") {
+        else if (Ext.isNumber(objectNode) || Ext.isBoolean(objectNode)) {
             if (String(objectNode).includes(keyToFind)) {
                 return objectNode;
             }

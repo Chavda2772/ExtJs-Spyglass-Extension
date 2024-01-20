@@ -6,6 +6,7 @@ Ext.define('Spyglass.view.RedefineFile', {
     title: 'Redefine Specific Class',
     modal: true,
     width: 500,
+    minHeight: 180,
     defaultListenerScope: true,
     closable: true,
     defaultFocus: '#txtClassName',
@@ -50,7 +51,7 @@ Ext.define('Spyglass.view.RedefineFile', {
                     name: 'cmpClassName',
                     emptyText: 'className ex.MyApp.view.Main',
                     msgTarget: 'under',
-                    allowBlank: false,                    
+                    allowBlank: false,
                 }
             ]
         }

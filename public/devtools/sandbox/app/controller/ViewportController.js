@@ -12,8 +12,7 @@ Ext.define('Spyglass.controller.ViewportController', {
                 emptyComponentData: true
             });
         }
-        else
-        {
+        else {
             vm.set({
                 cmpId: data.get('id'),
                 isExtComponent: data.get('isExtComponent'),
@@ -60,13 +59,12 @@ Ext.define('Spyglass.controller.ViewportController', {
                 if (data.operationType == 'emptydetail') {
                     CommonHelper.showToast("No Component details found for element.");
                 }
-                else if (data.operationType == 'error') {
+
+                if (data.operationType == 'error') {
                     CommonHelper.showToast(data.message);
                 }
-                else if (!Ext.Object.isEmpty(data)) {
-                    viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', data);
-                }
 
+                viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', data);
             },
             error: function (error) { }
         });
@@ -140,11 +138,12 @@ Ext.define('Spyglass.controller.ViewportController', {
             view.down('#tvJsonTree').fireEvent('refreshData');
         }
     },
-    onSortOrderChange: function (btn) {
+    onToggleSortBtn: function (btn, pressed, eOpts) {
         var view = this.getView();
+        var order = pressed ? 'desc' : 'asc';
 
-        view.getViewModel().set('sortedOrder', btn.SortOrder);
-        view.down('#dvJsonViewer').fireEvent('changeSortOrder', btn.SortOrder);
+        view.getViewModel().set('sortedOrder', order);
+        view.down('#dvJsonViewer').fireEvent('changeSortOrder', order);
     },
     onComponentRedefine: function (button) {
         var me = this;

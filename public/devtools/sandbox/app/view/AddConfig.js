@@ -5,7 +5,8 @@ Ext.define('Spyglass.view.AddConfig', {
 
     title: 'Add Config',
     modal: true,
-    width: 500,    
+    width: 500, 
+    minHeight: 300,
     closable: true,
     defaultFocus: '#txtConfigKey',
     maximizable: false,

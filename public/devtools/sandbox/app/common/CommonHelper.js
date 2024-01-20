@@ -51,7 +51,7 @@ Ext.define('Spyglass.common.CommonHelper', {
             closable: false,
             align: 'b',
             slideDUration: 1000,
-            maxWidth: '70vw'
+            width: 300
         });
     },
     sortObject: function (unSortObject, direction = "asc") {
