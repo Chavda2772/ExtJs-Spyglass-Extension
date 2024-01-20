@@ -111,7 +111,7 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
         if (typeof objectNode == "object") {
             Object.keys(objectNode).forEach((key) => {
                 // Find Direct key
-                if (key.toLowerCase().startsWith(keyToFind.toLowerCase())) {
+                if (key.toLowerCase().includes(keyToFind.toLowerCase())) {
                     foundObj[key] = objectNode[key];
                 }
 
