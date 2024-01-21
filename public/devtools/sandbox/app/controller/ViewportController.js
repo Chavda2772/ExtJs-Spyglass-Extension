@@ -24,6 +24,8 @@ Ext.define('Spyglass.controller.ViewportController', {
         view.down('#tvJsonTree').fireEvent('loadComponentJson', data, vm.get('mode') == "tree");
     },
     onAfterRender: function (viewport, eOpts) {
+        var vm = this.getView().getViewModel();
+
         // Callback EventListener
         window.addEventListener('message', event => {
             if (event.data.callbackID) {
@@ -38,13 +40,27 @@ Ext.define('Spyglass.controller.ViewportController', {
 
                 var data = JSON.parse(event.data.componentDetails);
                 var returnVal = {};
+                var isEmptyView = false
 
                 if (data.operationType == 'emptydetail')
                     CommonHelper.showToast("No Component details found for element.");
-                else if (data.operationType == 'error')
-                    CommonHelper.showToast(data.message);
-                else
+                else if (data.operationType == 'error') {
+                    if (data.message == "Ext is not defined") {
+                        isEmptyView = true;
+                    }
+                    else {
+                        CommonHelper.showToast(data.message);
+                    }
+                }
+                else {
                     returnVal = data;
+                }
+
+                if (vm.get('isEmptyView') != isEmptyView) {
+                    vm.set({
+                        isEmptyView: isEmptyView
+                    });
+                }
 
                 viewport.down('#dvComponentHierarchy').fireEvent('loadCompData', returnVal);
             }
@@ -60,7 +76,7 @@ Ext.define('Spyglass.controller.ViewportController', {
                     CommonHelper.showToast("No Component details found for element.");
                 }
 
-                if (data.operationType == 'error') {
+                if (data.operationType == 'error' && data.message != "Ext is not defined") {
                     CommonHelper.showToast(data.message);
                 }
 

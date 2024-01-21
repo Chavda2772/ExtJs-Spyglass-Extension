@@ -179,13 +179,26 @@ Ext.define('Spyglass.view.Viewport', {
             collapsible: false,
             scrollable: true,
             width: '100%',
+            bodyCls: 'empty-view',
             bind: {
                 hidden: '{!isEmptyView}'
             },
-            items: [{
-                xtype: 'displayfield',
-                fieldLabel: 'No Ext JS Site.',
-            }]
+            items: [
+                {
+                    xtype: 'image',
+                    style: {
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'contain',
+                        backgroundPosition: 'center center',
+                        width: '50dvw',
+                    },
+                    src: '/assets/img/RoboNap.png',
+                },
+                {
+                    xtype: 'container',
+                    html: '<h1>Ext JS not found for the site!!</h1>',
+                }
+            ]
         }
     ],
 
