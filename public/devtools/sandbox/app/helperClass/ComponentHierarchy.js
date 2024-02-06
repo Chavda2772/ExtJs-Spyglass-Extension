@@ -36,11 +36,11 @@ export class ComponentHierarchy {
             xtype: targetComponent.xtype,
             xtypes: targetComponent.xtypes,
             className: targetComponent.$className,
-            isExtComponent: true,
+            SpyglassIsExtComponent: true,
         };
 
         if (!targetComponent.$className.startsWith('Ext.'))
-            componentDetail.isExtComponent = false;
+            componentDetail.SpyglassIsExtComponent = false;
 
         if (targetComponent.superclass.xtype == 'viewport') {
             componentDetail.hoverElId = targetComponent.el?.dom?.id || targetComponent.id;

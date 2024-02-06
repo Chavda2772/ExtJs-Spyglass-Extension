@@ -23,7 +23,7 @@ Ext.define('Spyglass.view.Viewport', {
 
             // Record
             cmpId: '',
-            isExtComponent: false,
+            SpyglassIsExtComponent: false,
             emptyComponentData: true
         },
     },
@@ -121,7 +121,7 @@ Ext.define('Spyglass.view.Viewport', {
                         handler: 'onComponentRedefine',
                         redefineType: 'both',
                         bind: {
-                            hidden: '{isExtComponent}'
+                            hidden: '{SpyglassIsExtComponent}'
                         },
                         menu: [
                             {

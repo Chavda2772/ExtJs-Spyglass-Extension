@@ -4,9 +4,10 @@ export class RedefineComponent {
         try {
             // Redefine specific class
             if (config.isClassRedefine) {
-                
+                var clsName = me.getClassName(config.className);
+
                 // Check class is there
-                if (!Ext.ClassManager.lookupName(config.className, false)) {
+                if (!Ext.ClassManager.lookupName(clsName, false)) {
                     return {
                         isSuccess: false,
                         message: 'Class Not found. Enter valid className.'
@@ -14,7 +15,7 @@ export class RedefineComponent {
                 }
 
                 try {
-                    var filePath = me.getFilePath(config.className);
+                    var filePath = me.getFilePath(clsName);
 
                     return {
                         ...me.requestFileContent(filePath)
@@ -72,6 +73,7 @@ export class RedefineComponent {
     requestFileContent(filePath) {
         var isSuccess = false;
         var message = '';
+
         Ext.Ajax.request({
             url: filePath,
             async: false,
@@ -91,5 +93,17 @@ export class RedefineComponent {
             isSuccess,
             message
         };
+    }
+    
+    getClassName(className) {
+        var clsName;
+
+        // Check if alternative classname
+        var altClassName = Ext.ClassManager.alternateToName[className];
+        if (altClassName) {
+            return altClassName;
+        }
+
+        return clsName;
     }
 }

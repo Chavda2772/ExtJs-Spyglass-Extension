@@ -8,12 +8,10 @@ Ext.define('Spyglass.controller.HierarchyGridController', {
 
         store.setData(compData);
 
-        if (Ext.Object.isEmpty(compData)) {
+        if (Ext.Object.isEmpty(compData)) 
             view.fireEvent('componentSelected', {});
-        }
-        else {
+        else 
             view.setSelection(store.getAt(0));
-        }
     },
 
     onRecordSelect: function (dataview, record, index, eOpts) {
@@ -31,9 +29,9 @@ Ext.define('Spyglass.controller.HierarchyGridController', {
 
         CommonHelper.postParentMessage(`
         console.group("Comp Details :- " + '${record.data.id}');
-        console.log("Component ", Ext.getCmp('${record.data.id}'));
-        console.log("ViewModel ", Ext.getCmp('${record.data.id}').lookupViewModel());
-        console.log("Controller ", Ext.getCmp('${record.data.id}').lookupController());
+        console.log("View: ", Ext.getCmp('${record.data.id}'));
+        console.log("Controller: ", Ext.getCmp('${record.data.id}').lookupController());
+        console.log("ViewModel: ", Ext.getCmp('${record.data.id}').lookupViewModel());
         console.groupEnd();
         `);
         Ext.toast("Component details print to console.");

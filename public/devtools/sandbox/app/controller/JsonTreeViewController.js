@@ -127,10 +127,6 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
         }
         return returnData;
     },
-    onColumnEditorActive: function (record, defaultType) {
-        var me = this;
-        return me.getEditorDetails(record);
-    },
     getEditorDetails: function (record) {
         var me = this;
         var data = record.data;
@@ -249,8 +245,12 @@ Ext.define('Spyglass.controller.JsonTreeViewController', {
                 var jsonData = JSON.parse(componentDetail);
 
                 me.getViewModel().set({
-                    isExtComponent: jsonData.isExtComponent,
+                    isExtComponent: jsonData.SpyglassIsExtComponent,
                 });
+
+                // Remove spyglass internal property
+                Object.keys(jsonData).filter((key) => key.startsWith('Spyglass')).forEach((itm) => delete jsonData[itm]);
+
                 store.setRoot(me.getTreeStoreFromJson(jsonData));
                 view.setLoading(false);
             },

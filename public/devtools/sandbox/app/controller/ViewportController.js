@@ -15,7 +15,7 @@ Ext.define('Spyglass.controller.ViewportController', {
         else {
             vm.set({
                 cmpId: data.get('id'),
-                isExtComponent: data.get('isExtComponent'),
+                SpyglassIsExtComponent: data.get('SpyglassIsExtComponent'),
                 emptyComponentData: false
             });
         }

@@ -10,7 +10,7 @@
     viewModel: {
         data: {
             emptyJson: true,
-            isExtComponent: true
+            SpyglassIsExtComponent: true
         }
     },
     bind: {
@@ -56,7 +56,7 @@
             flex: 1,
             getEditor: function (record, defaultType) {
                 var view = this.up('JsonTreeView');
-                var editorConfig = view.getController().onColumnEditorActive(record, defaultType);
+                var editorConfig = view.getController().getEditorDetails(record, defaultType);
 
                 if (!Ext.Object.isEmpty(editorConfig)) {
                     var editor = Ext.create('Ext.grid.CellEditor', {

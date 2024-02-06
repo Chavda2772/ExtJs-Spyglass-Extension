@@ -1,101 +1,6 @@
 export class ComponentDetail {
     targetDomElement;
     component;
-    excludeProps = [
-        "$initParent",
-        "$configWatch",
-        "$iid",
-        "bodyElement",
-        "buttonElement",
-        "$owner",
-        "activeRanges",
-        "container",
-        "_container",
-        "_innerWrapper",
-        "inheritedState",
-        "el",
-        "dom",
-        "ownerLayout",
-        "ownerCt",
-        "owner",
-        "ownerCmp",
-        "component",
-        "layout",
-        "_layout",
-        "parent",
-        "items",
-        "observable",
-        "controller",
-        "scope",
-        "ev",
-        "manager",
-        "field",
-        "scheduler",
-        "view",
-        "stub",
-        "root",
-        "_field",
-        "_parent",
-        "element",
-        "map",
-        "ownerGrid",
-        "_indicators",
-        "_partners",
-        "managedListeners",
-        "selfPartner",
-        "_trueStore",
-        "_selectable",
-        "parentMenu",
-        "beforeload",
-        "events",
-        "ownerFocusableContainer",
-        "groupConfig",
-        "focusableKeyNav",
-        "_groupConfig",
-        "observers",
-        "lastOptions",
-        "sorters",
-        "ownerTree",
-        "_headerContainer",
-        "_plugins",
-        "$outerWrapper",
-        "grid",
-        "_grid",
-        "scroller",
-        "_scroller",
-        "treeStore",
-        "store",
-        "internalScope",
-        "_sorterOptionsScope",
-        "_view",
-        "collection",
-        "_collection",
-        "$sortable",
-        "selectionModel",
-        "_selectionModel",
-        "processEventScope",
-        "viewListeners",
-        "target",
-        "_target",
-        "sender",
-        "schema",
-        "nameHolder",
-        "toolOwner",
-        '_pinnedHeader',
-        'pinnedHeader',
-        '_collapsible',
-        'collapsible',
-        'list',
-        "focusEl",
-        "_constrain",
-        'dragZone',
-        "plugins",
-        "innerItems",
-        "_titleBar",
-        "$delegatedEvents",
-        "_viewModel",
-        "pendingActiveItem"
-    ];
     includedFunctions = ['initConfig', 'formulas', 'getId', 'getColumnsMenuItem', 'getCollapsible'];
     LEVEL_LIMIT = 4;
 
@@ -120,17 +25,17 @@ export class ComponentDetail {
             xtype: targetComponent.xtype,
             xtypes: targetComponent.xtypes,
             className: targetComponent.$className,
-            isExtComponent: true,
+            SpyglassIsExtComponent: true,
             ...me.getComponentConfiguration(Ext.clone(targetComponent))
         };
 
         if (!targetComponent.$className.startsWith('Ext.')) {
-            componentDetail.isExtComponent = false;
+            componentDetail.SpyglassIsExtComponent = false;
 
             if (targetComponent?.$className)
-                componentDetail.ViewFile = me.getFileLink(Ext.Loader.getPath(targetComponent?.$className));
+                componentDetail.SpyglassViewFile = me.getFileLink(Ext.Loader.getPath(targetComponent?.$className));
             if (targetComponent.lookupController()?.$className)
-                componentDetail.ControllerFile = me.getFileLink(Ext.Loader.getPath(targetComponent.lookupController()?.$className));
+                componentDetail.SpyglassControllerFile = me.getFileLink(Ext.Loader.getPath(targetComponent.lookupController()?.$className));
         }
 
         return componentDetail;
@@ -239,11 +144,9 @@ export class ComponentDetail {
             return "";
         }
 
-        var actualPath = '';
         var location = window.location;
         var originalPath = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
 
-        actualPath = window.location.origin + originalPath + '/' + filePath;
-        return `<a target="_blank" href="${actualPath}"> File Path </a>`;
+        return window.location.origin + originalPath + '/' + filePath;
     }
 }

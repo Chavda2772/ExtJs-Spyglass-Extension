@@ -216,8 +216,12 @@ var JSONViewer = (function (document) {
         var spanEl = document.createElement("span");
         var type = typeof value;
         var asText = "" + value;
+        var isUrl = isValidURL(value);
 
-        if (type === "string") {
+        if (isUrl) {
+            type = "url";
+            asText = '<a target="_blank" href="' + value + '"> ' + value + ' </a>';
+        } else if (type === 'string') {
             asText = '"' + value + '"';
         } else if (value === null) {
             type = "null";
@@ -228,10 +232,30 @@ var JSONViewer = (function (document) {
         }
 
         spanEl.className = "type-" + type;
-        spanEl.textContent = asText;
+        isUrl
+            ? spanEl.innerHTML = asText
+            : spanEl.textContent = asText;
 
         return spanEl;
     };
+
+    /**
+     * Check passed string is url.
+     * 
+     * @param  {string} value Input value
+     * @return {Boolean} true if string is url, false otherwise
+     */
+    function isValidURL(str) {
+        if (typeof str !== 'string') return false;
+        if (!str.startsWith('http')) return false;
+
+        try {
+            new URL(str);
+            return true;
+        } catch (err) {
+            return false;
+        }
+    }
 
     /**
      * Create items count element.
