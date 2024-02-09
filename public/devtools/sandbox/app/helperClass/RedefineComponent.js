@@ -6,8 +6,7 @@ export class RedefineComponent {
             if (config.isClassRedefine) {
                 var clsName = me.getClassName(config.className);
 
-                // Check class is there
-                if (!Ext.ClassManager.lookupName(clsName, false)) {
+                if (!clsName) {
                     return {
                         isSuccess: false,
                         message: 'Class Not found. Enter valid className.'
@@ -94,16 +93,18 @@ export class RedefineComponent {
             message
         };
     }
-    
+
     getClassName(className) {
-        var clsName;
+        var clsName = className;
 
         // Check if alternative classname
         var altClassName = Ext.ClassManager.alternateToName[className];
-        if (altClassName) {
-            return altClassName;
-        }
+        if (altClassName) return altClassName;
 
-        return clsName;
+        // Check class is there
+        var fullName = Ext.ClassManager.lookupName(clsName, false);
+        if (fullName) return clsName;
+
+        return '';
     }
 }

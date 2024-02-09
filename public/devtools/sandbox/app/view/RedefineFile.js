@@ -49,7 +49,7 @@ Ext.define('Spyglass.view.RedefineFile', {
                     fieldLabel: 'Class Name',
                     itemId: 'txtClassName',
                     name: 'cmpClassName',
-                    emptyText: 'className ex.MyApp.view.Main',
+                    emptyText: 'ex.MyApp.view.Main OR Alternative ClassName ex.Enums',
                     msgTarget: 'under',
                     allowBlank: false,
                 }
