@@ -7,7 +7,8 @@ Ext.define('Spyglass.view.JsonDataViewer', {
     viewModel: {
         data: {
             emptyJson: true,
-            sortedOrder: 'asc'
+            sortedOrder: 'asc',
+            searchText: ''
         }
     },
 
@@ -30,11 +31,10 @@ Ext.define('Spyglass.view.JsonDataViewer', {
                     xtype: 'textfield',
                     itemId: 'txtSearchField',
                     emptyText: 'Search ...',
-                    reference: 'rfSearchField',
-                    publishes: 'value',
                     flex: 1,
                     bind: {
-                        hidden: '{emptyJson}'
+                        hidden: '{emptyJson}',
+                        value: '{searchText}'
                     },
                     listeners: {
                         change: 'onSearchJson',
@@ -42,12 +42,12 @@ Ext.define('Spyglass.view.JsonDataViewer', {
                     }
                 },
                 {
-                    xtype: 'button',                    
+                    xtype: 'button',
                     text: 'clear',
                     tooltip: 'clear',
                     ui: 'default-toolbar-small',
                     bind: {
-                        hidden: '{!rfSearchField.value}'
+                        hidden: '{!searchText}'
                     },
                     handler: 'onClearSearch'
                 }

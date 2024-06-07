@@ -27,7 +27,6 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
         var vm = view.getViewModel();
 
         view.LoadedJson = selection.data;
-        view.down('#txtSearchField').setValue('');
 
         if (Ext.Object.isEmpty(selection)) {
             me.viewerInstance.showJSON({});
@@ -56,13 +55,12 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
                     if (Ext.Object.isEmpty(orderObj))
                         orderObj = jsonData;
 
-                    if (Ext.Object.isEmpty(orderObj))
-                        vm.set('emptyJson', true);
-                    else
-                        vm.set('emptyJson', false);
+                    vm.set('emptyJson', Ext.Object.isEmpty(orderObj));
 
                     me.viewerJsonData = orderObj;
-                    me.viewerInstance.showJSON(orderObj);
+                    me.viewerInstance.showJSON(orderObj);                    
+                    me.filterData();
+
                 } catch (e) {
                     vm.set('emptyJson', true);
                     console.error("Error While loading data :- ", e);
@@ -106,8 +104,7 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
             return true;
         }
 
-        var retdata = me.filterNLevelObject(Ext.clone(me.viewerJsonData), newValue, "", "me.viewerJsonData");
-        me.viewerInstance.showJSON(retdata);
+        me.filterData();
     },
     onClearSearch: function () {
         this.getView().down('#txtSearchField').setValue('');
@@ -121,6 +118,16 @@ Ext.define('Spyglass.controller.JsonDataViewerController', {
     },
 
     // Helper function
+    filterData: function () {
+        var me = this;
+        var search = me.getViewModel().get('searchText');
+
+        if (!search)
+            return true;
+
+        var retdata = me.filterNLevelObject(Ext.clone(me.viewerJsonData), search, "", "me.viewerJsonData");
+        me.viewerInstance.showJSON(retdata);
+    },
     filterNLevelObject: function (objectNode, keyToFind, valueToFind, path) {
         var me = this;
         var foundObj = {};

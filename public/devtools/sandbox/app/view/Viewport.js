@@ -138,6 +138,15 @@ Ext.define('Spyglass.view.Viewport', {
                             }
                         ],
                     },
+                    {
+                        text: 'Replace',
+                        tooltip: 'Replace Component',
+                        iconCls: 'x-fas fa-recycle',
+                        bind: {
+                            hidden: '{SpyglassIsExtComponent}'
+                        },
+                        handler: 'onReplaceComponent'
+                    },
                     '->',
                     {
                         xtype: 'button',

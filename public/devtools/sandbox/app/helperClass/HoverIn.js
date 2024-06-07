@@ -3,7 +3,8 @@ export class HoverIn {
         var element = document.getElementById(id);
         var ghostEl = document.getElementById('Spyglass-ghost');
 
-        if (ghostEl) ghostEl.remove();
+        if (ghostEl)
+            ghostEl.remove();
 
         if (element) {            
             // Element Details

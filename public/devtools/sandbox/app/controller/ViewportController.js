@@ -171,7 +171,13 @@ Ext.define('Spyglass.controller.ViewportController', {
         }
 
         CommonHelper.postParentWithResponse({
-            script: `new (${Spyglass.helperClass.RedefineComponent.toString()})(${JSON.stringify(config)})`
+            script: `new (${Spyglass.helperClass.RedefineComponent.toString()})(${JSON.stringify(config)})`,
+            success: function (res) {
+                CommonHelper.showToast("Component redefine successfully.");
+            },
+            error: function (error) {
+                CommonHelper.showToast(error);
+            }
         });
     },
     onRedefineFile: function () {
@@ -180,5 +186,22 @@ Ext.define('Spyglass.controller.ViewportController', {
         Ext.create({
             xtype: 'redefineFile',
         }).show();
+    },
+    onReplaceComponent: function () {
+        var me = this,
+            view = me.getView(),
+            config = {
+                compId: view.getViewModel().get('cmpId')
+            }
+
+        CommonHelper.postParentWithResponse({
+            script: `new (${Spyglass.helperClass.ReplaceControl.toString()})(${JSON.stringify(config)})`,
+            success: function (res) {
+                CommonHelper.showToast("Component replaced successfully.");
+            },
+            error: function (error) {
+                CommonHelper.showToast(error);
+            }
+        });
     }
 });

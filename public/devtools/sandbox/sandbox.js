@@ -1,6 +1,7 @@
 import { HoverIn } from './app/helperClass/HoverIn.js';
 import { HoverOut } from './app/helperClass/HoverOut.js';
 import { UpdateComponent } from './app/helperClass/UpdateComponent.js';
+import { ReplaceControl } from './app/helperClass/ReplaceControl.js';
 import { ComponentDetail } from './app/helperClass/ComponentDetail.js';
 import { RedefineComponent } from './app/helperClass/RedefineComponent.js';
 import { ComponentHierarchy } from './app/helperClass/ComponentHierarchy.js';
@@ -23,6 +24,7 @@ Ext.application({
             HoverIn,
             HoverOut,
             UpdateComponent,
+            ReplaceControl,
             ComponentDetail,
             RedefineComponent,
             ComponentHierarchy
