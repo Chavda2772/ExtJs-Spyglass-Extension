@@ -2,7 +2,7 @@ export class ReplaceControl {
     constructor(config) {
         try {
             var component = Ext.getCmp(config.compId);
-            
+
             // Find component
             if (!component) {
                 return {
@@ -24,9 +24,8 @@ export class ReplaceControl {
             }
 
             // Make visible
-            if (!cloneCmp.isVisible()) {
+            if (!cloneCmp.isVisible())
                 cloneCmp.setVisible(true);
-            }
 
             // hide atual component
             component.hide();
@@ -36,6 +35,7 @@ export class ReplaceControl {
             }
 
         } catch (e) {
+            console.error(e);
             return {
                 isSuccess: false,
                 message: e.message

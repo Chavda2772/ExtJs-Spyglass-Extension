@@ -22,6 +22,7 @@ export class RedefineComponent {
 
                 }
                 catch (e) {
+                    console.error(e);
                     return {
                         isSuccess: false,
                         message: e.message
@@ -54,6 +55,7 @@ export class RedefineComponent {
             }
 
         } catch (e) {
+            console.error(e);
             return {
                 isSuccess: false,
                 message: e.message
@@ -78,12 +80,12 @@ export class RedefineComponent {
             async: false,
             callback: function (eopts, success, response) {
                 if (success) {
-                    new Function(response.responseText)();
+                    new Function(response.responseText)();                    
                     isSuccess = true;
                 }
                 else {
                     message = 'Cannot redefine component. This may use production builds or using a bundler.';
-                    console.log(message);
+                    console.error(message);
                 }
             }
         });
